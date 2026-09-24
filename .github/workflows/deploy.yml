@@ -1,17 +1,13 @@
-name: CI and deploy
+name: CI
 
-# On every push to main: lint + build on GitHub's runner. Only if that passes,
-# ask Coolify (on the Contabo VPS) to pull the repo and redeploy the OSLEOS
-# app. A broken commit never reaches the live site.
+# Lint + build every push. The VPS watcher (deploy/autodeploy) only deploys a
+# commit after these checks pass, so a broken commit never reaches the site.
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
-
-concurrency:
-  group: deploy-production
-  cancel-in-progress: false
 
 jobs:
   check:
@@ -25,24 +21,3 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
-
-  deploy:
-    needs: check
-    runs-on: ubuntu-latest
-    env:
-      COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
-      COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
-    steps:
-      - name: Trigger Coolify deployment
-        run: |
-          if [ -z "$COOLIFY_WEBHOOK" ] || [ -z "$COOLIFY_TOKEN" ]; then
-            echo "::warning::COOLIFY_WEBHOOK / COOLIFY_TOKEN not set — checks passed, deploy skipped. See docs/DEPLOY.md."
-            exit 0
-          fi
-          code=$(curl -s -o response.txt -w '%{http_code}' -H "Authorization: Bearer $COOLIFY_TOKEN" "$COOLIFY_WEBHOOK")
-          cat response.txt; echo
-          if [ "$code" -ge 300 ]; then
-            echo "::error::Coolify returned HTTP $code"
-            exit 1
-          fi
-          echo "Coolify deployment queued."

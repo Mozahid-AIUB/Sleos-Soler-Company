@@ -5,44 +5,49 @@ OSLEOS সেখানে একটা **আলাদা Coolify Project** হ�
 অন্য কোনো project-এ হাত দেয় না।
 
 ```
-git push main ──► GitHub Actions: lint + build (চেক)
-                     │ পাস করলে
-                     ▼
-                  Coolify deploy webhook ──► Dockerfile দিয়ে image build ──► নতুন container চালু
+git push main ──► GitHub Actions: lint + build (CI)
+                     │
+VPS watcher (প্রতি মিনিটে) ── নতুন commit + CI পাস? ──► Coolify deploy ──► নতুন container
 ```
 
-ভাঙা code কখনো live-এ যায় না — চেক fail করলে deploy হয় না।
+Coolify-র port (8000) firewall-এ বন্ধ থাকে, তাই GitHub সরাসরি Coolify-কে ডাকতে পারে না।
+তার বদলে VPS-এর ভেতরে একটা ছোট watcher (`systemd timer`) GitHub দেখে আর localhost-এ Coolify-কে deploy করতে বলে।
+ভাঙা code কখনো live-এ যায় না — CI fail করলে deploy হয় না। কোনো GitHub secret লাগে না।
+
+**এখনকার অবস্থা:** OSLEOS Coolify-তে চালু — `http://ckh8lukpshfd81bis9a0yaae.194.233.85.160.sslip.io`
+(Coolify app uuid `ckh8lukpshfd81bis9a0yaae`, build pack Dockerfile, port 3000)
 
 ---
 
-## ১. Coolify-তে নতুন Project (একবার)
+## Coolify dashboard খোলা
 
-Coolify dashboard খুলুন (`http://194.233.85.160:8000` বা আপনার Coolify domain)।
+Firewall শুধু কয়েকটা IP থেকে port 8000 খুলতে দেয়। অন্য জায়গা থেকে SSH tunnel:
 
-1. **Projects → + Add** → নাম `OSLEOS` → Save
-2. `production` environment → **+ New Resource → Public Repository**
-3. Repository URL: `https://github.com/Mozahid-AIUB/Sleos-Soler-Company` · Branch: `main`
-4. **Build Pack: Dockerfile** (repo-র root-এ `Dockerfile` আছে)
-5. **Ports Exposes: `3000`**
-6. **Domains:** আপাতত Coolify-র দেওয়া sslip.io ঠিকানাই থাকুক; domain পেলে `https://osleos.com,https://www.osleos.com` দিন
-   (DNS-এ `A` record → `194.233.85.160`; SSL Coolify নিজে নেবে)
-7. **Deploy** চাপুন — প্রথম build ৩–৫ মিনিট লাগে
+```
+ssh -i ~/.ssh/vps_vmi3542165 -N -L 8000:127.0.0.1:8000 root@194.233.85.160
+```
+তারপর browser-এ `http://localhost:8000`।
 
-## ২. Auto deploy চালু (একবার)
+## Auto deploy চালু (একবার)
 
-1. Coolify-তে OSLEOS resource → **Webhooks** → **Deploy Webhook** URL copy করুন
-2. Coolify → **Keys & Tokens → API tokens → Create** (permission: `deploy`) → token copy করুন
-3. GitHub repo → **Settings → Secrets and variables → Actions → New repository secret**:
+1. Coolify → **Keys & Tokens → API tokens → Create** — নাম `osleos-autodeploy`, permission **deploy** আর **read** → token copy
+2. VPS-এ SSH করে:
+   ```bash
+   curl -fsSL https://raw.githubusercontent.com/Mozahid-AIUB/Sleos-Soler-Company/main/deploy/autodeploy/install.sh | sudo bash
+   ```
+   Token চাইলে paste করুন (লেখা দেখা যাবে না)। Token শুধু `/root/osleos-autodeploy/token`-এ থাকে।
 
-| Secret | মান |
-|---|---|
-| `COOLIFY_WEBHOOK` | ধাপ ১-এর Deploy Webhook URL |
-| `COOLIFY_TOKEN` | ধাপ ২-এর API token |
+এরপর `main`-এ push → CI পাস → ১–২ মিনিটের মধ্যে Coolify নতুন build শুরু করে।
 
-এরপর থেকে `main`-এ push করলেই live site update হবে।
-GitHub → **Actions** tab-এ প্রতিটা deploy-এর অবস্থা দেখা যায়।
+```bash
+journalctl -u osleos-autodeploy -f          # watcher log
+systemctl list-timers osleos-autodeploy     # timer চলছে কিনা
+```
 
-> Token বা webhook কখনো chat/code-এ রাখবেন না — শুধু GitHub Secrets-এ।
+## Domain
+
+DNS-এ `A` record → `194.233.85.160` (`@` আর `www`)। তারপর Coolify → OSLEOS app → **Domains**-এ
+`https://osleos.com,https://www.osleos.com` → Save → Redeploy। SSL Coolify নিজে নেয়।
 
 ---
 
