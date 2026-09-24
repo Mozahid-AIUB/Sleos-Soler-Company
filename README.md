@@ -1,6 +1,11 @@
 # Sleos-Soler-Company
 
-OSLEOS solar company website (Next.js).
+OSLEOS solar company website — Next.js 16, English + বাংলা, cart and checkout over WhatsApp.
+
+- Live (draft): http://ckh8lukpshfd81bis9a0yaae.194.233.85.160.sslip.io
+- Design plan: [docs/DESIGN_PLAN.md](docs/DESIGN_PLAN.md) · To-do: [docs/TODO.md](docs/TODO.md)
+- Deploy: push to `main` → CI → auto-deploy on Coolify ([docs/DEPLOY.md](docs/DEPLOY.md))
+- Editable content: `src/content/` (products, projects, reviews, company info) and `src/i18n/dictionaries/`
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
