@@ -1,84 +1,60 @@
-# Deploy — GitHub থেকে Contabo VPS-এ auto deploy
+# Deploy — GitHub → Coolify (Contabo VPS)
 
-`main` branch-এ push করলেই GitHub Actions site build করে VPS-এ পাঠিয়ে দেয়।
-Build হয় GitHub-এর server-এ, তাই VPS-এর RAM/CPU-তে চাপ পড়ে না।
+Contabo VPS (`194.233.85.160`, hostname `vmi3542165`)-এ **Coolify** চলে (Traefik proxy সহ)।
+OSLEOS সেখানে একটা **আলাদা Coolify Project** হিসেবে চলবে — নিজস্ব container, নিজস্ব domain,
+অন্য কোনো project-এ হাত দেয় না।
 
-VPS-এ এটা একটা **আলাদা (independent) project** — অন্য কোনো site/app-এ হাত দেয় না:
+```
+git push main ──► GitHub Actions: lint + build (চেক)
+                     │ পাস করলে
+                     ▼
+                  Coolify deploy webhook ──► Dockerfile দিয়ে image build ──► নতুন container চালু
+```
 
-| জিনিস | মান |
-|---|---|
-| Folder | `/var/www/osleos` (`releases/` + `current` symlink) |
-| Process | PM2 app `osleos` |
-| Port | `3100` (শুধু localhost, বাইরে থেকে দেখা যায় না) |
-| Nginx | নিজস্ব site file `/etc/nginx/sites-available/osleos` |
-
-শেষ ৩টা release রাখা হয়, তাই দরকার হলে আগের version-এ ফেরা যায়।
+ভাঙা code কখনো live-এ যায় না — চেক fail করলে deploy হয় না।
 
 ---
 
-## ১. VPS-এ একবার setup (SSH terminal-এ)
+## ১. Coolify-তে নতুন Project (একবার)
 
-VPS-টা x86_64 (Contabo-র সাধারণ VPS) হতে হবে — `uname -m` দিলে `x86_64` দেখাবে।
+Coolify dashboard খুলুন (`http://194.233.85.160:8000` বা আপনার Coolify domain)।
 
-```bash
-# Node.js 22, Nginx, Certbot (না থাকলে)
-curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-sudo apt-get install -y nodejs nginx certbot python3-certbot-nginx
+1. **Projects → + Add** → নাম `OSLEOS` → Save
+2. `production` environment → **+ New Resource → Public Repository**
+3. Repository URL: `https://github.com/Mozahid-AIUB/Sleos-Soler-Company` · Branch: `main`
+4. **Build Pack: Dockerfile** (repo-র root-এ `Dockerfile` আছে)
+5. **Ports Exposes: `3000`**
+6. **Domains:** আপাতত Coolify-র দেওয়া sslip.io ঠিকানাই থাকুক; domain পেলে `https://osleos.com,https://www.osleos.com` দিন
+   (DNS-এ `A` record → `194.233.85.160`; SSL Coolify নিজে নেবে)
+7. **Deploy** চাপুন — প্রথম build ৩–৫ মিনিট লাগে
 
-# Deploy-এর জন্য আলাদা user (root দিয়ে deploy না করাই ভালো)
-sudo adduser --disabled-password --gecos "" deploy
+## ২. Auto deploy চালু (একবার)
 
-# Setup script চালান (repo থেকে সরাসরি)
-curl -fsSL https://raw.githubusercontent.com/Mozahid-AIUB/Sleos-Soler-Company/main/deploy/setup-vps.sh -o /tmp/setup-vps.sh
-curl -fsSL https://raw.githubusercontent.com/Mozahid-AIUB/Sleos-Soler-Company/main/deploy/nginx-osleos.conf -o /tmp/nginx-osleos.conf
-sudo bash /tmp/setup-vps.sh YOUR-DOMAIN.com deploy
-```
-
-> Repo private হলে `curl` কাজ করবে না — তখন এই দুইটা file হাতে copy করে `/tmp`-এ রাখুন।
-
-## ২. GitHub-এর জন্য SSH key (VPS-এ)
-
-```bash
-sudo -u deploy mkdir -p -m 700 /home/deploy/.ssh
-sudo -u deploy ssh-keygen -t ed25519 -N "" -f /home/deploy/.ssh/github_deploy
-sudo -u deploy sh -c 'cat /home/deploy/.ssh/github_deploy.pub >> /home/deploy/.ssh/authorized_keys'
-sudo chmod 600 /home/deploy/.ssh/authorized_keys
-sudo cat /home/deploy/.ssh/github_deploy   # এই private key পুরোটা copy করুন
-```
-
-## ৩. GitHub Secrets
-
-GitHub repo → **Settings → Secrets and variables → Actions → New repository secret**:
+1. Coolify-তে OSLEOS resource → **Webhooks** → **Deploy Webhook** URL copy করুন
+2. Coolify → **Keys & Tokens → API tokens → Create** (permission: `deploy`) → token copy করুন
+3. GitHub repo → **Settings → Secrets and variables → Actions → New repository secret**:
 
 | Secret | মান |
 |---|---|
-| `VPS_HOST` | VPS-এর IP (Contabo panel-এ আছে) |
-| `VPS_USER` | `deploy` |
-| `VPS_SSH_KEY` | ধাপ ২-এর private key (`-----BEGIN` থেকে `END-----` পর্যন্ত পুরোটা) |
-| `VPS_PORT` | SSH port — `22` হলে না দিলেও চলবে |
+| `COOLIFY_WEBHOOK` | ধাপ ১-এর Deploy Webhook URL |
+| `COOLIFY_TOKEN` | ধাপ ২-এর API token |
 
-## ৪. Deploy
+এরপর থেকে `main`-এ push করলেই live site update হবে।
+GitHub → **Actions** tab-এ প্রতিটা deploy-এর অবস্থা দেখা যায়।
 
-`main`-এ push করুন, অথবা GitHub → **Actions → Deploy to VPS → Run workflow**।
-সবুজ ✓ মানে site চালু। প্রথম deploy-এ PM2 নিজে `osleos` app চালু করে।
-
-## ৫. Domain + HTTPS
-
-1. Domain-এর DNS-এ `A` record → VPS IP (`@` আর `www` দুটোই)
-2. `sudo certbot --nginx -d YOUR-DOMAIN.com -d www.YOUR-DOMAIN.com`
+> Token বা webhook কখনো chat/code-এ রাখবেন না — শুধু GitHub Secrets-এ।
 
 ---
 
-## দরকারি command (VPS-এ, `deploy` user হিসেবে)
+## Local-এ Docker দিয়ে চালানো (ঐচ্ছিক)
 
 ```bash
-pm2 status              # app চলছে কিনা
-pm2 logs osleos         # error দেখতে
-pm2 restart osleos      # restart
-
-# আগের version-এ ফেরা
-ls -1t /var/www/osleos/releases
-ln -sfn /var/www/osleos/releases/<আগের-folder> /var/www/osleos/current && pm2 reload osleos
+docker build -t osleos .
+docker run -p 3000:3000 osleos   # http://localhost:3000
 ```
 
-Port বদলাতে চাইলে তিন জায়গায় `3100` বদলাতে হবে: `deploy/ecosystem.config.cjs`, `deploy/nginx-osleos.conf`, `.github/workflows/deploy.yml` (health check)।
+## সমস্যা হলে
+
+- **Build fail:** Coolify → resource → **Deployments** → log দেখুন
+- **Site খুলছে না:** Ports Exposes `3000` আছে কিনা, domain-এর DNS ঠিক আছে কিনা দেখুন
+- **আগের version-এ ফেরা:** Coolify → Deployments → আগের deployment → **Redeploy**
