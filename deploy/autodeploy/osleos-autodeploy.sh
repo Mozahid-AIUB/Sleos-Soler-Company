@@ -36,6 +36,6 @@ case "$verdict" in
 esac
 
 token=$(<"$DIR/token")
-curl -fsS -H "Authorization: Bearer $token" "$COOLIFY/api/v1/deploy?uuid=$APP_UUID&force=false" >/dev/null
+curl -fsS -X POST -H "Authorization: Bearer $token" "$COOLIFY/api/v1/deploy?uuid=$APP_UUID&force=false" >/dev/null
 echo "$sha" > "$STATE"
 echo "deploy queued for ${sha:0:7}"
