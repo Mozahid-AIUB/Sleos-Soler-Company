@@ -1,0 +1,92 @@
+name: Deploy to VPS
+
+# Builds on GitHub's runner (keeps load off the VPS), ships the standalone
+# bundle over SSH into a new release folder, then flips the `current` symlink
+# and reloads the PM2 process. Only touches $APP_DIR and the `osleos` PM2 app.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      APP_DIR: /var/www/osleos
+      KEEP_RELEASES: 3
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_PORT: ${{ secrets.VPS_PORT || '22' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+      - name: Bundle standalone release
+        run: |
+          cp -r public .next/standalone/public
+          mkdir -p .next/standalone/.next
+          cp -r .next/static .next/standalone/.next/static
+          cp deploy/ecosystem.config.cjs .next/standalone/
+
+      - name: Check deploy secrets
+        id: secrets
+        run: |
+          if [ -z "$VPS_HOST" ] || [ -z "$VPS_USER" ]; then
+            echo "::warning::VPS secrets are not set yet — build passed, deploy skipped. See docs/DEPLOY.md."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up SSH
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$VPS_PORT" -H "$VPS_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload and activate release
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          RELEASE="$(date +%Y%m%d%H%M%S)-${GITHUB_SHA::7}"
+          SSH="ssh -i $HOME/.ssh/deploy_key -p $VPS_PORT $VPS_USER@$VPS_HOST"
+
+          tar -C .next/standalone -czf - . \
+            | $SSH "mkdir -p '$APP_DIR/releases/$RELEASE' && tar -xzf - -C '$APP_DIR/releases/$RELEASE'"
+
+          $SSH "bash -l -s" <<EOF
+          set -euo pipefail
+          ln -sfn "$APP_DIR/releases/$RELEASE" "$APP_DIR/current"
+          cd "$APP_DIR/current"
+          APP_DIR="$APP_DIR" pm2 startOrReload ecosystem.config.cjs --update-env
+          pm2 save
+          ls -1dt "$APP_DIR"/releases/* | tail -n +$((KEEP_RELEASES + 1)) | xargs -r rm -rf
+          echo "Deployed $RELEASE"
+          EOF
+
+      - name: Health check
+        if: steps.secrets.outputs.ready == 'true'
+        run: |
+          SSH="ssh -i $HOME/.ssh/deploy_key -p $VPS_PORT $VPS_USER@$VPS_HOST"
+          for i in 1 2 3 4 5 6; do
+            code=$($SSH "curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3100/en" || true)
+            [ "$code" = "200" ] && { echo "Site is up (HTTP 200)"; exit 0; }
+            sleep 5
+          done
+          echo "::error::Site did not return 200 after deploy (last: $code). Check: pm2 logs osleos"
+          exit 1
