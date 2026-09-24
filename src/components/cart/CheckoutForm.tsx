@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { formatPrice, type Locale } from "@/i18n/config";
 import { cart } from "@/lib/cart-store";
@@ -28,7 +28,7 @@ export function CheckoutForm({
 
   if (sentUrl) {
     return (
-      <div className="mx-auto mt-12 max-w-xl rounded-xl bg-white p-10 text-center shadow-[0_20px_50px_-30px_rgb(14_29_22/0.4)]">
+      <div className="hero-in mx-auto mt-12 max-w-xl rounded-lg bg-white p-10 text-center shadow-[0_20px_50px_-30px_rgb(14_29_22/0.4)]">
         <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#25d366] text-white">
           <WhatsappIcon size={32} />
         </span>
@@ -49,7 +49,7 @@ export function CheckoutForm({
 
   if (items.length === 0) {
     return (
-      <div className="mt-12 flex flex-col items-start gap-5 rounded-xl border border-cream-200 bg-white p-10">
+      <div className="reveal-fade mt-12 flex flex-col items-start gap-5 rounded-lg border border-cream-200 bg-white p-10">
         <p className="text-ink-600">{t.empty}</p>
         <Link href={`/${lang}/products`} className="btn btn-dark">
           {tc.emptyCta}
@@ -87,7 +87,7 @@ export function CheckoutForm({
         window.scrollTo({ top: 0, behavior: "smooth" });
       }}
     >
-      <div className="grid gap-6">
+      <div className="reveal-fade grid gap-6">
         <fieldset className="card-soft grid gap-4 p-7 sm:p-8">
           <legend className="float-left mb-2 w-full text-[18px] font-bold">{t.contact}</legend>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -141,19 +141,19 @@ export function CheckoutForm({
         </fieldset>
       </div>
 
-      <aside className="lg:sticky lg:top-28 lg:self-start">
-        <div className="rounded-xl bg-forest-900 p-7 text-white sm:p-8">
+      <aside className="reveal-fade lg:sticky lg:top-28 lg:self-start" style={{ "--i": 1 } as CSSProperties}>
+        <div className="rounded-lg border border-cream-200 bg-white p-7 sm:p-8">
           <h2 className="text-[18px] font-bold">{t.summary}</h2>
-          <ul className="mt-5 divide-y divide-white/10">
+          <ul className="mt-5 divide-y divide-cream-200">
             {items.map(({ slug, qty, product }) => (
               <li key={slug} className="flex gap-4 py-4">
-                <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-xl bg-cream-100">
+                <div className="relative h-20 w-16 shrink-0 overflow-hidden rounded-lg bg-cream-100">
                   <ProductImage src={product.image} alt={product.name} sizes="64px" />
                 </div>
                 <div className="flex min-w-0 flex-1 flex-col gap-2">
                   <p className="text-[14.5px] font-semibold leading-snug">{product.name}</p>
                   <div className="flex items-center justify-between gap-2">
-                    <div className="text-ink-900">
+                    <div>
                       <QtyControl slug={slug} qty={qty} label={tp.qty} />
                     </div>
                     <span className="text-[14.5px] font-semibold tabular-nums">{product.price ? formatPrice(product.price * qty, lang) : tp.priceOnRequest}</span>
@@ -162,18 +162,18 @@ export function CheckoutForm({
               </li>
             ))}
           </ul>
-          <dl className="mt-3 space-y-3 border-t border-white/10 pt-5 text-[14.5px]">
-            <div className="flex justify-between text-white/70">
+          <dl className="mt-3 space-y-3 border-t border-cream-200 pt-5 text-[14.5px]">
+            <div className="flex justify-between text-ink-600">
               <dt>{tc.subtotal}</dt>
               <dd className="tabular-nums">{formatPrice(subtotal, lang)}</dd>
             </div>
-            <div className="flex justify-between text-white/70">
+            <div className="flex justify-between text-ink-600">
               <dt>{t.delivery}</dt>
               <dd>{t.deliveryValue}</dd>
             </div>
-            <div className="flex items-baseline justify-between border-t border-white/10 pt-4">
+            <div className="flex items-baseline justify-between border-t border-cream-200 pt-4">
               <dt className="font-semibold">{t.total}</dt>
-              <dd className="text-[26px] font-extrabold tracking-tight tabular-nums text-gold-400">{formatPrice(subtotal, lang)}</dd>
+              <dd className="text-[26px] font-extrabold tracking-tight tabular-nums text-ink-900">{formatPrice(subtotal, lang)}</dd>
             </div>
           </dl>
           <button type="submit" className="btn mt-7 w-full !min-h-[56px] bg-[#25d366] text-[15.5px] text-white hover:bg-[#1fbd5a]">

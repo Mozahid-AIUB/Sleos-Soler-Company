@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { formatPrice, type Locale } from "@/i18n/config";
 import { cart } from "@/lib/cart-store";
@@ -13,7 +14,7 @@ export function CartPageView({ lang, t, tp }: { lang: Locale; t: Dictionary["car
 
   if (items.length === 0) {
     return (
-      <div className="mt-10 flex flex-col items-start gap-5 rounded-xl border border-cream-200 bg-white p-10">
+      <div className="reveal-fade mt-10 flex flex-col items-start gap-5 rounded-lg border border-cream-200 bg-white p-10">
         <p className="text-ink-600">{t.empty}</p>
         <Link href={`/${lang}/products`} className="btn btn-dark">
           {t.emptyCta}
@@ -24,25 +25,25 @@ export function CartPageView({ lang, t, tp }: { lang: Locale; t: Dictionary["car
   }
 
   return (
-    <div className="mt-10 grid gap-8 lg:grid-cols-[1.6fr_1fr]">
-      <ul className="card-soft divide-y divide-cream-200 px-6 sm:px-8">
+    <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
+      <ul className="card-soft reveal-fade divide-y divide-cream-200 px-5 sm:px-8">
         {items.map(({ slug, qty, product }) => (
-          <li key={slug} className="flex gap-5 py-6">
-            <Link href={`/${lang}/products/${slug}`} className="relative h-28 w-24 shrink-0 overflow-hidden rounded-2xl bg-cream-100">
+          <li key={slug} className="flex gap-4 py-6 sm:gap-5">
+            <Link href={`/${lang}/products/${slug}`} className="group relative h-24 w-20 shrink-0 sm:h-28 sm:w-24 overflow-hidden rounded-lg bg-cream-100">
               <ProductImage src={product.image} alt={product.name} sizes="96px" />
             </Link>
-            <div className="flex flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <Link href={`/${lang}/products/${slug}`} className="text-[17px] font-semibold hover:text-teal-600">
+                <Link href={`/${lang}/products/${slug}`} className="text-[17px] font-semibold transition-colors hover:text-teal-600">
                   {product.name}
                 </Link>
                 <p className="mt-1 text-[14px] text-ink-600">{product.keySpec[lang]}</p>
-                <button type="button" onClick={() => cart.remove(slug)} className="mt-2 inline-flex items-center gap-1.5 text-[13.5px] text-ink-400 hover:text-ink-900">
+                <button type="button" onClick={() => cart.remove(slug)} className="mt-1 inline-flex min-h-10 items-center gap-1.5 text-[13.5px] text-ink-400 hover:text-ink-900">
                   <Icon name="trash" size={15} />
                   {t.remove}
                 </button>
               </div>
-              <div className="flex items-center justify-between gap-6 sm:flex-col sm:items-end">
+              <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 sm:flex-col sm:flex-nowrap sm:items-end">
                 <QtyControl slug={slug} qty={qty} label={tp.qty} />
                 <span className="text-[18px] font-bold tabular-nums">{product.price ? formatPrice(product.price * qty, lang) : tp.priceOnRequest}</span>
               </div>
@@ -50,18 +51,18 @@ export function CartPageView({ lang, t, tp }: { lang: Locale; t: Dictionary["car
           </li>
         ))}
       </ul>
-      <aside className="lg:sticky lg:top-28 lg:self-start">
-        <div className="rounded-xl bg-forest-900 p-8 text-white">
-          <div className="flex items-baseline justify-between">
-            <span className="text-white/70">{t.subtotal}</span>
-            <span className="text-[28px] font-extrabold tabular-nums text-gold-400">{formatPrice(subtotal, lang)}</span>
+      <aside className="reveal-fade lg:sticky lg:top-28 lg:self-start" style={{ "--i": 1 } as CSSProperties}>
+        <div className="rounded-lg border border-cream-200 bg-white p-6 sm:p-8">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4">
+            <span className="text-ink-600">{t.subtotal}</span>
+            <span className="text-[28px] font-extrabold tabular-nums text-ink-900">{formatPrice(subtotal, lang)}</span>
           </div>
-          <p className="mt-2 text-[13.5px] text-white/50">{t.shippingNote}</p>
+          <p className="mt-2 text-[13.5px] text-ink-400">{t.shippingNote}</p>
           <Link href={`/${lang}/checkout`} className="btn btn-gold mt-7 w-full !min-h-[54px]">
             {t.checkout}
             <Icon name="arrowRight" size={18} />
           </Link>
-          <Link href={`/${lang}/products`} className="mt-3 block text-center text-[14px] text-white/60 underline-offset-4 hover:text-white hover:underline">
+          <Link href={`/${lang}/products`} className="mt-2 block py-2.5 text-center text-[14px] text-ink-600 underline-offset-4 hover:text-ink-900 hover:underline">
             {t.continue}
           </Link>
         </div>

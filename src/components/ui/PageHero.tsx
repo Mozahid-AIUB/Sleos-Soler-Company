@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Icon } from "@/components/ui/Icon";
+import { SplitText } from "@/components/motion/SplitText";
 
 export function PageHero({
   eyebrow,
@@ -20,7 +21,9 @@ export function PageHero({
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-forest-950 pb-16 pt-36 text-white lg:pb-24 lg:pt-44">
-      <Image src={image} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-45" />
+      <div aria-hidden="true" className="hero-media absolute inset-0 -z-10">
+        <Image src={image} alt="" fill priority sizes="100vw" className="object-cover opacity-45" />
+      </div>
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950 via-forest-950/80 to-forest-950/30" />
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-forest-950/80 to-transparent" />
       <div className="container-x">
@@ -30,7 +33,7 @@ export function PageHero({
               <li key={i} className="flex items-center gap-2">
                 {i > 0 && <Icon name="chevronDown" size={14} className="-rotate-90" />}
                 {c.href ? (
-                  <Link href={c.href} className="transition-colors hover:text-white">
+                  <Link href={c.href} className="link-line transition-colors hover:text-white">
                     {c.label}
                   </Link>
                 ) : (
@@ -43,9 +46,9 @@ export function PageHero({
           </ol>
         </nav>
         <p className="eyebrow hero-in mt-8 text-gold-400 [animation-delay:80ms]">{eyebrow}</p>
-        <h1 className="display hero-in mt-5 max-w-4xl text-[clamp(40px,6vw,80px)] [animation-delay:160ms]">{title}</h1>
-        {body && <p className="lead hero-in mt-6 max-w-2xl text-white/70 [animation-delay:240ms]">{body}</p>}
-        {children && <div className="hero-in mt-9 [animation-delay:320ms]">{children}</div>}
+        <SplitText as="h1" text={title} now delayMs={140} className="display mt-5 max-w-4xl text-[clamp(40px,6vw,80px)]" />
+        {body && <p className="lead hero-in mt-6 max-w-2xl text-white/70 [animation-delay:360ms]">{body}</p>}
+        {children && <div className="hero-in mt-9 [animation-delay:460ms]">{children}</div>}
       </div>
     </section>
   );

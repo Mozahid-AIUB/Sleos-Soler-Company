@@ -9,7 +9,7 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
   const href = `/${lang}/products/${product.slug}`;
   const category = categories.find((c) => c.id === product.category);
   return (
-    <article className="group flex w-full flex-col overflow-hidden rounded-lg border border-cream-200 bg-white transition-colors hover:border-ink-400/40">
+    <article className="group flex w-full flex-col overflow-hidden lift rounded-lg border border-cream-200 bg-white hover:border-ink-400/40">
       <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-cream-100" aria-label={product.name}>
         <ProductImage src={product.image} alt={product.name} />
         {product.badge && (
@@ -19,7 +19,7 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
       <div className="flex flex-1 flex-col p-5">
         <p className="text-[12.5px] font-medium text-ink-400">{category?.name[lang]}</p>
         <h3 className="mt-1 text-[17px] font-bold leading-snug">
-          <Link href={href} className="hover:text-teal-600">
+          <Link href={href} className="transition-colors hover:text-teal-600">
             {product.name}
           </Link>
         </h3>
@@ -34,7 +34,7 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
             <span className="text-[15px] font-semibold text-ink-600">{t.priceOnRequest}</span>
           )}
         </div>
-        <div className="mt-auto">
+        <div className="@container mt-auto">
           <CartButtons lang={lang} slug={product.slug} quoteOnly={product.price === null} t={t} />
         </div>
       </div>

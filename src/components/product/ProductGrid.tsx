@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import type { CategoryId } from "@/content/products";
 
 /**
@@ -41,7 +41,7 @@ export function ProductGrid({
               setActive(t.id);
               history.replaceState(null, "", t.id === "all" ? window.location.pathname : `#${t.id}`);
             }}
-            className={`flex shrink-0 items-center gap-2 rounded-full border px-5 py-2.5 text-[14.5px] font-semibold transition-colors ${
+            className={`flex shrink-0 items-center gap-2 rounded-full border px-5 py-2.5 text-[14.5px] font-semibold transition-colors duration-300 ${
               active === t.id ? "border-forest-900 bg-forest-900 text-white" : "border-cream-200 bg-white text-ink-600 hover:border-ink-400"
             }`}
           >
@@ -50,9 +50,10 @@ export function ProductGrid({
           </button>
         ))}
       </div>
-      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {visible.map((c) => (
-          <div key={c.key} className="flex">
+      {/* Keyed on the tab so a switch remounts the cards and they re-reveal. */}
+      <div key={active} className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {visible.map((c, i) => (
+          <div key={c.key} className="reveal flex" style={{ "--i": i % 4 } as CSSProperties}>
             {c.node}
           </div>
         ))}

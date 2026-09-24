@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { formatPrice, hasLocale, locales } from "@/i18n/config";
@@ -9,6 +10,9 @@ import { ProductImage } from "@/components/product/ProductImage";
 import { ProductCard } from "@/components/product/ProductCard";
 import { BuyBox } from "@/components/product/BuyBox";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
+import { SplitText } from "@/components/motion/SplitText";
+
+const at = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export const generateStaticParams = () => locales.flatMap((lang) => products.map((p) => ({ lang, slug: p.slug })));
 
@@ -38,11 +42,11 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
       <div className="h-[72px] lg:h-[120px]" />
       <section className="bg-cream-50 pb-20 pt-8 lg:pb-28">
         <div className="container-x">
-          <nav aria-label="Breadcrumb" className="text-[13.5px] text-ink-400">
+          <nav aria-label="Breadcrumb" className="hero-in text-[13.5px] text-ink-400">
             <ol className="flex flex-wrap items-center gap-2">
-              <li><Link href={`/${lang}`} className="hover:text-ink-900">{t.common.home}</Link></li>
+              <li><Link href={`/${lang}`} className="link-line hover:text-ink-900">{t.common.home}</Link></li>
               <li aria-hidden="true">/</li>
-              <li><Link href={`/${lang}/products`} className="hover:text-ink-900">{tp.back}</Link></li>
+              <li><Link href={`/${lang}/products`} className="link-line hover:text-ink-900">{tp.back}</Link></li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" className="text-ink-900">{product.name}</li>
             </ol>
@@ -50,7 +54,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
 
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             {/* Visual */}
-            <div className="group relative aspect-square overflow-hidden rounded-lg bg-cream-100 lg:sticky lg:top-28 lg:self-start">
+            <div className="reveal-img group relative aspect-square overflow-hidden rounded-lg bg-cream-100 md:aspect-[4/3] lg:aspect-square lg:sticky lg:top-28 lg:self-start">
               <ProductImage src={product.image} alt={product.name} sizes="(min-width: 1024px) 55vw, 100vw" />
               {product.badge && (
                 <span className="absolute left-6 top-6 rounded bg-white px-2.5 py-1 text-[13px] font-semibold text-forest-900">{product.badge[lang]}</span>
@@ -59,11 +63,13 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
 
             {/* Info */}
             <div>
-              <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-teal-600">{category?.name[lang]}</p>
-              <h1 className="mt-3 text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.08] tracking-tight">{product.name}</h1>
-              <p className="lead mt-4 text-ink-600">{product.tagline[lang]}</p>
+              <p className="reveal text-[13px] font-semibold uppercase tracking-[0.16em] text-teal-600" style={at(0)}>{category?.name[lang]}</p>
+              <SplitText as="h1" text={product.name} now delayMs={120} className="mt-3 text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.08] tracking-tight" />
+              <p className="reveal lead mt-4 text-ink-600" style={at(1)}>
+                {product.tagline[lang]}
+              </p>
 
-              <div className="mt-7 flex items-baseline gap-3 border-y border-cream-200 py-6">
+              <div className="reveal mt-7 flex items-baseline gap-3 border-y border-cream-200 py-6" style={at(2)}>
                 {product.price ? (
                   <>
                     <span className="text-[36px] font-extrabold tracking-tight tabular-nums">{formatPrice(product.price, lang)}</span>
@@ -78,19 +84,23 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                 )}
               </div>
 
-              <p className="mt-7 leading-relaxed text-ink-600">{product.description[lang]}</p>
+              <p className="reveal mt-7 leading-relaxed text-ink-600" style={at(3)}>
+                {product.description[lang]}
+              </p>
 
-              <h2 className="mt-8 text-[15px] font-bold">{tp.highlights}</h2>
+              <h2 className="reveal mt-8 text-[15px] font-bold" style={at(3)}>
+                {tp.highlights}
+              </h2>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {product.highlights[lang].map((h) => (
-                  <li key={h} className="flex items-start gap-3 text-[15px]">
+                {product.highlights[lang].map((h, i) => (
+                  <li key={h} className="reveal flex items-start gap-3 text-[15px]" style={at(3 + (i % 2))}>
                     <Icon name="check" size={18} strokeWidth={2.2} className="mt-0.5 shrink-0 text-teal-600" />
                     {h}
                   </li>
                 ))}
               </ul>
 
-              <div className="mt-9">
+              <div className="reveal mt-9" style={at(4)}>
                 <BuyBox lang={lang} slug={product.slug} quoteOnly={product.price === null} t={tp} />
               </div>
               <a
@@ -103,7 +113,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                 {t.contact.whatsapp}
               </a>
 
-              <ul className="mt-6 grid gap-3 rounded-2xl border border-cream-200 bg-white p-5">
+              <ul className="reveal mt-6 grid gap-3 rounded-lg border border-cream-200 bg-white p-5">
                 {perks.map((p) => (
                   <li key={p.text} className="flex items-center gap-3 text-[14.5px] text-ink-600">
                     <Icon name={p.icon} size={19} className="shrink-0 text-teal-600" />
@@ -112,15 +122,15 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                 ))}
               </ul>
 
-              <h2 className="mt-10 text-[20px] font-bold">{tp.specs}</h2>
-              <dl className="mt-4 divide-y divide-cream-200 overflow-hidden rounded-2xl border border-cream-200 bg-white">
-                {product.specs.map((s) => (
-                  <div key={s.label.en} className="grid grid-cols-2 gap-4 px-5 py-3.5 text-[14.5px]">
+              <h2 className="reveal mt-10 text-[20px] font-bold">{tp.specs}</h2>
+              <dl className="mt-4 divide-y divide-cream-200 overflow-hidden rounded-lg border border-cream-200 bg-white">
+                {product.specs.map((s, i) => (
+                  <div key={s.label.en} className="reveal-fade grid grid-cols-2 gap-4 px-5 py-3.5 text-[14.5px]" style={at(Math.min(i + 1, 6))}>
                     <dt className="text-ink-600">{s.label[lang]}</dt>
                     <dd className="font-semibold">{s.value}</dd>
                   </div>
                 ))}
-                <div className="grid grid-cols-2 gap-4 px-5 py-3.5 text-[14.5px]">
+                <div className="reveal-fade grid grid-cols-2 gap-4 px-5 py-3.5 text-[14.5px]" style={at(Math.min(product.specs.length + 1, 6))}>
                   <dt className="text-ink-600">{tp.warranty}</dt>
                   <dd className="font-semibold">{product.warranty[lang]}</dd>
                 </div>
@@ -137,10 +147,12 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
       {related.length > 0 && (
         <section className="section-y !pt-0 bg-cream-50">
           <div className="container-x">
-            <h2 className="h2 !text-[clamp(28px,3vw,40px)]">{tp.related}</h2>
+            <SplitText as="h2" text={tp.related} className="h2 !text-[clamp(28px,3vw,40px)]" />
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-              {related.map((p) => (
-                <ProductCard key={p.slug} product={p} lang={lang} t={tp} />
+              {related.map((p, i) => (
+                <div key={p.slug} className="reveal flex" style={at(i)}>
+                  <ProductCard product={p} lang={lang} t={tp} />
+                </div>
               ))}
             </div>
           </div>

@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { SplitText } from "@/components/motion/SplitText";
 
 export function SectionHeading({
   eyebrow,
@@ -17,13 +18,24 @@ export function SectionHeading({
 }) {
   const center = align === "center";
   return (
-    <div className={`reveal flex flex-col gap-6 ${center ? "items-center text-center" : "md:flex-row md:items-end md:justify-between"}`}>
-      <div className={center ? "max-w-3xl" : "max-w-3xl"}>
-        <p className={`eyebrow ${dark ? "text-gold-400" : "text-teal-600"}`}>{eyebrow}</p>
-        <h2 className={`h2 mt-5 ${dark ? "text-white" : "text-ink-900"}`}>{title}</h2>
-        {body && <p className={`lead mt-5 max-w-2xl ${center ? "mx-auto" : ""} ${dark ? "text-white/65" : "text-ink-600"}`}>{body}</p>}
+    <div className={`flex flex-col gap-6 ${center ? "items-center text-center" : "md:flex-row md:items-end md:justify-between"}`}>
+      <div className="max-w-3xl">
+        <p className={`eyebrow reveal-fade ${dark ? "text-gold-400" : "text-teal-600"}`}>{eyebrow}</p>
+        <SplitText as="h2" text={title} className={`h2 mt-4 ${dark ? "text-white" : "text-ink-900"}`} />
+        {body && (
+          <p
+            className={`lead reveal mt-5 max-w-2xl ${center ? "mx-auto" : ""} ${dark ? "text-white/65" : "text-ink-600"}`}
+            style={{ "--i": 2 } as CSSProperties}
+          >
+            {body}
+          </p>
+        )}
       </div>
-      {action && <div className="shrink-0">{action}</div>}
+      {action && (
+        <div className="reveal shrink-0" style={{ "--i": 3 } as CSSProperties}>
+          {action}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
@@ -28,13 +29,19 @@ export function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
           }
         />
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredProducts().map((p) => (
-            <ProductCard key={p.slug} product={p} lang={lang} t={t.product} />
+          {featuredProducts().map((p, i) => (
+            <div key={p.slug} className="reveal flex" style={{ "--i": i % 4 } as CSSProperties}>
+              <ProductCard product={p} lang={lang} t={t.product} />
+            </div>
           ))}
         </div>
-        <ul className="mt-8 flex flex-wrap gap-x-10 gap-y-3 border-t border-cream-200 pt-6">
-          {perks.map((p) => (
-            <li key={p.text} className="flex items-center gap-2.5 text-[14.5px] text-ink-600">
+        <ul className="relative mt-8 flex flex-wrap gap-x-10 gap-y-3 pt-6">
+          <li
+            aria-hidden="true"
+            className="reveal-line pointer-events-none absolute inset-x-0 top-0 h-px bg-no-repeat text-cream-200 [background-image:linear-gradient(currentColor,currentColor)] [background-size:100%_1px]"
+          />
+          {perks.map((p, i) => (
+            <li key={p.text} className="reveal-fade flex items-center gap-2.5 text-[14.5px] text-ink-600" style={{ "--i": i + 1 } as CSSProperties}>
               <Icon name={p.icon} size={18} className="text-teal-600" />
               {p.text}
             </li>

@@ -22,11 +22,11 @@ export function useCartTotals() {
 export function QtyControl({ slug, qty, label }: { slug: string; qty: number; label: string }) {
   return (
     <div className="inline-flex items-center rounded-full border border-cream-200 bg-white" role="group" aria-label={label}>
-      <button type="button" onClick={() => cart.setQty(slug, qty - 1)} className="flex h-9 w-9 items-center justify-center text-ink-600 hover:text-ink-900" aria-label="−">
+      <button type="button" onClick={() => cart.setQty(slug, qty - 1)} className="flex h-11 w-11 items-center justify-center text-ink-600 hover:text-ink-900" aria-label="−">
         <Icon name="minus" size={16} />
       </button>
       <span className="min-w-6 text-center text-[14px] font-semibold tabular-nums">{qty}</span>
-      <button type="button" onClick={() => cart.setQty(slug, qty + 1)} className="flex h-9 w-9 items-center justify-center text-ink-600 hover:text-ink-900" aria-label="+">
+      <button type="button" onClick={() => cart.setQty(slug, qty + 1)} className="flex h-11 w-11 items-center justify-center text-ink-600 hover:text-ink-900" aria-label="+">
         <Icon name="plus" size={16} />
       </button>
     </div>
@@ -78,7 +78,9 @@ export function CartDrawer({ lang, t, tp }: { lang: Locale; t: Dictionary["cart"
         </div>
 
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-5 px-6 text-center">
+          <div
+            className={`flex flex-1 flex-col items-center justify-center gap-5 px-6 text-center transition-opacity duration-700 ease-out-expo ${open ? "opacity-100 delay-200" : "opacity-0"}`}
+          >
             <span className="flex h-16 w-16 items-center justify-center rounded-full bg-cream-100 text-ink-400">
               <Icon name="cart" size={28} />
             </span>
@@ -89,10 +91,14 @@ export function CartDrawer({ lang, t, tp }: { lang: Locale; t: Dictionary["cart"
           </div>
         ) : (
           <>
-            <ul className="flex-1 divide-y divide-cream-200 overflow-y-auto px-6">
-              {items.map(({ slug, qty, product }) => (
-                <li key={slug} className="flex gap-4 py-5">
-                  <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-xl bg-gradient-to-b from-cream-100 to-cream-200">
+            <ul data-lenis-prevent className="flex-1 divide-y divide-cream-200 overflow-y-auto px-6">
+              {items.map(({ slug, qty, product }, i) => (
+                <li
+                  key={slug}
+                  className={`flex gap-4 py-5 transition-[opacity,transform] duration-700 ease-out-expo ${open ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"}`}
+                  style={{ transitionDelay: open ? `${160 + Math.min(i, 5) * 70}ms` : "0ms" }}
+                >
+                  <div className="relative h-24 w-20 shrink-0 overflow-hidden rounded-lg bg-cream-100">
                     <ProductImage src={product.image} alt={product.name} sizes="80px" />
                   </div>
                   <div className="flex min-w-0 flex-1 flex-col">
@@ -102,7 +108,7 @@ export function CartDrawer({ lang, t, tp }: { lang: Locale; t: Dictionary["cart"
                     <span className="mt-1 text-[14px] text-ink-600">{product.price ? formatPrice(product.price, lang) : tp.priceOnRequest}</span>
                     <div className="mt-auto flex items-center justify-between pt-3">
                       <QtyControl slug={slug} qty={qty} label={tp.qty} />
-                      <button type="button" onClick={() => cart.remove(slug)} className="text-[13px] font-medium text-ink-400 underline-offset-4 hover:text-ink-900 hover:underline">
+                      <button type="button" onClick={() => cart.remove(slug)} className="-mr-2 min-h-10 px-2 text-[13px] font-medium text-ink-400 underline-offset-4 hover:text-ink-900 hover:underline">
                         {t.remove}
                       </button>
                     </div>
@@ -110,7 +116,9 @@ export function CartDrawer({ lang, t, tp }: { lang: Locale; t: Dictionary["cart"
                 </li>
               ))}
             </ul>
-            <div className="border-t border-cream-200 bg-white px-6 pb-6 pt-5">
+            <div
+              className={`border-t border-cream-200 bg-white px-6 pb-6 pt-5 transition-opacity duration-700 ease-out-expo ${open ? "opacity-100 delay-300" : "opacity-0"}`}
+            >
               <div className="flex items-baseline justify-between">
                 <span className="text-ink-600">{t.subtotal}</span>
                 <span className="text-[22px] font-bold tabular-nums">{formatPrice(subtotal, lang)}</span>

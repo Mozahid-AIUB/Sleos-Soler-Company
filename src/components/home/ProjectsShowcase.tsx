@@ -24,10 +24,10 @@ export function ProjectsShowcase({ lang, t }: { lang: Locale; t: Dictionary["pro
           }
         />
         <div className="mt-14 grid gap-5 lg:grid-cols-[1.45fr_1fr]">
-          <ProjectCard project={first} lang={lang} t={t} large />
+          <ProjectCard project={first} lang={lang} t={t} large i={0} />
           <div className="grid gap-5">
-            <ProjectCard project={second} lang={lang} t={t} />
-            <ProjectCard project={third} lang={lang} t={t} />
+            <ProjectCard project={second} lang={lang} t={t} i={1} />
+            <ProjectCard project={third} lang={lang} t={t} i={2} />
           </div>
         </div>
       </div>

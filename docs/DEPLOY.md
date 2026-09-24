@@ -51,6 +51,25 @@ DNS-এ `A` record → `194.233.85.160` (`@` আর `www`)। তারপর Co
 
 ---
 
+## Cloudflare (বাংলাদেশে দ্রুত load-এর জন্য — domain পেলে)
+
+Server Singapore-এ (বাংলাদেশ থেকে ~৪৯ms)। Cloudflare-এর ঢাকা edge থাকায় site cache হয়ে ঢাকা থেকেই আসবে।
+Site-এ কোনো cookie/login নেই, তাই পুরো site edge-এ cache করা নিরাপদ।
+
+1. Cloudflare-এ free account → **Add site** → domain দিন → registrar-এ nameserver দুটো Cloudflare-এরগুলো দিয়ে বদলান
+2. **DNS:** `A  @  194.233.85.160` আর `CNAME  www  @` — শুরুতে **DNS only (ধূসর মেঘ)** রাখুন
+3. Coolify → OSLEOS → Domains-এ `https://domain.com,https://www.domain.com` → Save → Redeploy
+   (Coolify Let's Encrypt SSL নেবে; site `https`-এ খুললে পরের ধাপ)
+4. DNS record দুটো **Proxied (কমলা মেঘ)** করুন · **SSL/TLS → Full (strict)**
+5. **Speed:** Brotli, HTTP/3, Early Hints — চালু রাখুন
+6. **Caching → Cache Rules** (এই ক্রমে):
+   - *Static files* — URI path starts with `/_next/static/` **or** `/media/` **or** `/brand/` **or** `/_next/image` → **Eligible for cache**, Edge TTL: *Use cache-control header*
+   - *Pages* — Hostname equals domain → **Eligible for cache**, Edge TTL **override: 10 minutes**, Browser TTL: *Respect origin*
+
+> ⚠️ HTML-এর edge TTL ছোট (১০ মিনিট) রাখা জরুরি: নতুন deploy-এর পর পুরনো HTML পুরনো JS file খুঁজবে, যা নতুন container-এ নেই।
+> Deploy-এর পর সাথে সাথে update দেখাতে Cloudflare → **Caching → Purge Everything**
+> (চাইলে watcher-এ auto-purge যোগ করা যাবে — Cloudflare API token + Zone ID লাগবে)।
+
 ## Local-এ Docker দিয়ে চালানো (ঐচ্ছিক)
 
 ```bash

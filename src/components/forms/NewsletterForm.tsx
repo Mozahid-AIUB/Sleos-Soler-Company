@@ -25,19 +25,19 @@ export function NewsletterForm({ t }: { t: Dictionary["newsletter"] }) {
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="grid gap-1.5">
           <span className="sr-only">{t.email}</span>
-          <input name="email" type="email" required autoComplete="email" placeholder={t.email} className="field field-dark" />
+          <input name="email" type="email" required autoComplete="email" placeholder={t.email} className="field" />
         </label>
         <label className="grid gap-1.5">
           <span className="sr-only">{t.phone}</span>
-          <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" placeholder={t.phone} className="field field-dark" />
+          <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" placeholder={t.phone} className="field" />
         </label>
       </div>
       <button type="submit" className="btn btn-gold w-full !min-h-[52px]">
         <Icon name="download" size={18} />
         {t.submit}
       </button>
-      <p className="text-[13px] text-white/50" role="status">
-        {done ? <span className="font-medium text-teal-300">{t.done}</span> : t.privacy}
+      <p className="text-[13px] text-ink-400" role="status">
+        {done ? <span className="font-medium text-teal-600">{t.done}</span> : t.privacy}
       </p>
     </form>
   );

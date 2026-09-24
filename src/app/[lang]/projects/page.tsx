@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -33,7 +34,12 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/projec
       <section className="section-y bg-forest-950">
         <div className="container-x grid gap-5 md:grid-cols-2">
           {projects.map((project, i) => (
-            <div key={project.slug} className={i === 0 ? "md:col-span-2" : ""}>
+            <div
+              key={project.slug}
+              // First card is the wide feature; an odd last card also spans the row so it never sits alone.
+              className={i === 0 || (i === projects.length - 1 && projects.length % 2 === 0) ? "md:col-span-2" : ""}
+              style={{ "--i": i === 0 ? 0 : (i - 1) % 2 } as CSSProperties}
+            >
               <ProjectCard project={project} lang={lang} t={t.projects} large={i === 0} />
             </div>
           ))}

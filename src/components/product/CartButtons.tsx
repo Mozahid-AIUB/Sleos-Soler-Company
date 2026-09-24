@@ -38,7 +38,7 @@ export function CartButtons({
   }
 
   return (
-    <div className={`grid gap-2.5 ${big ? "sm:grid-cols-2" : "grid-cols-2"}`}>
+    <div className={`grid gap-2.5 ${big ? "sm:grid-cols-2" : "@min-[15rem]:grid-cols-2"}`}>
       <button
         type="button"
         onClick={() => {
@@ -48,7 +48,7 @@ export function CartButtons({
         }}
         className={`btn btn-outline ${big ? "" : "!min-h-11 !px-3 !text-[13.5px]"}`}
       >
-        <Icon name={added ? "check" : "cart"} size={17} />
+        <Icon name={added ? "check" : "cart"} size={17} className={big ? "" : "@max-[17.5rem]:hidden"} />
         {added ? t.added : t.addToCart}
       </button>
       <button

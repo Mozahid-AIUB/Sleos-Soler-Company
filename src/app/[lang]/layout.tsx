@@ -8,11 +8,12 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 import "../globals.css";
 
+// Variable font: one file covers every weight used.
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-jakarta",
   display: "swap",
 });
@@ -22,6 +23,8 @@ const hind = Hind_Siliguri({
   weight: ["400", "500", "600", "700"],
   variable: "--font-hind",
   display: "swap",
+  // Only needed on Bangla text; don't make English pages download it up front.
+  preload: false,
 });
 
 export const generateStaticParams = () => locales.map((lang) => ({ lang }));
@@ -55,7 +58,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const t = await getDictionary(lang);
 
   return (
-    <html lang={lang} className={`${jakarta.variable} ${hind.variable}`}>
+    <html lang={lang} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable}`}>
       <body className="min-h-dvh">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-gold-500 focus:px-5 focus:py-3 focus:font-semibold focus:text-forest-950">
           Skip to content
@@ -65,6 +68,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <Footer lang={lang} t={t} />
         <WhatsAppFloat label={t.contact.whatsapp} />
         <CartDrawer lang={lang} t={t.cart} tp={t.product} />
+        <MotionProvider />
       </body>
     </html>
   );

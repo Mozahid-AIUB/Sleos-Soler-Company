@@ -20,7 +20,7 @@ export default async function CheckoutPage({ params }: PageProps<"/[lang]/checko
       <div className="h-[72px] lg:h-[120px]" />
       <section className="min-h-[70vh] bg-cream-50 pb-24 pt-12">
         <div className="container-x">
-          <h1 className="h2">{t.checkout.title}</h1>
+          <h1 className="h2 hero-in">{t.checkout.title}</h1>
           <CheckoutForm lang={lang} t={t.checkout} tc={t.cart} tp={t.product} />
         </div>
       </section>
