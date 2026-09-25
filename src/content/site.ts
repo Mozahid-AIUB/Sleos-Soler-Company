@@ -18,7 +18,7 @@ export const site = {
     bn: "বাড়ি XX, রোড XX, গুলশান-২, ঢাকা ১২১২, বাংলাদেশ",
   },
   social: {
-    facebook: "https://www.facebook.com/",
+    facebook: "https://www.facebook.com/share/1Q1RqFwzD7/",
     linkedin: "https://www.linkedin.com/",
     instagram: "https://www.instagram.com/",
   },

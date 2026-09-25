@@ -392,6 +392,18 @@ html[data-motion] .split:not([data-inview]):not(.split-now) .sw > span {
   animation-play-state: paused;
 }
 
+/* Logo: the two gold arcs orbit the sun disc. */
+@keyframes logo-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.logo-arcs {
+  transform-origin: 50% 50%;
+  animation: logo-orbit 9s linear infinite;
+  will-change: transform;
+}
+
 @keyframes header-in {
   from {
     transform: translateY(-100%);
