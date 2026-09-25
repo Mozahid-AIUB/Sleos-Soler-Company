@@ -1,18 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* Neutral charcoal for dark bands; one deep brand green; gold only for primary CTAs */
+  /* Palette follows the logo: black/charcoal + gold. (Token names kept for
+     compatibility: "forest" = charcoal, "teal" = bronze accent.) */
   --color-forest-950: #0d1110;
-  --color-forest-900: #0e3a2c;
-  --color-forest-800: #14503d;
-  --color-forest-700: #1a6149;
+  --color-forest-900: #16191b;
+  --color-forest-800: #23282b;
+  --color-forest-700: #30363a;
   --color-gold-500: #e2a634;
   --color-gold-400: #efb94c;
   --color-gold-300: #f5d38a;
-  --color-teal-700: #0e3a2c;
-  --color-teal-600: #177350;
-  --color-teal-500: #1f8f63;
-  --color-teal-300: #8fd3b4;
+  --color-teal-700: #16191b;
+  --color-teal-600: #8c6214;
+  --color-teal-500: #a8781e;
+  --color-teal-300: #e8c982;
   --color-cream-50: #f5f6f4;
   --color-cream-100: #eceeeb;
   --color-cream-200: #dcdfda;
@@ -194,7 +195,7 @@ html[lang="bn"] body {
   .field:focus {
     outline: none;
     border-color: var(--color-teal-600);
-    box-shadow: 0 0 0 4px rgb(15 122 104 / 0.12);
+    box-shadow: 0 0 0 4px rgb(140 98 20 / 0.14);
   }
   .field-dark {
     background: rgb(255 255 255 / 0.06);
