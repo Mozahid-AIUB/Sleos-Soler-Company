@@ -98,9 +98,13 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         </div>
       </section>
 
-      <section className="relative h-[46vh] min-h-[320px] overflow-hidden">
-        <div className="reveal-img absolute inset-0">
-          <Image src="/media/img/solar-wind.jpg" alt="" fill sizes="100vw" className="object-cover" />
+      <section className="relative isolate flex h-[46vh] min-h-[320px] items-center overflow-hidden bg-forest-950 text-white">
+        <div className="reveal-img absolute inset-0 -z-10">
+          <Image src="/media/img/panels-field.jpg" alt="" fill sizes="100vw" className="object-cover object-[center_60%]" />
+        </div>
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950/85 via-forest-950/55 to-forest-950/20" />
+        <div className="container-x">
+          <SplitText as="p" text={t.footer.tagline} className="display max-w-3xl text-[clamp(32px,4.6vw,64px)]" />
         </div>
       </section>
 
