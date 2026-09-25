@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     openGraph: {
       title: t.meta.title,
       description: t.meta.description,
-      images: ["/media/img/hero-poster.jpg"],
+      images: [{ url: "/brand/og.jpg", width: 1200, height: 630, alt: "OSLEOS" }],
       locale: lang === "bn" ? "bn_BD" : "en_US",
       type: "website",
     },

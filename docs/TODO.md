@@ -36,7 +36,7 @@
 - [x] SEO: metadata, OG, hreflang en/bn
 
 ## Client থেকে লাগবে
-- [ ] Logo (SVG/PNG, transparent)
+- [x] Logo (PNG পেয়েছি — transparent version, icon, share image বানানো হয়েছে; SVG পেলে আরও ভালো)
 - [ ] Brochure PDF
 - [ ] Product list — নাম, spec, দাম, ছবি, datasheet
 - [ ] Real project list + ছবি

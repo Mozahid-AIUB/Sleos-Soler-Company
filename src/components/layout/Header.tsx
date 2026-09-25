@@ -92,7 +92,7 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
 
       <div className="container-x flex h-[72px] items-center justify-between gap-6 lg:h-[84px]">
         <Link href={`/${lang}`} aria-label="OSLEOS home" className="shrink-0">
-          <Logo light={!solid} />
+          <Logo light={!solid} priority />
         </Link>
 
         <nav className="hidden h-full items-center gap-1 lg:flex" aria-label="Main">
