@@ -22,6 +22,7 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
     { href: `/${lang}/solutions`, label: t.nav.solutions },
     { href: `/${lang}/projects`, label: t.nav.projects },
     { href: `/${lang}/sustainability`, label: t.nav.sustainability },
+    { href: `/${lang}/incentive`, label: t.incentive.eyebrow },
     { href: `/${lang}/support`, label: t.nav.support },
     { href: `/${lang}/contact`, label: t.nav.contact },
   ];

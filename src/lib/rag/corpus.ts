@@ -247,6 +247,7 @@ function dictionaryChunks(b: Builder, lang: Lang, d: unknown) {
   }
 
   // Sustainability
+  b.add(lang, "incentive", t("incentive.pageTitle", "incentive.title"), `${L}/incentive`, pick(d, "incentive.title", "incentive.body", "incentive.facts", "incentive.benefits", "incentive.why", "incentive.quoteBody", "incentive.note"));
   b.add(lang, "sustainability-intro", t("sustainability.introTitle", "sustainability.title"), `${L}/sustainability`, pick(d, "sustainability.title", "sustainability.body", "sustainability.introTitle", "sustainability.intro"));
   b.add(lang, "sustainability-impact", t("sustainability.impactTitle"), `${L}/sustainability`, pick(d, "sustainability.impactTitle", "sustainability.impact", "sustainability.impactNote"));
   b.add(lang, "sustainability-pillars", t("sustainability.pillarsTitle"), `${L}/sustainability`, pick(d, "sustainability.pillars", "sustainability.quote", "sustainability.ctaBody"));

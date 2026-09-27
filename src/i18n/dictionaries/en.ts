@@ -642,6 +642,41 @@ const en = {
     play: "Play the OSLEOS brand film",
     sound: "Sound on",
   },
+  incentive: {
+    eyebrow: "Government incentive 2026",
+    title: "Rooftop solar gets a new incentive package.",
+    body: "Install rooftop solar with battery storage and earn Tk 10.50 per unit for surplus electricity sent to the grid.",
+    facts: [
+      { value: "Tk 10.50 / unit", label: "Grid-feed tariff for surplus electricity under the new incentive package." },
+      { value: "28 Feb 2027", label: "Installation deadline — install within this period to qualify." },
+      { value: "3 years", label: "Incentive available until 28 Feb 2030 for eligible installations." },
+      { value: "180-day tax relief", label: "Most duties and taxes waived on imported solar machinery and spare parts." },
+    ],
+    cta: "Get a free quotation",
+    more: "See the details",
+    pageTitle: "Rooftop solar incentive package",
+    benefitsTitle: "Key government benefits",
+    benefits: [
+      "Government incentive package introduced to encourage rooftop solar with battery storage.",
+      "Maximum benchmark generation cost set at Tk 8 per unit.",
+      "Final purchase tariff fixed at Tk 10.50 per unit.",
+      "If your operating cost is below the Tk 8 benchmark, you keep the extra savings as additional profit.",
+      "Surplus electricity supplied to the national grid is measured and paid by the distribution company.",
+      "All solar equipment must meet BSTI and SREDA technical standards.",
+    ],
+    whyTitle: "Why choose solar now?",
+    why: [
+      "Lower electricity bills",
+      "Income from excess solar generation",
+      "Backup power with battery storage",
+      "Better energy security",
+      "Cleaner, sustainable energy",
+      "Stronger return on investment from the new incentives and tax waivers",
+    ],
+    quoteTitle: "Get a free quotation from OSLEOS",
+    quoteBody: "Call or WhatsApp us and we will design the right solar solution for your home, office, business or factory. Fill in our Information Sheet (measurement form) online, or ask us and we will send it to you.",
+    note: "Summary of the Government of Bangladesh rooftop solar incentive package (2026). Eligibility and payment terms follow the official notice and your distribution company.",
+  },
 };
 
 export default en;
