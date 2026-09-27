@@ -640,6 +640,7 @@ const en = {
     points: ["Homes, shops, offices and factories", "Complete system: panels, inverters, batteries and stabilizers", "15 years delivering solutions"],
     cta: "Get a quote",
     play: "Play the OSLEOS brand film",
+    sound: "Sound on",
   },
 };
 

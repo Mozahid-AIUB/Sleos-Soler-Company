@@ -30,7 +30,7 @@ export function BrandFilm({ lang, t }: { lang: Locale; t: Dictionary["film"] }) 
           </Link>
         </div>
         <div className="reveal mx-auto w-full max-w-[380px]" style={{ "--i": 1 } as CSSProperties}>
-          <BrandFilmPlayer src="/media/video/osleos-brand-film.mp4" poster="/media/img/brand-film-poster.webp" label={t.play} />
+          <BrandFilmPlayer src="/media/video/osleos-brand-film.mp4" poster="/media/img/brand-film-poster.webp" label={t.play} soundLabel={t.sound} />
         </div>
       </div>
     </section>
