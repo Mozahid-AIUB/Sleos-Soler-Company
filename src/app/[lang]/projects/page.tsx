@@ -28,7 +28,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/projec
         eyebrow={p.eyebrow}
         title={p.title}
         body={p.body}
-        image="/media/img/rooftop-sunset.jpg"
+        image="/media/projects/commercial-rooftop-dhaka.jpg"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: t.nav.projects }]}
       />
       <section className="section-y bg-forest-950">

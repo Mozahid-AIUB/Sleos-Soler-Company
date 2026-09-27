@@ -6,8 +6,7 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { site } from "@/content/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
-import { CartDrawer } from "@/components/cart/CartDrawer";
+import { AssistantWidget } from "@/components/chat/AssistantWidget";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import "../globals.css";
 
@@ -66,8 +65,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <Header lang={lang} t={t.nav} />
         <main id="main">{children}</main>
         <Footer lang={lang} t={t} />
-        <WhatsAppFloat label={t.contact.whatsapp} />
-        <CartDrawer lang={lang} t={t.cart} tp={t.product} />
+        <AssistantWidget lang={lang} t={t.assistant} />
         <MotionProvider />
       </body>
     </html>

@@ -7,16 +7,16 @@ export function Process({ lang, t }: { lang: Locale; t: Dictionary["process"] })
   return (
     <section className="section-y bg-white">
       <div className="container-x">
-        <SectionHeading eyebrow={t.eyebrow} title={t.title} />
-        <ol className="mt-14 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
+        <SectionHeading eyebrow={t.eyebrow} title={t.title} body={t.body} />
+        <ol className="mt-14 grid gap-x-10 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
           {t.steps.map((s, i) => (
-            <li key={s.title} className="reveal relative pt-5" style={{ "--i": i % 4 } as CSSProperties}>
+            <li key={s.title} className="reveal relative pt-5" style={{ "--i": i % 3 } as CSSProperties}>
               <span
                 aria-hidden="true"
                 className="reveal-line pointer-events-none absolute inset-x-0 top-0 h-px bg-cream-200 bg-no-repeat text-forest-900 [background-image:linear-gradient(currentColor,currentColor)] [background-size:100%_1px]"
-                style={{ "--i": (i % 4) + 1 } as CSSProperties}
+                style={{ "--i": (i % 3) + 1 } as CSSProperties}
               />
-              <p className="text-[14px] font-semibold text-teal-600">{localizeDigits(`0${i + 1}`, lang)}</p>
+              <p className="text-[14px] font-semibold text-teal-600">{localizeDigits(String(i + 1).padStart(2, "0"), lang)}</p>
               <h3 className="mt-3 text-[20px] font-bold">{s.title}</h3>
               <p className="mt-2 leading-relaxed text-ink-600">{s.text}</p>
             </li>

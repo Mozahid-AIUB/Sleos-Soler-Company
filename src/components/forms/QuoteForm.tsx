@@ -34,7 +34,7 @@ export function QuoteForm({ t }: { t: Dictionary["contact"] }) {
           {t.types.map((label, i) => (
             <label
               key={label}
-              className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3.5 text-[14.5px] font-medium transition-colors ${
+              className={`flex cursor-pointer items-center gap-3 rounded-md border px-4 py-3.5 text-[14.5px] font-medium transition-colors ${
                 type === i ? "border-teal-600 bg-teal-600/[0.06] text-ink-900" : "border-cream-200 bg-white text-ink-600 hover:border-ink-400"
               }`}
             >

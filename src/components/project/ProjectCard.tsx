@@ -31,7 +31,7 @@ export function ProjectCard({
           sizes={large ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 40vw, 100vw"}
           className="object-cover transition-transform duration-[1.3s] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
         />
-        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/45 to-transparent" />
+        <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-forest-950 via-forest-950/70 to-forest-950/10" />
       </div>
       {site.draft && project.sample && (
         <span className="absolute right-5 top-5 text-[12px] font-medium text-white/60">

@@ -4,6 +4,7 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { Hero } from "@/components/home/Hero";
 import { TrustMarquee } from "@/components/home/TrustMarquee";
 import { Intro } from "@/components/home/Intro";
+import { Partners } from "@/components/home/Partners";
 import { Categories } from "@/components/home/Categories";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { Solutions } from "@/components/home/Solutions";
@@ -24,6 +25,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <Hero lang={lang} t={t} />
       <TrustMarquee label={t.trust} />
       <Intro lang={lang} t={t.intro} />
+      <Partners t={t.partners} className="border-t border-cream-200 bg-white" />
       <Categories lang={lang} t={t.categories} />
       <FeaturedProducts lang={lang} t={t} />
       <Solutions lang={lang} t={t.solutions} />

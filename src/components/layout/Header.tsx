@@ -10,7 +10,6 @@ import { categories } from "@/content/products";
 import { site, whatsappLink } from "@/content/site";
 import { Logo } from "@/components/ui/Logo";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
-import { cart, useCart } from "@/lib/cart-store";
 
 /**
  * Underline that draws in from the left when the parent link (group/nav) is
@@ -37,8 +36,6 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
   const [scrolled, setScrolled] = useState(false);
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const menuOpen = menuFor === pathname;
-  const { lines } = useCart();
-  const count = lines.reduce((n, l) => n + l.qty, 0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -61,6 +58,10 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
     { href: `/${lang}/about`, label: t.about },
     { href: `/${lang}/contact`, label: t.contact },
   ];
+  const secondary = [
+    { href: `/${lang}/support`, label: t.support },
+    { href: `/${lang}/sustainability`, label: t.sustainability },
+  ];
   const navText = solid ? "text-ink-900" : "text-white";
   const navMuted = solid ? "text-ink-600 hover:text-ink-900" : "text-white/80 hover:text-white";
 
@@ -73,9 +74,20 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
         } ${solid ? "border-cream-200 text-ink-600" : "border-white/15 text-white/75"}`}
       >
         <div className="container-x flex h-9 items-center justify-between gap-6 whitespace-nowrap">
-          <p className="hidden min-w-0 truncate xl:block">{t.utility}</p>
+          <p className="hidden min-w-0 items-center gap-1.5 truncate xl:flex">
+            <Icon name="clock" size={14} className="shrink-0" />
+            {t.hours}
+          </p>
           <div className="ml-auto flex shrink-0 items-center gap-6">
-            <a href={site.phoneHref} className="link-line">{site.phone}</a>
+            <span className="flex items-center gap-1.5">
+              <Icon name="phone" size={14} />
+              {site.phones.map((p, i) => (
+                <span key={p.href} className={i > 0 ? "hidden xl:inline" : undefined}>
+                  {i > 0 && <span aria-hidden="true" className="mx-1.5 opacity-50">/</span>}
+                  <a href={p.href} className="link-line">{p.display}</a>
+                </span>
+              ))}
+            </span>
             <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="group/nav flex items-center gap-1.5">
               <WhatsappIcon size={14} />
               <span className={underline(false)}>{site.whatsappDisplay}</span>
@@ -148,20 +160,7 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
           >
             {t.language}
           </Link>
-          <button
-            type="button"
-            onClick={() => cart.open()}
-            className={`relative inline-flex h-11 w-11 items-center justify-center rounded-md transition-colors ${solid ? "text-ink-900 hover:bg-cream-50" : "text-white hover:bg-white/10"}`}
-            aria-label={`${t.cart} (${count})`}
-          >
-            <Icon name="cart" size={22} />
-            {count > 0 && (
-              <span className="absolute right-0.5 top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-gold-500 px-1 text-[11px] font-bold text-forest-950">
-                {count}
-              </span>
-            )}
-          </button>
-          <Link href={`/${lang}/contact`} className="btn btn-gold hidden !min-h-11 !px-5 !text-[14px] md:inline-flex">
+          <Link href={`/${lang}/quote`} className="btn btn-gold hidden !min-h-11 !px-5 !text-[14px] sm:inline-flex">
             {t.quote}
           </Link>
           <button
@@ -210,14 +209,26 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
               {l.label}
             </Link>
           ))}
-          <div className={`mt-auto grid gap-3 pt-8 ${menuRow(menuOpen, links.length + 2).className}`} style={menuRow(menuOpen, links.length + 2).style}>
-            <Link href={`/${lang}/contact`} className="btn btn-gold w-full">
+          <div className={`flex flex-wrap gap-x-6 gap-y-1 pt-4 ${menuRow(menuOpen, links.length + 2).className}`} style={menuRow(menuOpen, links.length + 2).style}>
+            {secondary.map((l) => (
+              <Link key={l.href} href={l.href} className="py-2 text-[15px] font-medium text-ink-600">
+                {l.label}
+              </Link>
+            ))}
+          </div>
+          <div className={`mt-auto grid gap-3 pt-8 ${menuRow(menuOpen, links.length + 3).className}`} style={menuRow(menuOpen, links.length + 3).style}>
+            <Link href={`/${lang}/quote`} className="btn btn-gold w-full">
               {t.quote}
             </Link>
             <a href={whatsappLink()} target="_blank" rel="noopener noreferrer" className="btn btn-outline w-full">
               <WhatsappIcon size={18} />
               {site.whatsappDisplay}
             </a>
+            <p className="flex flex-wrap justify-center gap-x-4 gap-y-1 pt-1 text-[14px] text-ink-600">
+              {site.phones.map((p) => (
+                <a key={p.href} href={p.href} className="py-1">{p.display}</a>
+              ))}
+            </p>
           </div>
         </nav>
       </div>

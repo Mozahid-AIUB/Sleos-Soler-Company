@@ -392,6 +392,29 @@ html[data-motion] .split:not([data-inview]):not(.split-now) .sw > span {
   animation-play-state: paused;
 }
 
+/* Floating action buttons (AI assistant, WhatsApp). */
+.fab {
+  display: flex;
+  height: 3.25rem;
+  width: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px -12px rgb(0 0 0 / 0.55);
+  transition:
+    transform 0.35s var(--ease-out-expo),
+    background-color 0.25s;
+}
+.fab:hover {
+  transform: translateY(-2px);
+}
+@media (min-width: 768px) {
+  .fab {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+}
+
 /* Logo: the two gold arcs orbit the sun disc. */
 @keyframes logo-orbit {
   to {

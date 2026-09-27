@@ -6,7 +6,7 @@ import { CountUp } from "@/components/motion/CountUp";
 export function StatBand({ t }: { t: Dictionary["stats"] }) {
   return (
     <section className="relative isolate overflow-hidden border-b border-white/10 bg-forest-950 text-white">
-      <Image src="/media/img/utility-aerial.jpg" alt="" fill sizes="100vw" className="-z-10 object-cover opacity-35" />
+      <Image src="/media/projects/factory-rooftop-gazipur.jpg" alt="" fill sizes="100vw" className="-z-10 object-cover opacity-35" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950 via-forest-950/85 to-forest-950/60" />
       <div className="container-x grid grid-cols-2 gap-x-6 gap-y-12 py-20 lg:grid-cols-4 lg:py-28">
         {t.items.map((s, i) => (

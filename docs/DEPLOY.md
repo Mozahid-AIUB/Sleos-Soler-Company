@@ -82,3 +82,19 @@ docker run -p 3000:3000 osleos   # http://localhost:3000
 - **Build fail:** Coolify → resource → **Deployments** → log দেখুন
 - **Site খুলছে না:** Ports Exposes `3000` আছে কিনা, domain-এর DNS ঠিক আছে কিনা দেখুন
 - **আগের version-এ ফেরা:** Coolify → Deployments → আগের deployment → **Redeploy**
+
+## AI assistant (ওয়েবসাইট চ্যাট)
+
+ডান-নিচের চ্যাট বাটনে দুটো অপশন: **AI assistant** (Claude, `/api/chat`) আর **WhatsApp**।
+
+1. [console.anthropic.com](https://console.anthropic.com) → **API Keys** → নতুন key বানান (Billing-এ credit/limit সেট করে রাখুন)
+2. Coolify → OSLEOS → **Environment Variables** → `ANTHROPIC_API_KEY` = key → Save
+   (ঐচ্ছিক: `ANTHROPIC_MODEL` দিয়ে model বদলানো যায়; default `claude-sonnet-5`)
+3. **Redeploy** করুন
+
+- Key না থাকলে (বা ভুল হলে) `/api/chat` `503 {"error":"ai_unavailable"}` দেয় — widget তখন একটা বার্তা আর **WhatsApp** বাটন দেখায়, site ঠিকমতো চলে।
+- Key কখনো code বা git-এ রাখবেন না — শুধু Coolify-তে। নমুনা: `.env.example`
+- সুরক্ষা: প্রতি IP-তে মিনিটে ~৪টা মেসেজ, পুরো site-এ সেকেন্ডে ~১টা; প্রতি মেসেজ ≤১,০০০ অক্ষর, শেষ ১০টা মেসেজ পাঠানো হয়।
+- খরচ: একটা সাধারণ ৫-প্রশ্নের কথোপকথন ≈ $0.02–0.03। Anthropic Console → **Limits**-এ মাসিক spend limit দিয়ে রাখুন।
+- Cloudflare cache rule-এ `/api/` path cache করবেন না (POST এমনিতেই cache হয় না, তবু rule-এ বাদ রাখা ভালো)।
+- AI-এর জ্ঞান আসে `src/content/assistant-knowledge.ts` (ব্রোশিওর), `src/content/site.ts` (যোগাযোগ) আর `src/content/products.ts` (প্রোডাক্ট) থেকে — এগুলো আপডেট করলে পরের deploy-এ AI-ও আপডেট হয়।

@@ -2,17 +2,11 @@ import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
-import { localizeDigits, type Locale } from "@/i18n/config";
+import type { Locale } from "@/i18n/config";
 import { Icon } from "@/components/ui/Icon";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { CountUp } from "@/components/motion/CountUp";
 import heroPoster from "../../../public/media/img/hero-poster.jpg";
-
-const heroStats = [
-  { value: "850+ MW", label: { en: "Modules installed", bn: "মডিউল স্থাপিত" } },
-  { value: "23.8%", label: { en: "Peak module efficiency", bn: "সর্বোচ্চ মডিউল দক্ষতা" } },
-  { value: { en: "30 years", bn: "৩০ বছর" }, label: { en: "Performance warranty", bn: "পারফরম্যান্স ওয়ারেন্টি" } },
-] as const;
 
 /**
  * Load-time word reveal for the H1 (same markup/classes as SplitText `now`).
@@ -61,20 +55,20 @@ export function Hero({ lang, t }: { lang: Locale; t: Dictionary }) {
               {h.shop}
               <Icon name="arrowRight" size={18} />
             </Link>
-            <Link href={`/${lang}/contact`} className="btn btn-glass !min-h-[52px] !px-5 sm:!px-7">
+            <Link href={`/${lang}/quote`} className="btn btn-glass !min-h-[52px] !px-5 sm:!px-7">
               {h.quote}
             </Link>
           </div>
         </div>
       </div>
 
-      <div className="container-x pb-10 lg:pb-14">
+      <div className="container-x pb-36 lg:pb-14">
         <dl className="hero-in grid grid-cols-3 border-t border-white/20 pt-6 [animation-delay:760ms] lg:max-w-[820px]">
-          {heroStats.map((s, i) => (
+          {h.stats.map((s, i) => (
             <div key={i} className={i > 0 ? "pl-4 sm:pl-8" : ""}>
-              <dt className="order-2 mt-1.5 text-[12.5px] text-white/60 sm:text-[14px]">{s.label[lang]}</dt>
+              <dt className="order-2 mt-1.5 text-[12.5px] text-white/60 sm:text-[14px]">{s.label}</dt>
               <dd className="text-[clamp(20px,2.4vw,30px)] font-bold tabular-nums tracking-tight">
-                <CountUp value={typeof s.value === "string" ? localizeDigits(s.value, lang) : s.value[lang]} durationMs={2400} />
+                <CountUp value={s.value} durationMs={2400} />
               </dd>
             </div>
           ))}

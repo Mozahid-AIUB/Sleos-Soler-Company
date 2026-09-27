@@ -10,9 +10,9 @@ import { Icon } from "@/components/ui/Icon";
 export function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
   const f = t.featured;
   const perks = [
-    { icon: "truck" as const, text: t.product.delivery },
-    { icon: "cash" as const, text: t.product.cod },
-    { icon: "wrench" as const, text: t.product.support },
+    { icon: "shield" as const, text: t.product.cod },
+    { icon: "wrench" as const, text: t.product.delivery },
+    { icon: "phone" as const, text: t.product.support },
   ];
   return (
     <section className="section-y bg-white">

@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/ui/Icon";
 
 export function Categories({ lang, t }: { lang: Locale; t: Dictionary["categories"] }) {
-  const homeCategories = categories.filter((c) => c.home !== false);
+  const homeCategories = categories;
   return (
     <section className="section-y relative overflow-hidden bg-cream-50">
       <div className="container-x relative">

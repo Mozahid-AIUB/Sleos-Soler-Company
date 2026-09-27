@@ -3,9 +3,23 @@
 import { useState } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { sendToWhatsApp } from "@/lib/whatsapp";
-import { Icon } from "@/components/ui/Icon";
+import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 
-export function NewsletterForm({ t }: { t: Dictionary["newsletter"] }) {
+type Labels = Pick<Dictionary["newsletter"], "email" | "phone" | "submit" | "done" | "privacy">;
+
+/**
+ * Email (+ phone) capture that hands off to WhatsApp. `compact` is the
+ * one-line footer version used for the monthly updates subscription.
+ */
+export function NewsletterForm({
+  t,
+  subject = "Brochure request — OSLEOS website",
+  compact = false,
+}: {
+  t: Labels;
+  subject?: string;
+  compact?: boolean;
+}) {
   const [done, setDone] = useState(false);
 
   return (
@@ -14,7 +28,7 @@ export function NewsletterForm({ t }: { t: Dictionary["newsletter"] }) {
       onSubmit={(e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        sendToWhatsApp("Brochure request — OSLEOS website", [
+        sendToWhatsApp(subject, [
           ["Email", String(data.get("email") ?? "")],
           ["Phone", String(data.get("phone") ?? "")],
         ]);
@@ -22,20 +36,42 @@ export function NewsletterForm({ t }: { t: Dictionary["newsletter"] }) {
         e.currentTarget.reset();
       }}
     >
-      <div className="grid gap-3 sm:grid-cols-2">
-        <label className="grid gap-1.5">
-          <span className="sr-only">{t.email}</span>
-          <input name="email" type="email" required autoComplete="email" placeholder={t.email} className="field" />
-        </label>
-        <label className="grid gap-1.5">
-          <span className="sr-only">{t.phone}</span>
-          <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" placeholder={t.phone} className="field" />
-        </label>
-      </div>
-      <button type="submit" className="btn btn-gold w-full !min-h-[52px]">
-        <Icon name="download" size={18} />
-        {t.submit}
-      </button>
+      {compact ? (
+        <div className="flex">
+          <label className="min-w-0 flex-1">
+            <span className="sr-only">{t.email}</span>
+            <input
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              placeholder={t.email}
+              className="field !rounded-r-none"
+            />
+          </label>
+          <button type="submit" className="btn btn-dark shrink-0 !min-h-[50px] !rounded-l-none !px-4 sm:!px-5">
+            <WhatsappIcon size={17} />
+            {t.submit}
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <label className="grid gap-1.5">
+              <span className="sr-only">{t.email}</span>
+              <input name="email" type="email" required autoComplete="email" placeholder={t.email} className="field" />
+            </label>
+            <label className="grid gap-1.5">
+              <span className="sr-only">{t.phone}</span>
+              <input name="phone" type="tel" required autoComplete="tel" inputMode="tel" placeholder={t.phone} className="field" />
+            </label>
+          </div>
+          <button type="submit" className="btn btn-gold w-full !min-h-[52px]">
+            <Icon name="download" size={18} />
+            {t.submit}
+          </button>
+        </>
+      )}
       <p className="text-[13px] text-ink-400" role="status">
         {done ? <span className="font-medium text-teal-600">{t.done}</span> : t.privacy}
       </p>

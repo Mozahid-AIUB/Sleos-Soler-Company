@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { formatPrice, hasLocale, locales } from "@/i18n/config";
+import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { categories, getProduct, products } from "@/content/products";
 import { whatsappLink } from "@/content/site";
 import { ProductImage } from "@/components/product/ProductImage";
-import { ProductCard } from "@/components/product/ProductCard";
-import { BuyBox } from "@/components/product/BuyBox";
+import { ProductCard, quoteHref } from "@/components/product/ProductCard";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SplitText } from "@/components/motion/SplitText";
 
@@ -20,7 +19,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products/[
   const { lang, slug } = await params;
   const product = getProduct(slug);
   if (!hasLocale(lang) || !product) return {};
-  return { title: product.name, description: product.tagline[lang] };
+  const title = product.brand ? `${product.brand} ${product.name}` : product.name;
+  return { title, description: `${product.tagline[lang]}. ${product.keySpec[lang]}` };
 }
 
 export default async function ProductPage({ params }: PageProps<"/[lang]/products/[slug]">) {
@@ -30,11 +30,23 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   const t = await getDictionary(lang);
   const tp = t.product;
   const category = categories.find((c) => c.id === product.category);
-  const related = products.filter((p) => p.slug !== product.slug && p.price !== null && p.category !== product.category).slice(0, 4);
+  const fullName = product.brand ? `${product.brand} ${product.name}` : product.name;
+  const sameCategory = products.filter((p) => p.slug !== product.slug && p.category === product.category);
+  // Prefer other brands in the same category, then fill up with the rest of the category.
+  const related = [
+    ...sameCategory.filter((p) => p.brand !== product.brand),
+    ...sameCategory.filter((p) => p.brand === product.brand),
+  ].slice(0, 4);
   const perks = [
-    { icon: "truck" as const, text: tp.delivery },
-    { icon: "cash" as const, text: tp.cod },
-    { icon: "shield" as const, text: product.warranty[lang] },
+    { icon: "shield" as const, text: tp.cod },
+    { icon: "wrench" as const, text: tp.delivery },
+    { icon: "phone" as const, text: tp.support },
+  ];
+  const rows = [
+    ...(product.brand ? [{ label: tp.brand, value: product.brand }] : []),
+    { label: tp.model, value: product.name },
+    ...product.specs.map((s) => ({ label: s.label[lang], value: s.value })),
+    ...(product.warranty ? [{ label: tp.warranty, value: product.warranty[lang] }] : []),
   ];
 
   return (
@@ -55,33 +67,22 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             {/* Visual */}
             <div className="reveal-img group relative aspect-square overflow-hidden rounded-lg bg-cream-100 md:aspect-[4/3] lg:aspect-square lg:sticky lg:top-28 lg:self-start">
-              <ProductImage src={product.image} alt={product.name} sizes="(min-width: 1024px) 55vw, 100vw" />
-              {product.badge && (
-                <span className="absolute left-6 top-6 rounded bg-white px-2.5 py-1 text-[13px] font-semibold text-forest-900">{product.badge[lang]}</span>
-              )}
+              <ProductImage src={product.image} alt={fullName} sizes="(min-width: 1024px) 55vw, 100vw" />
             </div>
 
             {/* Info */}
             <div>
-              <p className="reveal text-[13px] font-semibold uppercase tracking-[0.16em] text-teal-600" style={at(0)}>{category?.name[lang]}</p>
+              <p className="reveal text-[13px] font-semibold uppercase tracking-[0.16em] text-teal-600" style={at(0)}>
+                {product.brand ? `${product.brand} · ` : ""}
+                {category?.name[lang]}
+              </p>
               <SplitText as="h1" text={product.name} now delayMs={120} className="mt-3 text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.08] tracking-tight" />
               <p className="reveal lead mt-4 text-ink-600" style={at(1)}>
                 {product.tagline[lang]}
               </p>
 
-              <div className="reveal mt-7 flex items-baseline gap-3 border-y border-cream-200 py-6" style={at(2)}>
-                {product.price ? (
-                  <>
-                    <span className="text-[36px] font-extrabold tracking-tight tabular-nums">{formatPrice(product.price, lang)}</span>
-                    {product.compareAt && <span className="text-[18px] text-ink-400 line-through tabular-nums">{formatPrice(product.compareAt, lang)}</span>}
-                    <span className="ml-auto flex items-center gap-1.5 text-[14px] font-medium text-teal-600">
-                      <span className="h-2 w-2 rounded-full bg-teal-500" />
-                      {tp.inStock}
-                    </span>
-                  </>
-                ) : (
-                  <span className="text-[24px] font-bold">{tp.priceOnRequest}</span>
-                )}
+              <div className="reveal mt-7 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-y border-cream-200 py-6" style={at(2)}>
+                <span className="text-[clamp(22px,2.4vw,28px)] font-extrabold tracking-tight">{product.keySpec[lang]}</span>
               </div>
 
               <p className="reveal mt-7 leading-relaxed text-ink-600" style={at(3)}>
@@ -100,18 +101,24 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                 ))}
               </ul>
 
-              <div className="reveal mt-9" style={at(4)}>
-                <BuyBox lang={lang} slug={product.slug} quoteOnly={product.price === null} t={tp} />
+              <div className="reveal mt-9 grid gap-3 sm:grid-cols-2" style={at(4)}>
+                <Link href={quoteHref(lang, product.slug)} className="btn btn-dark w-full">
+                  {tp.requestQuote}
+                  <Icon name="arrowRight" size={18} />
+                </Link>
+                <a
+                  href={whatsappLink(`Hello OSLEOS, I have a question about ${fullName}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-outline w-full"
+                >
+                  <WhatsappIcon size={19} />
+                  {tp.askWhatsapp}
+                </a>
               </div>
-              <a
-                href={whatsappLink(`Hello OSLEOS, I have a question about ${product.name}.`)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 flex items-center justify-center gap-2 rounded-full py-3 text-[14.5px] font-semibold text-[#128c4a] transition-colors hover:bg-[#25d366]/10"
-              >
-                <WhatsappIcon size={19} />
-                {t.contact.whatsapp}
-              </a>
+              <p className="reveal-fade mt-4 text-[13.5px] leading-relaxed text-ink-400" style={at(5)}>
+                {tp.quoteNote}
+              </p>
 
               <ul className="reveal mt-6 grid gap-3 rounded-lg border border-cream-200 bg-white p-5">
                 {perks.map((p) => (
@@ -124,18 +131,14 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
 
               <h2 className="reveal mt-10 text-[20px] font-bold">{tp.specs}</h2>
               <dl className="mt-4 divide-y divide-cream-200 overflow-hidden rounded-lg border border-cream-200 bg-white">
-                {product.specs.map((s, i) => (
-                  <div key={s.label.en} className="reveal-fade grid grid-cols-2 gap-4 px-5 py-3.5 text-[14.5px]" style={at(Math.min(i + 1, 6))}>
-                    <dt className="text-ink-600">{s.label[lang]}</dt>
-                    <dd className="font-semibold">{s.value}</dd>
+                {rows.map((r, i) => (
+                  <div key={r.label} className="reveal-fade grid grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] gap-4 px-5 py-3.5 text-[14.5px]" style={at(Math.min(i + 1, 6))}>
+                    <dt className="text-ink-600">{r.label}</dt>
+                    <dd className="font-semibold [overflow-wrap:anywhere]">{r.value}</dd>
                   </div>
                 ))}
-                <div className="reveal-fade grid grid-cols-2 gap-4 px-5 py-3.5 text-[14.5px]" style={at(Math.min(product.specs.length + 1, 6))}>
-                  <dt className="text-ink-600">{tp.warranty}</dt>
-                  <dd className="font-semibold">{product.warranty[lang]}</dd>
-                </div>
               </dl>
-              <a href={whatsappLink(`Please send me the datasheet for ${product.name}.`)} target="_blank" rel="noopener noreferrer" className="btn btn-outline mt-6">
+              <a href={whatsappLink(`Please send me the datasheet for ${fullName}.`)} target="_blank" rel="noopener noreferrer" className="btn btn-outline mt-6">
                 <Icon name="download" size={18} />
                 {tp.datasheet}
               </a>

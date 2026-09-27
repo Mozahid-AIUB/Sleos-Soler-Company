@@ -41,9 +41,11 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
         <div className="container-x">
           <ProductGrid
             tabs={tabs}
+            labels={{ allBrands: t.product.allBrands, brand: t.product.brand, empty: t.product.empty }}
             cards={products.map((prod) => ({
               key: prod.slug,
               category: prod.category,
+              brand: prod.brand,
               node: <ProductCard product={prod} lang={lang} t={t.product} />,
             }))}
           />
