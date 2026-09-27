@@ -32,7 +32,7 @@ export default async function QuotePage({ params }: PageProps<"/[lang]/quote">) 
         eyebrow={q.eyebrow}
         title={q.title}
         body={q.body}
-        image="/media/img/engineer-field.jpg"
+        image="/media/img/engineer-field.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: q.title }]}
       />
 

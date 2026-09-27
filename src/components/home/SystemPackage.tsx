@@ -19,7 +19,7 @@ export function SystemPackage({ lang, t, className = "bg-cream-50" }: { lang: Lo
             {t.packageBody}
           </p>
           <div className="reveal-img relative mt-10 aspect-[16/10] overflow-hidden rounded-lg [clip-path:inset(0)]" style={at(2)}>
-            <Image src="/media/projects/engineer-rooftop.jpg" alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-[center_30%]" />
+            <Image src="/media/projects/engineer-rooftop.webp" alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover object-[center_30%]" />
           </div>
         </div>
         <div className="self-center">

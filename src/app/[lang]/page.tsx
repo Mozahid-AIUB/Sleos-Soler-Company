@@ -9,6 +9,7 @@ import { Categories } from "@/components/home/Categories";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
 import { Solutions } from "@/components/home/Solutions";
 import { StatBand } from "@/components/home/StatBand";
+import { BrandFilm } from "@/components/home/BrandFilm";
 import { ProjectsShowcase } from "@/components/home/ProjectsShowcase";
 import { Process } from "@/components/home/Process";
 import { Testimonials } from "@/components/home/Testimonials";
@@ -28,6 +29,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <Partners t={t.partners} className="border-t border-cream-200 bg-white" />
       <Categories lang={lang} t={t.categories} />
       <FeaturedProducts lang={lang} t={t} />
+      <BrandFilm lang={lang} t={t.film} />
       <Solutions lang={lang} t={t.solutions} />
       <StatBand t={t.stats} />
       <ProjectsShowcase lang={lang} t={t.projects} />

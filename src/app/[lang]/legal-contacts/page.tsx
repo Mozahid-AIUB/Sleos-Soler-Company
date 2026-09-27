@@ -48,7 +48,7 @@ export default async function LegalContactsPage({ params }: PageProps<"/[lang]/l
         eyebrow={t.legal.eyebrow}
         title={c.title}
         body={c.body}
-        image="/media/img/engineer-panel.jpg"
+        image="/media/img/engineer-panel.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: c.title }]}
       />
       <section className="bg-white py-14 lg:py-24">

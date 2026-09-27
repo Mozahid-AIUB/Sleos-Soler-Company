@@ -25,7 +25,7 @@ export default async function SecurityPage({ params }: PageProps<"/[lang]/securi
         eyebrow={t.legal.eyebrow}
         title={doc.title}
         body={doc.body}
-        image="/media/img/electronics.jpg"
+        image="/media/img/electronics.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: doc.title }]}
       />
       <LegalDoc updated={t.common.updated} onThisPage={t.common.onThisPage} sections={doc.sections}>

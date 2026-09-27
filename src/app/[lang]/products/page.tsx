@@ -34,7 +34,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
         eyebrow={p.eyebrow}
         title={p.title}
         body={p.body}
-        image="/media/img/panels-sky.jpg"
+        image="/media/img/panels-sky.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: p.title }]}
       />
       <section className="section-y !pt-14 bg-cream-50">

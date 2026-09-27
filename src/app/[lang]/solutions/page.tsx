@@ -31,7 +31,7 @@ export default async function SolutionsPage({ params }: PageProps<"/[lang]/solut
         eyebrow={p.eyebrow}
         title={p.title}
         body={p.body}
-        image="/media/projects/factory-rooftop-gazipur.jpg"
+        image="/media/projects/factory-rooftop-gazipur.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: t.nav.solutions }]}
       />
       <Solutions lang={lang} t={s} heading={false} />

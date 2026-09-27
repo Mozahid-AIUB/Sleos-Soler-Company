@@ -55,11 +55,11 @@ export function Intro({ lang, t }: { lang: Locale; t: Dictionary["intro"] }) {
 
         <div className="grid grid-cols-5 gap-3 self-start">
           <div className="reveal-img relative col-span-3 aspect-[3/4] overflow-hidden rounded-lg [clip-path:inset(0)]" style={idx(1)}>
-            <Image src="/media/projects/engineer-rooftop.jpg" alt="OSLEOS engineer inspecting a rooftop solar array" fill sizes="(min-width: 1024px) 28vw, 60vw" className="object-cover" />
+            <Image src="/media/projects/engineer-rooftop.webp" alt="OSLEOS engineer inspecting a rooftop solar array" fill sizes="(min-width: 1024px) 28vw, 60vw" className="object-cover" />
           </div>
           <div className="col-span-2 grid gap-3">
             <div className="reveal-img relative aspect-[3/4] overflow-hidden rounded-lg [clip-path:inset(0)]" style={idx(2)}>
-              <Image src="/media/projects/apartment-rooftop-dhaka.jpg" alt="Rooftop solar on a Dhaka apartment building" fill sizes="(min-width: 1024px) 18vw, 40vw" className="object-cover" />
+              <Image src="/media/projects/apartment-rooftop-dhaka.webp" alt="Rooftop solar on a Dhaka apartment building" fill sizes="(min-width: 1024px) 18vw, 40vw" className="object-cover" />
             </div>
             <div className="reveal rounded-lg border border-cream-200 bg-cream-50 p-5" style={idx(4)}>
               <p className="text-[34px] font-extrabold leading-none tabular-nums text-forest-900">

@@ -7,9 +7,9 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/ui/Icon";
 
 const order = [
-  { key: "residential", image: "/media/projects/apartment-rooftop-dhaka.jpg" },
-  { key: "commercial", image: "/media/projects/roof-to-revenue-chattogram.jpg" },
-  { key: "utility", image: "/media/projects/solar-irrigation-rajshahi.jpg" },
+  { key: "residential", image: "/media/projects/apartment-rooftop-dhaka.webp" },
+  { key: "commercial", image: "/media/projects/roof-to-revenue-chattogram.webp" },
+  { key: "utility", image: "/media/projects/solar-irrigation-rajshahi.webp" },
 ] as const;
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

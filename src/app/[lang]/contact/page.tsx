@@ -24,7 +24,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
         eyebrow={p.eyebrow}
         title={p.title}
         body={p.body}
-        image="/media/img/electrician.jpg"
+        image="/media/img/electrician.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: t.nav.contact }]}
       />
       <ContactSection lang={lang} t={t.contact} heading={false} />

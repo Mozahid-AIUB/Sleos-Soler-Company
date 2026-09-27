@@ -33,7 +33,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         eyebrow={a.eyebrow}
         title={a.title}
         body={a.body}
-        image="/media/projects/warehouse-rooftop-narayanganj.jpg"
+        image="/media/projects/warehouse-rooftop-narayanganj.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: t.nav.about }]}
       />
 
@@ -43,7 +43,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
           <div className="reveal-img relative aspect-[5/4] overflow-hidden rounded-lg bg-forest-900 md:aspect-[16/9] lg:aspect-[5/4]">
             <video
               src="/media/video/engineers-field.mp4"
-              poster="/media/img/engineers-poster.jpg"
+              poster="/media/img/engineers-poster.webp"
               autoPlay
               muted
               loop
@@ -156,7 +156,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
 
       <section className="relative isolate flex h-[46vh] min-h-[320px] items-center overflow-hidden bg-forest-950 text-white">
         <div className="reveal-img absolute inset-0 -z-10">
-          <Image src="/media/img/panels-field.jpg" alt="" fill sizes="100vw" className="object-cover object-[center_60%]" />
+          <Image src="/media/img/panels-field.webp" alt="" fill sizes="100vw" className="object-cover object-[center_60%]" />
         </div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950/85 via-forest-950/55 to-forest-950/20" />
         <div className="container-x">

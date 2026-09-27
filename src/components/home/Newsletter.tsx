@@ -19,7 +19,7 @@ export function Newsletter({ t }: { t: Dictionary["newsletter"] }) {
           </div>
         </div>
         <div className="reveal-img relative aspect-[4/3] overflow-hidden rounded-lg md:aspect-[2/1] lg:aspect-[4/3] [clip-path:inset(0)]" style={{ "--i": 1 } as CSSProperties}>
-          <Image src="/media/img/drill-panel.jpg" alt="Technician fixing a solar module to its frame" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
+          <Image src="/media/img/drill-panel.webp" alt="Technician fixing a solar module to its frame" fill sizes="(min-width: 1024px) 40vw, 100vw" className="object-cover" />
         </div>
       </div>
     </section>

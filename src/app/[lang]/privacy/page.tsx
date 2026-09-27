@@ -23,7 +23,7 @@ export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy
         eyebrow={t.legal.eyebrow}
         title={doc.title}
         body={doc.body}
-        image="/media/img/panels-closeup.jpg"
+        image="/media/img/panels-closeup.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: doc.title }]}
       />
       <LegalDoc updated={t.common.updated} onThisPage={t.common.onThisPage} sections={doc.sections} />

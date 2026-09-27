@@ -32,7 +32,7 @@ export default async function SupportPage({ params }: PageProps<"/[lang]/support
         eyebrow={s.eyebrow}
         title={s.title}
         body={s.body}
-        image="/media/img/electrician.jpg"
+        image="/media/img/electrician.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: s.eyebrow }]}
       >
         <div className="flex flex-col gap-3 sm:flex-row">
@@ -118,7 +118,7 @@ export default async function SupportPage({ params }: PageProps<"/[lang]/support
             </ul>
           </div>
           <div className="reveal-img relative aspect-[4/3] overflow-hidden rounded-lg" style={at(1)}>
-            <Image src="/media/img/engineer-field.jpg" alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+            <Image src="/media/img/engineer-field.webp" alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
           </div>
         </div>
       </section>

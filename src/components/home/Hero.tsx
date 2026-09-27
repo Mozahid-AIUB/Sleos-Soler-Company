@@ -6,7 +6,7 @@ import type { Locale } from "@/i18n/config";
 import { Icon } from "@/components/ui/Icon";
 import { HeroVideo } from "@/components/home/HeroVideo";
 import { CountUp } from "@/components/motion/CountUp";
-import heroPoster from "../../../public/media/img/hero-poster.jpg";
+import heroPoster from "../../../public/media/img/hero-poster.webp";
 
 /**
  * Load-time word reveal for the H1 (same markup/classes as SplitText `now`).

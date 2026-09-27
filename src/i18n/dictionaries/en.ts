@@ -633,6 +633,14 @@ const en = {
     tooLong: "Please keep your message under 1,000 characters.",
     waSummaryIntro: "Hello OSLEOS, I was chatting with your website assistant and would like to talk to your team. My questions:",
   },
+  film: {
+    eyebrow: "Brand film",
+    title: "From load-shedding to lower bills.",
+    body: "Homes, shops, offices and factories across Bangladesh lose hours to outages and rising bills. Watch how a complete OSLEOS solar system changes that.",
+    points: ["Homes, shops, offices and factories", "Complete system: panels, inverters, batteries and stabilizers", "15 years delivering solutions"],
+    cta: "Get a quote",
+    play: "Play the OSLEOS brand film",
+  },
 };
 
 export default en;

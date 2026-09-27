@@ -39,7 +39,7 @@ export default async function LinksPage({ params }: PageProps<"/[lang]/links">) 
   return (
     <section className="relative isolate min-h-dvh overflow-hidden bg-forest-950 pb-20 pt-28 text-white sm:pt-36">
       <div aria-hidden="true" className="hero-media absolute inset-0 -z-10">
-        <Image src="/media/img/panels-sky.jpg" alt="" fill priority sizes="100vw" className="object-cover opacity-30" />
+        <Image src="/media/img/panels-sky.webp" alt="" fill priority sizes="100vw" className="object-cover opacity-30" />
       </div>
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-b from-forest-950/70 via-forest-950/90 to-forest-950" />
 

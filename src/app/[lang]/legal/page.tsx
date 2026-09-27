@@ -23,7 +23,7 @@ export default async function LegalPage({ params }: PageProps<"/[lang]/legal">) 
         eyebrow={t.legal.eyebrow}
         title={doc.title}
         body={doc.body}
-        image="/media/img/panels-sky.jpg"
+        image="/media/img/panels-sky.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: doc.title }]}
       />
       <LegalDoc updated={t.common.updated} onThisPage={t.common.onThisPage} sections={doc.sections} />

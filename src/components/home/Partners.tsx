@@ -55,7 +55,7 @@ function LogoGrid({ items, cols }: { items: Logo[]; cols: string }) {
       {items.map((l) => (
         <li key={l.file} className={CELL}>
           <Image
-            src={`/media/partners/${l.file}.png`}
+            src={`/media/partners/${l.file}.webp`}
             alt={l.name}
             width={l.w}
             height={l.h}

@@ -48,49 +48,49 @@ export const categories: { id: CategoryId; name: Localized; blurb: Localized; im
     id: "panels",
     name: { en: "Solar Panels", bn: "সোলার প্যানেল" },
     blurb: { en: "Tier-1 N-type modules, 430–630 W", bn: "টিয়ার-১ N-টাইপ মডিউল, ৪৩০–৬৩০ ওয়াট" },
-    image: "/media/img/panels-closeup.jpg",
+    image: "/media/img/panels-closeup.webp",
   },
   {
     id: "inverters",
     name: { en: "Inverters", bn: "ইনভার্টার" },
     blurb: { en: "Hybrid, off-grid & on-grid, 5–110 kW", bn: "হাইব্রিড, অফ-গ্রিড ও অন-গ্রিড, ৫–১১০ কিলোওয়াট" },
-    image: "/media/img/electronics.jpg",
+    image: "/media/img/electronics.webp",
   },
   {
     id: "storage",
     name: { en: "Energy Storage", bn: "এনার্জি স্টোরেজ" },
     blurb: { en: "Lead-acid, LiFePO₄ & C&I battery systems", bn: "লেড-অ্যাসিড, LiFePO₄ ও C&I ব্যাটারি সিস্টেম" },
-    image: "/media/img/p-battery-rack.jpg",
+    image: "/media/img/p-battery-rack.webp",
   },
   {
     id: "controllers",
     name: { en: "Charge Controllers", bn: "চার্জ কন্ট্রোলার" },
     blurb: { en: "PWM, MPPT & smart controllers", bn: "PWM, MPPT ও স্মার্ট কন্ট্রোলার" },
-    image: "/media/img/install-hands.jpg",
+    image: "/media/img/install-hands.webp",
   },
   {
     id: "stabilizers",
     name: { en: "Voltage Stabilizers", bn: "ভোল্টেজ স্ট্যাবিলাইজার" },
     blurb: { en: "Steady voltage for homes, farms & factories", bn: "বাসা, খামার ও কারখানার জন্য স্থির ভোল্টেজ" },
-    image: "/media/products/stabilizer.jpg",
+    image: "/media/products/stabilizer.webp",
   },
   {
     id: "protection",
     name: { en: "Protection & Accessories", bn: "প্রোটেকশন ও এক্সেসরিজ" },
     blurb: { en: "Breakers, SPDs, isolators, cables", bn: "ব্রেকার, SPD, আইসোলেটর, ক্যাবল" },
-    image: "/media/img/electrician.jpg",
+    image: "/media/img/electrician.webp",
   },
   {
     id: "mounting",
     name: { en: "Mounting Structures", bn: "মাউন্টিং স্ট্রাকচার" },
     blurb: { en: "Rooftop, ground & elevated", bn: "রুফটপ, গ্রাউন্ড ও এলিভেটেড" },
-    image: "/media/products/mount-ground.jpg",
+    image: "/media/products/mount-ground.webp",
   },
   {
     id: "commercial",
     name: { en: "Commercial & Utility", bn: "বাণিজ্যিক ও ইউটিলিটি" },
     blurb: { en: "Complete PV systems & energy solutions", bn: "সম্পূর্ণ পিভি সিস্টেম ও এনার্জি সলিউশন" },
-    image: "/media/img/utility-aerial.jpg",
+    image: "/media/img/utility-aerial.webp",
   },
 ];
 
@@ -176,7 +176,7 @@ export const products: Product[] = [
       bn: ["সীমিত ছাদের জন্য ছোট ও হালকা", "৫,৪০০ Pa / ৪,০০০ Pa টেস্ট লোড", "N-টাইপ: কম ডিগ্রেডেশন", "প্রচলিত ইনভার্টার ও অপটিমাইজারের সাথে মানানসই"],
     },
     warranty: { en: "25-year product · 30-year power", bn: "২৫ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/p-panel-black.jpg",
+    image: "/media/img/p-panel-black.webp",
     source: "https://static.trinasolar.com/sites/default/files/Datasheet_Vertex%20S+_NEG9R.28_EN_2024_C_web.pdf",
   },
   {
@@ -205,7 +205,7 @@ export const products: Product[] = [
       bn: ["পেছন দিক থেকে ৩০% পর্যন্ত বাড়তি উৎপাদন (মাটির প্রতিফলন অনুযায়ী)", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন", "লবণাক্ত বাতাস, অ্যামোনিয়া ও আর্দ্রতা প্রতিরোধী", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-tilted.jpg",
+    image: "/media/img/panels-tilted.webp",
     featured: true,
     source: "https://static.trinasolar.com/sites/default/files/Datasheet_210R_NEG19RC.20_EN_2024A_web.pdf",
   },
@@ -235,7 +235,7 @@ export const products: Product[] = [
       bn: ["অল-ব্ল্যাক ফ্রেম ও ব্যাকশিট", "SMBB সেলে ভালো আলো শোষণ", "লবণাক্ত বাতাস ও অ্যামোনিয়া প্রতিরোধী", "৩০ বছরে বার্ষিক মাত্র ০.৪০% ডিগ্রেডেশন"],
     },
     warranty: { en: "25-year product · 30-year linear power", bn: "২৫ বছর প্রোডাক্ট · ৩০ বছর লিনিয়ার পাওয়ার" },
-    image: "/media/img/rooftop-installer.jpg",
+    image: "/media/img/rooftop-installer.webp",
     featured: true,
     source: "https://jinkosolarcdn.shwebspace.com/uploads/JKM420-440N-54HL4R-B-F1.3-EN.pdf",
   },
@@ -265,7 +265,7 @@ export const products: Product[] = [
       bn: ["দুই দিক থেকে উৎপাদনে খরচ কমে", "অ্যান্টি-PID গ্যারান্টি", "৫,৪০০ Pa সামনে / ২,৪০০ Pa পেছনে লোড", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-field.jpg",
+    image: "/media/img/panels-field.webp",
     source: "https://jinkosolarcdn.shwebspace.com/uploads/65d17719/JKM570-590N-72HL4-BDV-F8-EN.pdf",
   },
   {
@@ -294,7 +294,7 @@ export const products: Product[] = [
       bn: ["ব্যাক-কন্টাক্ট সেল, পরিষ্কার সামনের অংশ", "কমপ্যাক্ট ১৭২২ মিমি দৈর্ঘ্য", "২৫ মিমি শিলাবৃষ্টি পরীক্ষিত", "বছরে ০.৪০% ডিগ্রেডেশন"],
     },
     warranty: { en: "25-year power warranty", bn: "২৫ বছর পাওয়ার ওয়ারেন্টি" },
-    image: "/media/img/drill-panel.jpg",
+    image: "/media/img/drill-panel.webp",
     source: "https://www.solar4ever.com.au/Brochures/LonGi%20-%20LR5-54HTH-440M.pdf",
   },
   {
@@ -323,7 +323,7 @@ export const products: Product[] = [
       bn: ["গ্রাউন্ড-মাউন্ট প্ল্যান্টে উচ্চ বাইফেসিয়ালিটি", "প্রথম বছর ১%-এর কম ডিগ্রেডেশন", "২য় থেকে ৩০তম বছর বছরে ০.৪%", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-clouds.jpg",
+    image: "/media/img/panels-clouds.webp",
     source: "https://static.longi.com/L_Gi_LE_PM_T_PMD_059_F139_LR_5_72_HGD_560_590_M_V1_30_30_and_15_V19_3_EN_8fdcd1a7f4.pdf",
   },
   {
@@ -352,7 +352,7 @@ export const products: Product[] = [
       bn: ["অল-ব্ল্যাক, ডাবল-গ্লাস গঠন", "উঁচু মাউন্টে পেছন দিক থেকে বাড়তি উৎপাদন", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "১৫০০ ভোল্ট ডিসি সিস্টেম ভোল্টেজ"],
     },
     warranty: { en: "Up to 25-year product · 30-year power", bn: "২৫ বছর পর্যন্ত প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/engineer-panel.jpg",
+    image: "/media/img/engineer-panel.webp",
     source: "https://www.jasolar.eu/fileadmin/data/products/4.0/JAM54D41_LB.pdf",
   },
   {
@@ -381,7 +381,7 @@ export const products: Product[] = [
       bn: ["ট্র্যাকার-উপযোগী মাউন্টিং হোল", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "IP68 জংশন বক্স"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-sky.jpg",
+    image: "/media/img/panels-sky.webp",
     source: "https://www.jasolar.eu/fileadmin/data/products/4.0/JAM72D40_MB.pdf",
   },
   {
@@ -410,7 +410,7 @@ export const products: Product[] = [
       bn: ["৬,০০০ Pa বাতাসের লোডে রেটেড", "অ্যান্টি-LeTID ও অ্যান্টি-PID", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন", "অল-ব্ল্যাক চেহারা"],
     },
     warranty: { en: "Up to 25-year product · 30-year power", bn: "২৫ বছর পর্যন্ত প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/crew-roof.jpg",
+    image: "/media/img/crew-roof.webp",
     source: "https://static.csisolar.com/wp-content/uploads/sites/3/2024/01/25141819/CS-Datasheet-TOPHiKu6-All-Black_CS6.1-54TM-H_v1.1C25_F23_P1_NA-US-445-470W.pdf",
   },
   {
@@ -439,7 +439,7 @@ export const products: Product[] = [
       bn: ["৮৫% পর্যন্ত বাইফেসিয়ালিটি", "৩৫ মিমি শিলাবৃষ্টি পরীক্ষিত", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/utility-aerial.jpg",
+    image: "/media/img/utility-aerial.webp",
     source: "https://natec.com/wp-content/uploads/2024/07/CS-Datasheet-TOPBiHiKu6_CS6.2-66TB_v1.3_F67_EN_600-630W.pdf",
   },
   {
@@ -468,7 +468,7 @@ export const products: Product[] = [
       bn: ["জিরো-বাসবার টাইলিং-ফিল্ম সংযোগ", "অল-ব্ল্যাক, ছাদের সাথে মানিয়ে যায়", "২ বর্গমিটারের কম, বহন ও ইনস্টল সহজ", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "25-year product · 30-year power", bn: "২৫ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/installer-carry.jpg",
+    image: "/media/img/installer-carry.webp",
     source: "https://www.astronergy.com/wp-content/uploads/2024/03/440460ASTRO-N7s_CHSM54RNsDGBLHF-BH_1762%C3%971134%C3%9730_EN_20240601.pdf",
   },
   {
@@ -497,7 +497,7 @@ export const products: Product[] = [
       bn: ["SMBB ডিজাইনে কম লস", "বাইফেসিয়াল ডুয়াল-গ্লাস গঠন", "১৫০০ ভোল্ট ডিসি সিস্টেম ভোল্টেজ", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "15-year product · 30-year power", bn: "১৫ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/p-panel-blue.jpg",
+    image: "/media/img/p-panel-blue.webp",
     source: "https://www.astronergy.com/wp-content/uploads/2023/08/580600ASTRO-N5_CHSM72NDGF-BH_2278x1134x30_EN_20240601-1.pdf",
   },
 
@@ -529,7 +529,7 @@ export const products: Product[] = [
       bn: ["১০০% আনব্যালান্সড ব্যাকআপ লোড সাপোর্ট", "৫টি পর্যন্ত ইউনিট প্যারালালে", "প্রাকৃতিক কুলিং, মাত্র ৩০ dB(A)", "iSolarCloud মনিটরিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     source: "https://info-support.sungrowpower.com/application/pdf/2023/04/10/DS_20230403_SH5.0RT%20SH10RT_Datasheet_V15_EN%EF%BC%88AU%EF%BC%89.pdf",
   },
   {
@@ -558,7 +558,7 @@ export const products: Product[] = [
       bn: ["বাইফেসিয়াল মডিউলের সাথে মানানসই", "স্মার্ট I-V কার্ভ ডায়াগনসিস", "রাতে রিঅ্যাকটিভ পাওয়ার সাপোর্ট", "অ্যালুমিনিয়াম বা কপার এসি ক্যাবল"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://www.vpsolar.com/download/catalog/Inverter/sungrow/SG110CX/Datasheet/Datasheet-Sungrow-SG110CX_EN.pdf",
   },
   {
@@ -586,7 +586,7 @@ export const products: Product[] = [
       bn: ["AFCI অ্যাকটিভ আর্কিং প্রোটেকশন", "অপটিমাইজারে ৩০% পর্যন্ত বেশি বিদ্যুৎ", "ফ্যানবিহীন প্রাকৃতিক কুলিং", "FusionSolar অ্যাপে মনিটরিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     featured: true,
     source: "https://solar.huawei.com/download?p=%2F-%2Fmedia%2FSolar%2Fdatasheet%2FSUN2000-3_4_5_6_8_10KTL-M1_High_Current_Version.pdf",
   },
@@ -616,7 +616,7 @@ export const products: Product[] = [
       bn: ["স্মার্ট স্ট্রিং-লেভেল ডিসকানেক্টর", "স্মার্ট I-V কার্ভ ডায়াগনসিস", "MBUS পাওয়ার-লাইন কমিউনিকেশন", "স্মার্ট এয়ার কুলিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://solar.huawei.com/admin/asset/v1/pro/view/c5056ea20b95424fad3c62f0a5e64a84.pdf",
   },
   {
@@ -645,7 +645,7 @@ export const products: Product[] = [
       bn: ["৬টি পর্যন্ত ইউনিট প্যারালালে", "অটো কন্ট্রোলসহ জেনারেটর ইনপুট", "ব্যাটারি ছাড়াও শুধু সোলারে চলে", "৭-ইঞ্চি LCD, Wi-Fi + ব্লুটুথ"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     source: "https://www.solisinverters.com/dataFile/402880ed936308610193ae4709df1171",
   },
   {
@@ -673,7 +673,7 @@ export const products: Product[] = [
       bn: ["স্মার্ট I-V কার্ভ ডায়াগনসিস", "অ্যান্টি-PID ফাংশন", "টাইপ II ডিসি/এসি সার্জ প্রোটেকশন", "রিডান্ড্যান্ট ফ্যান কুলিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://www.bangasolar.com/assets/datasheet/solis/Datasheet_Solis_100K-5G.pdf",
   },
   {
@@ -703,7 +703,7 @@ export const products: Product[] = [
       bn: ["UPS-লেভেলের ব্যাকআপ সুইচিং", "AI-চালিত AFCI", "বাইরের লোডের জন্য ড্রাই কন্টাক্ট", "বিল্ট-ইন রিমোট শাটডাউন"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     source: "https://en.goodwe.com/Ftp/EN/Downloads/Datasheet/GW_ET-G2_Datasheet-EN.pdf",
   },
   {
@@ -731,7 +731,7 @@ export const products: Product[] = [
       bn: ["স্ট্রিং-লেভেল কারেন্ট মনিটরিং", "উচ্চ-কারেন্টের বাইফেসিয়াল মডিউলের উপযোগী", "বিল্ট-ইন ডিসি সুইচ", "২৪০ মিমি² পর্যন্ত OT/DT টার্মিনাল"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://en.goodwe.com/Public/Uploads/uploadfile/files/20250609/GW_GT_Datasheet-EN.pdf",
   },
   {
@@ -760,7 +760,7 @@ export const products: Product[] = [
       bn: ["৬টি পর্যন্ত ইউনিট প্যারালালে", "১০ মিলিসেকেন্ড ট্রান্সফার টাইম", "ধুলো-প্রতিরোধী ফিল্টার", "ট্রান্সফার সুইচসহ দুটি এসি ইনপুট"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     source: "https://sikosolar.com/wp-content/uploads/2023/02/SPF-6000-ES-Plus-datasheet.pdf",
   },
   {
@@ -788,7 +788,7 @@ export const products: Product[] = [
       bn: ["ফিউজ-ফ্রি ডিজাইন", "স্মার্ট I/V স্ক্যান ও ডায়াগনসিস", "এসি ও ডিসি টাইপ II SPD", "AFCI ও অ্যান্টি-PID ঐচ্ছিক"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://shop.erene.de/media/89/bf/bd/1701854681/data-sheet-MAX-100-125KTL3-X-LV-ENG.pdf",
   },
   {
@@ -817,7 +817,7 @@ export const products: Product[] = [
       bn: ["১২,০০০ VA সার্জ পাওয়ার", "স্মার্ট লোড কন্ট্রোলের জন্য ডুয়াল আউটপুট", "Wi-Fi / RS-485 / CAN", "১০–২০ মিলিসেকেন্ড ট্রান্সফার টাইম"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     source: "https://crownmicroglobal.com/wp-content/uploads/2024/04/Xavier-4-6KW.pdf",
   },
   {
@@ -845,7 +845,7 @@ export const products: Product[] = [
       bn: ["ডিসি টাইপ II / এসি টাইপ III SPD", "স্ট্রিং ফল্ট শনাক্তকরণ", "RS485 / Wi-Fi / 4G মনিটরিং", "ট্রান্সফরমার-লেস, ফ্যান কুলিং"],
     },
     warranty: { en: "10-year warranty (manufacturer T&C)", bn: "১০ বছর ওয়ারেন্টি (প্রস্তুতকারকের শর্তে)" },
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://crownmicroglobal.com/wp-content/uploads/2026/07/Crown-Catalogue-Web-2026.pdf",
   },
   {
@@ -873,7 +873,7 @@ export const products: Product[] = [
       bn: ["প্রতি ফেজে ১০০% আনব্যালান্সড আউটপুট", "১০টি পর্যন্ত ইউনিট প্যারালালে", "জেনারেটর থেকে চার্জিং সাপোর্ট", "ছয়টি চার্জ/ডিসচার্জ টাইম স্লট"],
     },
     warranty: { en: "5-year manufacturer warranty", bn: "৫ বছর প্রস্তুতকারকের ওয়ারেন্টি" },
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     featured: true,
     source: "https://www.deyeinverter.com/deyeinverter/2025/05/16/datasheet_sun-5-12k-sg04lp3.pdf",
   },
@@ -903,7 +903,7 @@ export const products: Product[] = [
       bn: ["জিরো-এক্সপোর্ট অ্যাপ্লিকেশন", "টাইপ II ডিসি/এসি SPD", "অ্যান্টি-PID (ঐচ্ছিক)", "২০ বছরের বেশি ডিজাইন লাইফ"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.jpg",
+    image: "/media/products/inverter-string.webp",
     source: "https://www.deyeinverter.com/deyeinverter/2021/03/22/%E3%80%90b%E3%80%91threephasesun-30-33-35-40-45-50k-g03-1.pdf",
   },
   {
@@ -931,7 +931,7 @@ export const products: Product[] = [
       bn: ["ব্যাটারি ছাড়াও চলে", "১১,০০০ VA সার্জ পাওয়ার", "কোল্ড-স্টার্ট ফাংশন", "ঐচ্ছিক Wi-Fi মনিটরিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.jpg",
+    image: "/media/products/inverter-hybrid.webp",
     source: "https://sakopower.com/product-sunon-pro-series-5kw-off-solar-inverter",
   },
 
@@ -957,7 +957,7 @@ export const products: Product[] = [
       bn: ["কম প্রাথমিক খরচ", "বহুল ব্যবহৃত, সার্ভিস সহজ", "অনেক ক্যাপাসিটিতে পাওয়া যায়", "বেশিরভাগ সোলার ইনভার্টারের সাথে চলে"],
     },
     warranty: perProject,
-    image: "/media/products/battery-leadacid.jpg",
+    image: "/media/products/battery-leadacid.webp",
   },
   {
     slug: "lifepo4-wall-battery",
@@ -980,7 +980,7 @@ export const products: Product[] = [
       bn: ["দীর্ঘ সাইকেল লাইফ", "বেশি ব্যবহারযোগ্য ক্যাপাসিটি", "লেড-অ্যাসিডের চেয়ে হালকা", "প্রায় রক্ষণাবেক্ষণহীন"],
     },
     warranty: perProject,
-    image: "/media/products/battery-lifepo4.jpg",
+    image: "/media/products/battery-lifepo4.webp",
   },
   {
     slug: "ci-battery-storage-system",
@@ -1003,7 +1003,7 @@ export const products: Product[] = [
       bn: ["বড় বৈদ্যুতিক লোড সাপোর্ট", "প্রকল্পের সাথে বাড়ানো যায়", "সোলারের সাথে সমন্বিত", "কার্যক্রম সচল রাখে"],
     },
     warranty: perProject,
-    image: "/media/products/battery-rack.jpg",
+    image: "/media/products/battery-rack.webp",
   },
 
   /* ========================== CHARGE CONTROLLERS ======================== */
@@ -1028,7 +1028,7 @@ export const products: Product[] = [
       bn: ["PWM-এর চেয়ে বেশি দক্ষ", "ভালো ব্যাটারি চার্জিং", "বড় সিস্টেমের উপযোগী", "ওভারচার্জ ও ডিপ ডিসচার্জ থেকে সুরক্ষা"],
     },
     warranty: perProject,
-    image: "/media/products/cc-mppt.jpg",
+    image: "/media/products/cc-mppt.webp",
   },
   {
     slug: "pwm-charge-controller",
@@ -1051,7 +1051,7 @@ export const products: Product[] = [
       bn: ["সাশ্রয়ী", "ব্যবহার সহজ", "অনেক মডেলে USB আউটপুট", "ব্যাটারির আয়ু বাড়ায়"],
     },
     warranty: perProject,
-    image: "/media/products/cc-pwm.jpg",
+    image: "/media/products/cc-pwm.webp",
   },
   {
     slug: "smart-hybrid-charge-controller",
@@ -1074,7 +1074,7 @@ export const products: Product[] = [
       bn: ["স্মার্ট মনিটরিং", "ভালো নিয়ন্ত্রণ", "নমনীয় অপারেশন", "ব্যাটারি প্রোফাইল নির্বাচন"],
     },
     warranty: perProject,
-    image: "/media/products/cc-smart.jpg",
+    image: "/media/products/cc-smart.webp",
   },
   {
     slug: "solar-street-light-controller",
@@ -1096,7 +1096,7 @@ export const products: Product[] = [
       bn: ["স্বয়ংক্রিয় অপারেশন", "নির্ভরযোগ্য আলো নিয়ন্ত্রণ", "বাইরের ব্যবহারের জন্য তৈরি", "ব্যাটারি সুরক্ষা"],
     },
     warranty: perProject,
-    image: "/media/products/cc-street.jpg",
+    image: "/media/products/cc-street.webp",
   },
 
   /* ========================= VOLTAGE STABILIZERS ======================== */
@@ -1123,7 +1123,7 @@ export const products: Product[] = [
       bn: ["আউটপুট ওয়েভফর্ম ডিস্টরশন ≤ ১%", "কমপ্যাক্ট ও হালকা", "কম পাওয়ার লস", "ওভার/আন্ডার-ভোল্টেজ কাট-অফ"],
     },
     warranty: perProject,
-    image: "/media/products/avr.jpg",
+    image: "/media/products/avr.webp",
     source: "https://www.chintglobal.com/global/en/products/low-voltage/iec/secondary-power-distribution/tns1.html",
   },
   {
@@ -1149,7 +1149,7 @@ export const products: Product[] = [
       bn: ["খুব বিস্তৃত ইনপুট রেঞ্জ", "নিখুঁত আউটপুট নিয়ন্ত্রণ", "সম্পূর্ণ প্রোটেকশন", "দেয়ালে বা মেঝেতে বসানো যায়"],
     },
     warranty: perProject,
-    image: "/media/products/avr.jpg",
+    image: "/media/products/avr.webp",
     source: "https://www.zx-ele.com/servo-voltage-stabilizers/",
   },
   {
@@ -1174,7 +1174,7 @@ export const products: Product[] = [
       bn: ["বড় ক্যাপাসিটি, উচ্চ দক্ষতা", "ওয়েভফর্মে কোনো বিকৃতি নেই", "তাৎক্ষণিক ওভারলোড সামলায়", "ম্যানুয়াল / অটো সুইচ-ওভার"],
     },
     warranty: perProject,
-    image: "/media/products/stabilizer.jpg",
+    image: "/media/products/stabilizer.webp",
     source: "https://www.delixielc.com/power-management/voltage-stabilizer/3-phase-voltage-stabilizer.html",
   },
 
@@ -1201,7 +1201,7 @@ export const products: Product[] = [
       bn: ["পিভি সিস্টেমের জন্য তৈরি", "DIN-রেল মডুলার ডিজাইন", "আইসোলেশন ও শর্ট-সার্কিট সুরক্ষা", "অন্যান্য ডিসি সিস্টেমেও চলে"],
     },
     warranty: perProject,
-    image: "/media/products/mcb.jpg",
+    image: "/media/products/mcb.webp",
     source: "https://www.cncele.com/dc-mcb-for-solar-ycb8-63pv-product/",
   },
   {
@@ -1227,7 +1227,7 @@ export const products: Product[] = [
       bn: ["ইনভার্টারের এসি আউটপুট সুরক্ষা", "বিভিন্ন ডিসচার্জ রেটিং", "DIN-রেলে বসানো", "CHNT ব্রেকারের সাথে মানানসই"],
     },
     warranty: perProject,
-    image: "/media/products/spd.jpg",
+    image: "/media/products/spd.webp",
     source: "https://www.chint.cz/engdetail.php?id=43",
   },
   {
@@ -1253,7 +1253,7 @@ export const products: Product[] = [
       bn: ["বিভিন্ন ট্রিপ কার্ভ", "DIN-রেলে বসানো", "বিস্তৃত কারেন্ট রেঞ্জ", "বাসা, দোকান ও প্যানেলের জন্য"],
     },
     warranty: perProject,
-    image: "/media/products/distribution-board.jpg",
+    image: "/media/products/distribution-board.webp",
     source: "https://www.tengenglobal.com/proModMin/32.html",
   },
   {
@@ -1274,7 +1274,7 @@ export const products: Product[] = [
       en: ["Safety", "Isolation", "Easier maintenance", "Sized to your string voltage"],
       bn: ["নিরাপত্তা", "আইসোলেশন", "সহজ রক্ষণাবেক্ষণ", "স্ট্রিং ভোল্টেজ অনুযায়ী নির্বাচন"],
     },
-    image: "/media/products/dc-isolator.jpg",
+    image: "/media/products/dc-isolator.webp",
   },
   {
     slug: "pv-dc-combiner-box",
@@ -1294,7 +1294,7 @@ export const products: Product[] = [
       en: ["Combining", "Protection", "Efficiency", "Neat, labelled wiring"],
       bn: ["স্ট্রিং একত্রকরণ", "সুরক্ষা", "দক্ষতা", "পরিপাটি ও লেবেলযুক্ত ওয়্যারিং"],
     },
-    image: "/media/products/combiner-box.jpg",
+    image: "/media/products/combiner-box.webp",
   },
   {
     slug: "solar-cable-mc4-connectors",
@@ -1314,7 +1314,7 @@ export const products: Product[] = [
       en: ["Transmission", "Durability", "Safety", "Sized for voltage drop"],
       bn: ["বিদ্যুৎ পরিবহন", "স্থায়িত্ব", "নিরাপত্তা", "ভোল্টেজ ড্রপ অনুযায়ী সাইজ"],
     },
-    image: "/media/products/cables.jpg",
+    image: "/media/products/cables.webp",
   },
   {
     slug: "earthing-lightning-protection",
@@ -1334,7 +1334,7 @@ export const products: Product[] = [
       en: ["Safety", "Grounding", "Protection", "Tested on handover"],
       bn: ["নিরাপত্তা", "গ্রাউন্ডিং", "সুরক্ষা", "হস্তান্তরের সময় পরীক্ষিত"],
     },
-    image: "/media/products/earthing.jpg",
+    image: "/media/products/earthing.webp",
   },
 
   /* ========================= MOUNTING STRUCTURES ======================== */
@@ -1356,7 +1356,7 @@ export const products: Product[] = [
       en: ["Structural check before design", "Wind-load consideration", "No water-logging on the roof", "Safe cleaning access"],
       bn: ["ডিজাইনের আগে কাঠামো যাচাই", "বাতাসের লোড বিবেচনা", "ছাদে পানি জমে না", "পরিষ্কারের জন্য নিরাপদ প্রবেশ"],
     },
-    image: "/media/products/mount-roof.jpg",
+    image: "/media/products/mount-roof.webp",
   },
   {
     slug: "ground-mounting-structure",
@@ -1376,7 +1376,7 @@ export const products: Product[] = [
       en: ["Suits bifacial modules", "Correct tilt and spacing", "Flood and drainage aware", "Built for storms"],
       bn: ["বাইফেসিয়াল মডিউলের উপযোগী", "সঠিক টিল্ট ও দূরত্ব", "বন্যা ও নিষ্কাশন বিবেচনা", "ঝড় সহনশীল"],
     },
-    image: "/media/products/mount-ground.jpg",
+    image: "/media/products/mount-ground.webp",
   },
   {
     slug: "elevated-mounting-structure",
@@ -1396,7 +1396,7 @@ export const products: Product[] = [
       en: ["Uses space twice", "Rear-side gain for bifacial panels", "Designed for wind load", "Clean cable routing"],
       bn: ["একই জায়গার দ্বৈত ব্যবহার", "বাইফেসিয়াল প্যানেলে বাড়তি উৎপাদন", "বাতাসের লোড অনুযায়ী ডিজাইন", "পরিপাটি ক্যাবল রাউটিং"],
     },
-    image: "/media/products/mount-elevated.jpg",
+    image: "/media/products/mount-elevated.webp",
   },
 
   /* ======================== COMMERCIAL & UTILITY ======================== */
@@ -1420,7 +1420,7 @@ export const products: Product[] = [
       bn: ["প্রতি ইউনিটে সবচেয়ে কম খরচ", "নেট মিটারিং-রেডি", "ব্যাটারি রক্ষণাবেক্ষণ নেই", "বিদ্যুৎ বিভ্রাটে চলে না"],
     },
     warranty: perContract,
-    image: "/media/img/house-modern.jpg",
+    image: "/media/img/house-modern.webp",
   },
   {
     slug: "off-grid-solar-system",
@@ -1442,7 +1442,7 @@ export const products: Product[] = [
       bn: ["বিদ্যুৎ বিভ্রাটেও চলে", "গ্রিড সংযোগ লাগে না", "লোড অনুযায়ী সাইজ", "পরে বাড়ানো যায়"],
     },
     warranty: perContract,
-    image: "/media/img/p-house-solar.jpg",
+    image: "/media/img/p-house-solar.webp",
   },
   {
     slug: "hybrid-solar-system",
@@ -1464,7 +1464,7 @@ export const products: Product[] = [
       bn: ["বিদ্যুৎ বিভ্রাটেও চলে", "দরকার হলে গ্রিড ব্যবহার করে", "স্মার্ট এনার্জি ম্যানেজমেন্ট", "বাংলাদেশে সবচেয়ে জনপ্রিয়"],
     },
     warranty: perContract,
-    image: "/media/img/house-evening.jpg",
+    image: "/media/img/house-evening.webp",
   },
   {
     slug: "solar-bill-zero",
@@ -1485,7 +1485,7 @@ export const products: Product[] = [
       bn: ["নিজস্ব সোলার ডিজাইন", "আনুমানিক মাসিক উৎপাদন", "বিনিয়োগ ও পেব্যাক বিশ্লেষণ", "নেট মিটারিং মূল্যায়ন"],
     },
     warranty: perContract,
-    image: "/media/products/sol-bill-zero.jpg",
+    image: "/media/products/sol-bill-zero.webp",
   },
   {
     slug: "solar-powerguard",
@@ -1506,7 +1506,7 @@ export const products: Product[] = [
       bn: ["কম বিদ্যুৎ খরচ", "বিদ্যুৎ বিভ্রাটে ব্যাকআপ", "জেনারেটরের ওপর নির্ভরতা কমে", "জরুরি কার্যক্রম সুরক্ষিত"],
     },
     warranty: perContract,
-    image: "/media/products/sol-powerguard.jpg",
+    image: "/media/products/sol-powerguard.webp",
   },
   {
     slug: "solar-as-a-service",
@@ -1528,7 +1528,7 @@ export const products: Product[] = [
       bn: ["প্রায় শূন্য প্রাথমিক বিনিয়োগ", "নির্ধারিত বিদ্যুৎ খরচ", "পরিচালনা ও মনিটরিং আমরা করি", "দীর্ঘমেয়াদি সাশ্রয়"],
     },
     warranty: perContract,
-    image: "/media/products/sol-saas.jpg",
+    image: "/media/products/sol-saas.webp",
   },
   {
     slug: "hybrid-factory-power",
@@ -1549,7 +1549,7 @@ export const products: Product[] = [
       bn: ["কম বিদ্যুৎ খরচ", "জেনারেটরের জ্বালানি কম", "বেশি নির্ভরযোগ্য বিদ্যুৎ", "নিরবচ্ছিন্ন উৎপাদন"],
     },
     warranty: perContract,
-    image: "/media/products/sol-hybrid-factory.jpg",
+    image: "/media/products/sol-hybrid-factory.webp",
   },
   {
     slug: "solar-coldchain",
@@ -1570,7 +1570,7 @@ export const products: Product[] = [
       bn: ["খাদ্য নিরাপত্তা", "কম পরিচালন খরচ", "নিরবচ্ছিন্ন কার্যক্রম", "আরও টেকসই ব্যবসা"],
     },
     warranty: perContract,
-    image: "/media/products/sol-coldchain.jpg",
+    image: "/media/products/sol-coldchain.webp",
   },
   {
     slug: "solar-irrigation",
@@ -1592,7 +1592,7 @@ export const products: Product[] = [
       bn: ["কম পরিচালন খরচ", "বেশি উৎপাদনশীলতা", "ডিজেল আনা-নেওয়ার ঝামেলা নেই", "আরও টেকসই ভবিষ্যৎ"],
     },
     warranty: perContract,
-    image: "/media/products/sol-irrigation.jpg",
+    image: "/media/products/sol-irrigation.webp",
   },
   {
     slug: "solar-water-pumping-system",
@@ -1614,7 +1614,7 @@ export const products: Product[] = [
       bn: ["পরিচ্ছন্ন নবায়নযোগ্য শক্তি", "স্বয়ংক্রিয় পানির লেভেল নিয়ন্ত্রণ", "কম পরিচালন খরচ", "হেড, প্রবাহ ও সাইট জরিপ অনুযায়ী সাইজ"],
     },
     warranty: perContract,
-    image: "/media/products/sol-water-pump.jpg",
+    image: "/media/products/sol-water-pump.webp",
   },
   {
     slug: "roof-to-revenue",
@@ -1635,7 +1635,7 @@ export const products: Product[] = [
       bn: ["কম বিদ্যুৎ খরচ", "সম্পত্তির মূল্য বৃদ্ধি", "সবুজ ভবন", "শক্তিশালী ব্যবসা"],
     },
     warranty: perContract,
-    image: "/media/products/sol-roof-revenue.jpg",
+    image: "/media/products/sol-roof-revenue.webp",
   },
   {
     slug: "solar-parking",
@@ -1656,7 +1656,7 @@ export const products: Product[] = [
       bn: ["একই কাঠামোয় ছায়া ও বিদ্যুৎ", "কম কার্বন নিঃসরণ", "খরচ সাশ্রয়", "ভবিষ্যৎ-উপযোগী অবকাঠামো"],
     },
     warranty: perContract,
-    image: "/media/products/sol-parking.jpg",
+    image: "/media/products/sol-parking.webp",
   },
   {
     slug: "energy-guardian",
@@ -1677,7 +1677,7 @@ export const products: Product[] = [
       bn: ["মাসিক এনার্জি রিপোর্ট", "পারফরম্যান্স অ্যালার্ট", "রক্ষণাবেক্ষণ পরামর্শ", "আনুমানিক বিদ্যুৎ সাশ্রয়"],
     },
     warranty: perContract,
-    image: "/media/products/sol-guardian.jpg",
+    image: "/media/products/sol-guardian.webp",
   },
   {
     slug: "solar-lift",
@@ -1698,7 +1698,7 @@ export const products: Product[] = [
       bn: ["গ্রিড বিদ্যুৎ ব্যবহার কম", "ছাদের সোলারের বেশি ব্যবহার", "বিদ্যুৎ-সাশ্রয়ী লিফট চালনা", "প্রকল্পভিত্তিক প্রকৌশল"],
     },
     warranty: perContract,
-    image: "/media/products/sol-lift.jpg",
+    image: "/media/products/sol-lift.webp",
   },
 ];
 

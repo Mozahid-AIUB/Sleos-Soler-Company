@@ -31,7 +31,7 @@ export default async function SustainabilityPage({ params }: PageProps<"/[lang]/
         eyebrow={s.eyebrow}
         title={s.title}
         body={s.body}
-        image="/media/img/aerial-forest.jpg"
+        image="/media/img/aerial-forest.webp"
         crumbs={[{ href: `/${lang}`, label: t.common.home }, { label: s.eyebrow }]}
       />
 
@@ -48,7 +48,7 @@ export default async function SustainabilityPage({ params }: PageProps<"/[lang]/
             ))}
           </div>
           <div className="reveal-img relative aspect-[5/4] overflow-hidden rounded-lg md:aspect-[16/9] lg:aspect-[5/4]">
-            <Image src="/media/img/rooftop-sunset.jpg" alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+            <Image src="/media/img/rooftop-sunset.webp" alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
           </div>
         </div>
       </section>
@@ -88,7 +88,7 @@ export default async function SustainabilityPage({ params }: PageProps<"/[lang]/
       {/* Statement */}
       <section className="relative isolate flex min-h-[380px] items-center overflow-hidden bg-forest-950 py-20 text-white">
         <div className="reveal-img absolute inset-0 -z-10">
-          <Image src="/media/img/panels-field.jpg" alt="" fill sizes="100vw" className="object-cover object-[center_60%]" />
+          <Image src="/media/img/panels-field.webp" alt="" fill sizes="100vw" className="object-cover object-[center_60%]" />
         </div>
         <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950/90 via-forest-950/60 to-forest-950/25" />
         <div className="container-x">
