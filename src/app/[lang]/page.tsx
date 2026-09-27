@@ -28,7 +28,6 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <TrustMarquee label={t.trust} />
       <IncentiveHighlight lang={lang} t={t.incentive} />
       <Intro lang={lang} t={t.intro} />
-      <Partners t={t.partners} className="border-t border-cream-200 bg-white" />
       <Categories lang={lang} t={t.categories} />
       <FeaturedProducts lang={lang} t={t} />
       <BrandFilm lang={lang} t={t.film} />
@@ -37,6 +36,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <ProjectsShowcase lang={lang} t={t.projects} />
       <Process lang={lang} t={t.process} />
       <Testimonials lang={lang} t={t.testimonials} />
+      <Partners t={t.partners} className="border-t border-cream-200 bg-white" />
       <Newsletter t={t.newsletter} />
       <ContactSection lang={lang} t={t.contact} />
     </>
