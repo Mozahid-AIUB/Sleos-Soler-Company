@@ -19,13 +19,14 @@
  */
 
 export const companyOverview = `
-OSLEOS is a Bangladesh solar and energy-solutions company based in Dhaka (tagline: "Powering Today. Preserving Tomorrow."), delivering solar solutions for 15 years. It designs, supplies, installs and maintains complete solar power systems for homes, businesses, industries, institutions, agriculture and commercial facilities: Tier-1 solar panels, on-grid / off-grid / hybrid inverters, lithium and lead-acid batteries, charge controllers, voltage stabilizers, protection equipment, mounting structures, cables and monitoring. Approach: Assess -> Design -> Install -> Monitor -> Maintain. Every product and system is quote-only: pricing depends on the site and design, so customers send the Information Sheet or message the team on WhatsApp.
+OSLEOS is a Bangladesh solar and energy-solutions company based in Dhaka (tagline: "Powering Today. Preserving Tomorrow."), established in 2010 and providing solar solutions to its respected clients ever since. It designs, supplies, installs and maintains complete solar power systems for homes, businesses, industries, institutions, agriculture and commercial facilities: Tier-1 solar panels, on-grid / off-grid / hybrid inverters, lithium and lead-acid batteries, charge controllers, voltage stabilizers, protection equipment, mounting structures, cables and monitoring. Approach: Assess -> Design -> Install -> Monitor -> Maintain. Every product and system is quote-only: pricing depends on the site and design, so customers send the Information Sheet or message the team on WhatsApp.
 `.trim();
 
 export const assistantKnowledge = `
 # About OSLEOS
 - OSLEOS is a Bangladesh solar and energy-solutions company based in Dhaka. Tagline: "Powering Today. Preserving Tomorrow."
-- Delivering solar solutions for 15 years.
+- When was OSLEOS established / founded? OSLEOS was established in 2010. Since then, OSLEOS has been providing solar solutions to its respected clients.
+- Delivering solar solutions since 2010 (15+ years of experience).
 - "We don't just sell solar. We solve energy problems." Solar should be a properly engineered energy solution designed around the customer's electricity consumption, operating requirements and financial objectives, not just an equipment purchase.
 - Serves homes, businesses, industries, institutions, agriculture and commercial facilities.
 - Mission: help Bangladesh move toward cleaner, smarter and more efficient energy by making renewable energy practical, measurable and financially meaningful.
@@ -81,6 +82,16 @@ Solar PV systems (rooftop and ground-mounted), battery energy storage, hybrid po
 
 # Information Sheet (what we need for a quote)
 Electricity bill (amount and month), monthly consumption (kWh), total connected load, available roof area (sq ft or sq m), building type (residential / commercial / industrial / other), operating hours (hours per day, days per week), backup requirement (yes/no, duration, priority loads), and existing power source (grid only, generator, grid + generator, other).
+
+# How the OSLEOS AI assistant can help you
+- The OSLEOS AI assistant is available on the website 24/7 and answers in English or Bangla.
+- The OSLEOS AI assistant explains solar basics in simple words: on-grid vs off-grid vs hybrid systems, batteries, inverters, net metering and voltage stabilizers.
+- The OSLEOS AI assistant helps customers pick the right OSLEOS solution for a home, shop, office, factory, farm or institution.
+- The OSLEOS AI assistant gives details on the products and partner brands OSLEOS supplies (Trina, Jinko, LONGi, Sungrow, Huawei, Deye and more).
+- The OSLEOS AI assistant explains the government rooftop-solar incentive and how OSLEOS can help customers use it.
+- The OSLEOS AI assistant tells customers exactly what information is needed for a quote and guides them to the Information Sheet (quote form).
+- The OSLEOS AI assistant shares OSLEOS contact details, office address and working hours, and can hand the conversation over to the team on WhatsApp.
+- The OSLEOS AI assistant does not give prices: every system is designed and quoted by the OSLEOS engineering team after assessing the site.
 
 # Why solar matters in Bangladesh
 Growing electricity demand, load-shedding and power interruptions, heat increasing cooling loads, limited urban land (rooftops are the best resource). Rooftop solar with battery backup gives energy security, lower bills and a cleaner future.
