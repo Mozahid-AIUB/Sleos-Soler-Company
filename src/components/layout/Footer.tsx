@@ -13,9 +13,9 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
   const f = t.footer;
   // Colour shift plus a hairline underline drawn from the left on hover/focus.
   const linkClass =
-    "text-ink-600 bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-[position:0_100%] bg-[length:0%_1px] transition-[color,background-size] duration-[450ms] ease-out-expo hover:text-forest-900 hover:bg-[length:100%_1px] focus-visible:bg-[length:100%_1px]";
+    "text-white/65 bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-[position:0_100%] bg-[length:0%_1px] transition-[color,background-size] duration-[450ms] ease-out-expo hover:text-white hover:bg-[length:100%_1px] focus-visible:bg-[length:100%_1px]";
   const col = (i: number) => ({ className: "reveal", style: { "--i": i } as CSSProperties });
-  const headingClass = "text-[13px] font-semibold uppercase tracking-[0.08em] text-ink-900";
+  const headingClass = "text-[13px] font-semibold uppercase tracking-[0.08em] text-white";
 
   const company = [
     { href: `/${lang}/about`, label: t.nav.about },
@@ -34,17 +34,17 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
   ];
 
   return (
-    <footer className="border-t border-cream-200 bg-white text-[14.5px]">
+    <footer className="bg-forest-950 text-[14.5px] text-white/65">
       <div className="container-x pt-16">
         {/* Brand row */}
-        <div className="reveal-fade flex flex-col gap-8 border-b border-cream-200 pb-10 md:flex-row md:items-end md:justify-between">
+        <div className="reveal-fade flex flex-col gap-8 border-b border-white/10 pb-10 md:flex-row md:items-end md:justify-between">
           <div>
             <Logo light={false} />
-            <p className="mt-5 max-w-md leading-relaxed text-ink-600">{f.about}</p>
+            <p className="mt-5 max-w-md leading-relaxed text-white/65">{f.about}</p>
           </div>
           <div className="flex flex-col gap-3 md:items-end">
-            <p className="text-[13px] font-medium text-ink-400">{f.follow}</p>
-            <SocialLinks dark={false} />
+            <p className="text-[13px] font-medium text-white/45">{f.follow}</p>
+            <SocialLinks />
           </div>
         </div>
 
@@ -77,7 +77,7 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
 
           <div {...col(2)}>
             <h3 className={headingClass}>{f.contact}</h3>
-            <address className="mt-5 space-y-3 not-italic text-ink-600">
+            <address className="mt-5 space-y-3 not-italic text-white/65">
               <p className="max-w-[18rem] leading-relaxed">
                 <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" className={linkClass}>
                   {site.address[lang]}
@@ -107,20 +107,20 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
               <ul className="mt-4 space-y-1">
                 {site.phones.map((p) => (
                   <li key={p.href}>
-                    <a href={p.href} className="text-[22px] font-bold tracking-tight text-forest-900 transition-colors hover:text-teal-600">
+                    <a href={p.href} className="text-[22px] font-bold tracking-tight text-white transition-colors hover:text-gold-400">
                       {p.display}
                     </a>
                   </li>
                 ))}
               </ul>
-              <p className="mt-2 flex items-center gap-1.5 text-ink-400">
+              <p className="mt-2 flex items-center gap-1.5 text-white/45">
                 <Icon name="clock" size={15} />
                 {t.contact.hours}
               </p>
             </div>
             <div>
               <h3 className={headingClass}>{f.subscribeTitle}</h3>
-              <p className="mb-4 mt-3 leading-relaxed text-ink-600">{f.subscribeBody}</p>
+              <p className="mb-4 mt-3 leading-relaxed text-white/65">{f.subscribeBody}</p>
               <NewsletterForm
                 compact
                 subject="Monthly updates subscription — OSLEOS website"
@@ -131,7 +131,7 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
         </div>
       </div>
 
-      <div className="bg-forest-950 text-[13px]">
+      <div className="border-t border-white/10 bg-black/25 text-[13px]">
         <div className="container-x flex flex-col gap-4 py-6 pb-24 lg:flex-row lg:items-center lg:justify-between lg:pb-6 lg:pr-24">
           <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-6">
             <p className="text-white/60">
