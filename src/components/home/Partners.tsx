@@ -30,7 +30,9 @@ const inverters: Logo[] = [
   { name: "Deye", file: "deye", w: 372, h: 160, cls: "h-8 sm:h-9" },
 ];
 
-const brands = ["Delixi Electric", "CHNT", "SAKO", "CNC Electric", "Tengen", "Zhengxi"];
+const stabilizers = ["SAKO", "CNC Electric", "Tengen"];
+
+const brands = ["Delixi Electric", "CHNT", "CNC Electric", "Tengen", "Zhengxi"];
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
 
@@ -68,6 +70,21 @@ function LogoGrid({ items, cols }: { items: Logo[]; cols: string }) {
   );
 }
 
+/** Brands without a logo file render as wordmarks. */
+function Wordmarks({ items, cols }: { items: string[]; cols: string }) {
+  return (
+    <ul className={`mt-5 grid grid-cols-2 gap-3 ${cols}`}>
+      {items.map((b) => (
+        <li key={b} className={CELL}>
+          <span className="text-center text-[17px] font-bold uppercase tracking-[0.06em] text-ink-400 transition-colors duration-300 group-hover/logo:text-ink-900 sm:text-[18px]">
+            {b}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function Partners({ t, className = "bg-white" }: { t: Dictionary["partners"]; className?: string }) {
   return (
     <section id="partners" className={`section-y ${className}`}>
@@ -80,16 +97,11 @@ export function Partners({ t, className = "bg-white" }: { t: Dictionary["partner
           <Group label={t.inverters} i={2}>
             <LogoGrid items={inverters} cols="sm:grid-cols-4 lg:grid-cols-7" />
           </Group>
-          <Group label={t.brands} note={t.brandsNote} i={3}>
-            <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {brands.map((b) => (
-                <li key={b} className={CELL}>
-                  <span className="text-center text-[17px] font-bold uppercase tracking-[0.06em] text-ink-400 transition-colors duration-300 group-hover/logo:text-ink-900 sm:text-[18px]">
-                    {b}
-                  </span>
-                </li>
-              ))}
-            </ul>
+          <Group label={t.stabilizers} i={3}>
+            <Wordmarks items={stabilizers} cols="sm:grid-cols-3" />
+          </Group>
+          <Group label={t.brands} note={t.brandsNote} i={4}>
+            <Wordmarks items={brands} cols="sm:grid-cols-3 lg:grid-cols-5" />
           </Group>
         </div>
       </div>

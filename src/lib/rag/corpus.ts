@@ -202,7 +202,7 @@ function dictionaryChunks(b: Builder, lang: Lang, d: unknown) {
     ...(Array.isArray(at(d, "contact.types")) ? [`${s("contact.projectType")}: ${flat(at(d, "contact.types")).join(", ")}`] : []),
   ]);
 
-  // Information Sheet / quote
+  // Measurement Form / quote
   const f = at(d, "quote.f");
   const field = (label: string, options?: string) => {
     const l = loc(at(f, label), lang);
@@ -211,26 +211,42 @@ function dictionaryChunks(b: Builder, lang: Lang, d: unknown) {
   };
   b.add(lang, "quote-sheet", t("quote.title"), `${L}/quote`, [
     ...pick(d, "quote.eyebrow", "quote.body", "quote.note", "quote.asideTitle"),
-    flat(at(d, "quote.steps")).join(" · "),
+    flat(at(d, "quote.sections")).join(" · "),
     ...[
-      field("projectType", "types"),
-      field("system", "systems"),
-      field("billAmount"),
-      field("consumption"),
-      field("load", "loadUnits"),
-      field("hoursPerDay"),
-      field("appliances"),
-      field("appliancesHint"),
-      field("area", "areaUnits"),
+      field("projectType", "projectTypes"),
+      field("photos"),
+      field("photosHint"),
+      field("hours", "hoursOptions"),
+      field("transformer"),
+      field("generator"),
+      field("dailyUse"),
+      field("monthlyUse"),
+      field("sanctionLoad"),
+      field("connectedLoad"),
+      field("maxLoad"),
+      field("avgLoad"),
+      field("loadList"),
+      field("bills"),
+      field("billsHint"),
+      field("roofSize"),
       field("roofType", "roofTypes"),
-      field("backup"),
-      field("backupHours"),
-      field("priorityLoads"),
-      field("existing", "existings"),
-      field("timeline", "timelines"),
+      field("backupLoad"),
+      field("backupTime"),
+      field("loadShedding"),
+      field("inverterLocation"),
+      field("distanceMdb"),
+      field("distanceSdb"),
+      field("roofHeight"),
+      field("purlin"),
+      field("goal", "goals"),
+      field("ai"),
+      field("selfCleaning"),
+      field("systemType", "systemTypes"),
+      field("hybridBackup"),
     ],
-    ...pick(d, "quote.doneBody"),
+    ...pick(d, "quote.upload.types", "quote.doneBody"),
   ]);
+  b.add(lang, "quote-guide", t("quote.guideTitle"), `${L}/quote`, pick(d, "quote.guideBody", "quote.guide", "quote.guideTip"));
   b.add(lang, "quote-why", t("quote.asideTitle", "quote.title"), `${L}/quote`, pick(d, "quote.why", "contact.sheetBody"));
 
   // Support

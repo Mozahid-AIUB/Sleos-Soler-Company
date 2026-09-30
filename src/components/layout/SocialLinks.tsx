@@ -1,10 +1,11 @@
 import { site, whatsappLink } from "@/content/site";
-import { FacebookIcon, InstagramIcon, LinkedinIcon, WhatsappIcon } from "@/components/ui/Icon";
+import { FacebookIcon, InstagramIcon, LinkedinIcon, WhatsappIcon, YoutubeIcon } from "@/components/ui/Icon";
 
 export const socialItems = [
   { label: "Facebook", href: site.social.facebook, Icon: FacebookIcon },
   { label: "Instagram", href: site.social.instagram, Icon: InstagramIcon },
   { label: "LinkedIn", href: site.social.linkedin, Icon: LinkedinIcon },
+  { label: "YouTube", href: site.social.youtube, Icon: YoutubeIcon },
   { label: "WhatsApp", href: whatsappLink(), Icon: WhatsappIcon },
 ];
 

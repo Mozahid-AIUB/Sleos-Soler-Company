@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +8,7 @@ import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { site, whatsappLink } from "@/content/site";
 import { Logo } from "@/components/ui/Logo";
-import { FacebookIcon, Icon, InstagramIcon, LinkedinIcon, WhatsappIcon } from "@/components/ui/Icon";
+import { FacebookIcon, Icon, InstagramIcon, LinkedinIcon, YoutubeIcon, WhatsappIcon } from "@/components/ui/Icon";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/links">): Promise<Metadata> {
   const { lang } = await params;
@@ -31,9 +32,10 @@ export default async function LinksPage({ params }: PageProps<"/[lang]/links">) 
     { href: site.social.facebook, label: l.facebook, sub: "OSLEOS", icon: <FacebookIcon size={20} />, external: true },
     { href: site.social.instagram, label: l.instagram, sub: "@osleoshq", icon: <InstagramIcon size={20} />, external: true },
     { href: site.social.linkedin, label: l.linkedin, sub: "OSLEOS", icon: <LinkedinIcon size={20} />, external: true },
+    { href: site.social.youtube, label: l.youtube, sub: "@osleoshq", icon: <YoutubeIcon size={20} />, external: true },
     { href: `mailto:${site.email}`, label: l.email, sub: site.email, icon: <Icon name="mail" size={20} /> },
     ...site.phones.map((p) => ({ href: p.href, label: l.call, sub: p.display, icon: <Icon name="phone" size={20} /> })),
-    { href: site.mapsUrl, label: l.location, sub: site.address[lang], icon: <Icon name="pin" size={20} />, external: true },
+    { href: site.mapsUrl, label: l.location, sub: pick(site.address, lang), icon: <Icon name="pin" size={20} />, external: true },
   ];
 
   return (

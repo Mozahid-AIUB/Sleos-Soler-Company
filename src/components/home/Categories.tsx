@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -53,8 +54,8 @@ export function Categories({ lang, t }: { lang: Locale; t: Dictionary["categorie
                 </div>
                 <div className="reveal flex items-end justify-between gap-4" style={{ "--i": col + 2 } as CSSProperties}>
                   <div>
-                    <h3 className="text-[24px] font-bold tracking-tight">{c.name[lang]}</h3>
-                    <p className="mt-1.5 text-[14.5px] text-white/70">{c.blurb[lang]}</p>
+                    <h3 className="text-[24px] font-bold tracking-tight">{pick(c.name, lang)}</h3>
+                    <p className="mt-1.5 text-[14.5px] text-white/70">{pick(c.blurb, lang)}</p>
                   </div>
                   <Icon name="arrowRight" size={20} className="shrink-0 text-white/70 transition duration-300 group-hover:translate-x-1 group-hover:text-gold-400" />
                 </div>

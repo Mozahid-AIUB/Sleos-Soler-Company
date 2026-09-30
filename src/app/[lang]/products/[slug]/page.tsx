@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products/[
   const product = getProduct(slug);
   if (!hasLocale(lang) || !product) return {};
   const title = product.brand ? `${product.brand} ${product.name}` : product.name;
-  return { title, description: `${product.tagline[lang]}. ${product.keySpec[lang]}` };
+  return { title, description: `${pick(product.tagline, lang)}. ${pick(product.keySpec, lang)}` };
 }
 
 export default async function ProductPage({ params }: PageProps<"/[lang]/products/[slug]">) {
@@ -45,8 +46,8 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   const rows = [
     ...(product.brand ? [{ label: tp.brand, value: product.brand }] : []),
     { label: tp.model, value: product.name },
-    ...product.specs.map((s) => ({ label: s.label[lang], value: s.value })),
-    ...(product.warranty ? [{ label: tp.warranty, value: product.warranty[lang] }] : []),
+    ...product.specs.map((s) => ({ label: pick(s.label, lang), value: s.value })),
+    ...(product.warranty ? [{ label: tp.warranty, value: pick(product.warranty, lang) }] : []),
   ];
 
   return (
@@ -74,26 +75,26 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
             <div>
               <p className="reveal text-[13px] font-semibold uppercase tracking-[0.16em] text-teal-600" style={at(0)}>
                 {product.brand ? `${product.brand} · ` : ""}
-                {category?.name[lang]}
+                {category && pick(category.name, lang)}
               </p>
               <SplitText as="h1" text={product.name} now delayMs={120} className="mt-3 text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.08] tracking-tight" />
               <p className="reveal lead mt-4 text-ink-600" style={at(1)}>
-                {product.tagline[lang]}
+                {pick(product.tagline, lang)}
               </p>
 
               <div className="reveal mt-7 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-y border-cream-200 py-6" style={at(2)}>
-                <span className="text-[clamp(22px,2.4vw,28px)] font-extrabold tracking-tight">{product.keySpec[lang]}</span>
+                <span className="text-[clamp(22px,2.4vw,28px)] font-extrabold tracking-tight">{pick(product.keySpec, lang)}</span>
               </div>
 
               <p className="reveal mt-7 leading-relaxed text-ink-600" style={at(3)}>
-                {product.description[lang]}
+                {pick(product.description, lang)}
               </p>
 
               <h2 className="reveal mt-8 text-[15px] font-bold" style={at(3)}>
                 {tp.highlights}
               </h2>
               <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {product.highlights[lang].map((h, i) => (
+                {pick(product.highlights, lang).map((h, i) => (
                   <li key={h} className="reveal flex items-start gap-3 text-[15px]" style={at(3 + (i % 2))}>
                     <Icon name="check" size={18} strokeWidth={2.2} className="mt-0.5 shrink-0 text-teal-600" />
                     {h}

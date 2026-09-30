@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
@@ -19,14 +20,14 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
         <p className="flex flex-wrap items-center gap-x-2 text-[12.5px] font-medium text-ink-400">
           {product.brand && <span className="font-semibold uppercase tracking-[0.08em] text-teal-600">{product.brand}</span>}
           {product.brand && <span aria-hidden="true">·</span>}
-          <span>{category?.name[lang]}</span>
+          <span>{category && pick(category.name, lang)}</span>
         </p>
         <h3 className="mt-1.5 text-[17px] font-bold leading-snug">
           <Link href={href} className="transition-colors hover:text-teal-600">
             {product.name}
           </Link>
         </h3>
-        <p className="mt-1 pb-5 text-[14px] text-ink-600">{product.keySpec[lang]}</p>
+        <p className="mt-1 pb-5 text-[14px] text-ink-600">{pick(product.keySpec, lang)}</p>
         <div className="mt-auto grid gap-2">
           <Link href={quoteHref(lang, product.slug)} className="btn btn-dark w-full !min-h-11 !text-[14px]">
             {t.requestQuote}

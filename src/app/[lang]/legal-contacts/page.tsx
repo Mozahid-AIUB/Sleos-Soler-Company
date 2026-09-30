@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
@@ -25,7 +26,7 @@ export default async function LegalContactsPage({ params }: PageProps<"/[lang]/l
 
   const rows: { label: string; value: ReactNode }[] = [
     { label: c.company, value: site.name },
-    { label: c.office, value: site.address[lang] },
+    { label: c.office, value: pick(site.address, lang) },
     { label: c.email, value: <a href={`mailto:${site.email}`} className={linkClass}>{site.email}</a> },
     {
       label: c.phone,

@@ -47,6 +47,11 @@ html[lang="bn"] body {
   font-family: var(--font-hind), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Chinese: Latin glyphs from Jakarta, CJK from the visitor's system font (no web-font download). */
+html[lang="zh-CN"] body {
+  font-family: var(--font-jakarta), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", ui-sans-serif, sans-serif;
+}
+
 ::selection {
   background: var(--color-gold-400);
   color: var(--color-forest-950);
@@ -89,9 +94,15 @@ html[lang="bn"] body {
 
   .display {
     font-weight: 800;
-    letter-spacing: -0.035em;
+    /* Tighter than -0.02em makes "rv" in "Preserving" collide at 800 weight. */
+    letter-spacing: -0.02em;
     line-height: 1.02;
     text-wrap: balance;
+  }
+  html[lang="zh-CN"] .display,
+  html[lang="zh-CN"] .h2 {
+    letter-spacing: 0;
+    line-height: 1.2;
   }
   html[lang="bn"] .display {
     letter-spacing: 0;
@@ -101,7 +112,7 @@ html[lang="bn"] body {
   .h2 {
     font-size: clamp(32px, 4.2vw, 56px);
     font-weight: 700;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     line-height: 1.08;
     text-wrap: balance;
   }

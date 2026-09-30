@@ -25,8 +25,8 @@ export const site = {
   phoneHref: phones[0].href,
   email: "info@osleos.com",
   /** Digits only, with country code — used for wa.me links. */
-  whatsapp: "971509569576",
-  whatsappDisplay: "+971 50 956 9576",
+  whatsapp: "8801711752202",
+  whatsappDisplay: "+880 1711-752202",
   address,
   /** Google Maps search for the office address. */
   mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address.en)}`,
@@ -34,6 +34,7 @@ export const site = {
     facebook: "https://www.facebook.com/profile.php?id=61594452931737",
     instagram: "https://www.instagram.com/osleoshq/",
     linkedin: "https://www.linkedin.com/company/143899860/",
+    youtube: "https://www.youtube.com/@osleoshq",
   },
   certifications: [
     "SREDA Approved",

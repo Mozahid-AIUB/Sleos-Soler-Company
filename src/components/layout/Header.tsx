@@ -5,11 +5,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
-import type { Locale } from "@/i18n/config";
-import { categories } from "@/content/products";
+import { locales, type Locale } from "@/i18n/config";
 import { site, whatsappLink } from "@/content/site";
 import { Logo } from "@/components/ui/Logo";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+
+/** Product categories with copy already resolved for the page language (see layout). */
+export type NavCategory = { id: string; name: string; blurb: string; image: string };
 
 /**
  * Underline that draws in from the left when the parent link (group/nav) is
@@ -28,9 +31,9 @@ const menuRow = (open: boolean, i: number) => ({
 });
 
 /** Pages that open on a white background instead of a dark photo hero. */
-const PLAIN_PAGE = /^\/(en|bn)\/(products\/[^/]+|cart|checkout)\/?$/;
+const PLAIN_PAGE = new RegExp(`^/(${locales.join("|")})/(products/[^/]+|cart|checkout)/?$`);
 
-export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
+export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["nav"]; categories: NavCategory[] }) {
   const pathname = usePathname();
   const overHero = !PLAIN_PAGE.test(pathname);
   const [scrolled, setScrolled] = useState(false);
@@ -49,8 +52,6 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
   }, [menuOpen]);
 
   const solid = scrolled || !overHero || menuOpen;
-  const otherLang: Locale = lang === "en" ? "bn" : "en";
-  const switchHref = pathname.replace(/^\/(en|bn)(?=\/|$)/, `/${otherLang}`);
 
   const links = [
     { href: `/${lang}/solutions`, label: t.solutions },
@@ -93,11 +94,7 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
               <span className={underline(false)}>{site.whatsappDisplay}</span>
             </a>
             <a href={`mailto:${site.email}`} className="link-line">{site.email}</a>
-            <Link href={switchHref}
-            prefetch={false} hrefLang={otherLang} className="group/nav flex items-center gap-1.5 font-medium">
-              <Icon name="globe" size={14} />
-              <span className={underline(false)}>{t.language}</span>
-            </Link>
+            <LanguageSwitcher lang={lang} label={t.languageLabel} tone={solid ? "dark" : "light"} />
           </div>
         </div>
       </div>
@@ -132,8 +129,8 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
                       <Image src={c.image} alt="" fill sizes="56px" className="object-cover transition-transform duration-700 ease-out-expo group-hover/item:scale-[1.04]" />
                     </span>
                     <span>
-                      <span className="block text-[14.5px] font-semibold transition-colors group-hover/item:text-forest-900">{c.name[lang]}</span>
-                      <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-400">{c.blurb[lang]}</span>
+                      <span className="block text-[14.5px] font-semibold transition-colors group-hover/item:text-forest-900">{c.name}</span>
+                      <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-400">{c.blurb}</span>
                     </span>
                   </Link>
                 ))}
@@ -152,14 +149,7 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href={switchHref}
-            prefetch={false}
-            hrefLang={otherLang}
-            className={`inline-flex h-10 items-center px-2 text-[14px] font-medium lg:hidden ${solid ? "text-ink-900" : "text-white"}`}
-          >
-            {t.language}
-          </Link>
+          <LanguageSwitcher lang={lang} label={t.languageLabel} tone={solid ? "dark" : "light"} size="md" className="lg:hidden" />
           <Link href={`/${lang}/quote`} className="btn btn-gold hidden !min-h-11 !px-5 !text-[14px] sm:inline-flex">
             {t.quote}
           </Link>
@@ -195,7 +185,7 @@ export function Header({ lang, t }: { lang: Locale; t: Dictionary["nav"] }) {
           <div className={`grid grid-cols-2 gap-x-4 border-b border-cream-200 py-3 ${menuRow(menuOpen, 1).className}`} style={menuRow(menuOpen, 1).style}>
             {categories.map((c) => (
               <Link key={c.id} href={`/${lang}/products#${c.id}`} className="py-2 text-[15px] text-ink-600">
-                {c.name[lang]}
+                {c.name}
               </Link>
             ))}
           </div>

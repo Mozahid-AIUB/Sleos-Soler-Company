@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -53,7 +54,7 @@ export function ContactSection({
       label: t.visit,
       value: (
         <span className="grid gap-1.5">
-          <span className="leading-relaxed">{site.address[lang]}</span>
+          <span className="leading-relaxed">{pick(site.address, lang)}</span>
           <a
             href={site.mapsUrl}
             target="_blank"

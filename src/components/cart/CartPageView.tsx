@@ -37,7 +37,7 @@ export function CartPageView({ lang, t, tp }: { lang: Locale; t: Dictionary["car
                 <Link href={`/${lang}/products/${slug}`} className="text-[17px] font-semibold transition-colors hover:text-teal-600">
                   {product.name}
                 </Link>
-                <p className="mt-1 text-[14px] text-ink-600">{product.keySpec[lang]}</p>
+                <p className="mt-1 text-[14px] text-ink-600">{lang === "bn" ? product.keySpec.bn : product.keySpec.en}</p>
                 <button type="button" onClick={() => cart.remove(slug)} className="mt-1 inline-flex min-h-10 items-center gap-1.5 text-[13.5px] text-ink-400 hover:text-ink-900">
                   <Icon name="trash" size={15} />
                   {t.remove}

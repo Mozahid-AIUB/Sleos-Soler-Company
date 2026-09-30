@@ -1,4 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { hasLocale, localeNames, type Locale } from "@/i18n/config";
 import { search } from "@/lib/rag/search";
 import { getSystemPrompt } from "./system-prompt";
 import { allowGlobal, allowIp, clientIp } from "./rate-limit";
@@ -7,7 +8,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /*
- * POST /api/chat  { messages: [{ role: "user" | "assistant", content: string }], lang: "en" | "bn" }
+ * POST /api/chat  { messages: [{ role: "user" | "assistant", content: string }], lang: Locale }
  * -> 200 text/plain stream of the assistant's reply
  * -> 4xx/5xx JSON { error: "bad_request" | "too_long" | "rate_limited" | "ai_unavailable" | "ai_error" }
  */
@@ -26,7 +27,7 @@ const getClient = () => (client ??= new Anthropic({ apiKey: process.env.ANTHROPI
 const json = (status: number, error: string, headers?: HeadersInit) =>
   Response.json({ error }, { status, headers: { "Cache-Control": "no-store", ...headers } });
 
-function parseMessages(body: unknown): { messages: Anthropic.MessageParam[]; lang: "en" | "bn" } | "bad_request" | "too_long" {
+function parseMessages(body: unknown): { messages: Anthropic.MessageParam[]; lang: Locale } | "bad_request" | "too_long" {
   if (typeof body !== "object" || body === null) return "bad_request";
   const { messages, lang } = body as { messages?: unknown; lang?: unknown };
   if (!Array.isArray(messages) || messages.length === 0) return "bad_request";
@@ -44,7 +45,7 @@ function parseMessages(body: unknown): { messages: Anthropic.MessageParam[]; lan
   }
   while (clean.length && clean[0].role !== "user") clean.shift();
   if (!clean.length || clean[clean.length - 1].role !== "user") return "bad_request";
-  return { messages: clean, lang: lang === "bn" ? "bn" : "en" };
+  return { messages: clean, lang: typeof lang === "string" && hasLocale(lang) ? lang : "en" };
 }
 
 export async function POST(req: Request) {
@@ -86,7 +87,7 @@ export async function POST(req: Request) {
       system: [
         // Large, byte-stable block first and cached; the tiny per-request hint after it.
         { type: "text", text: getSystemPrompt(), cache_control: { type: "ephemeral" } },
-        { type: "text", text: `Site language: ${parsed.lang === "bn" ? "Bangla (bn)" : "English (en)"}.` },
+        { type: "text", text: `Site language: ${localeNames[parsed.lang]} (${parsed.lang}).` },
       ],
       messages,
     },
@@ -155,17 +156,18 @@ export async function POST(req: Request) {
  * previous one for follow-ups) and prepend it to the final user turn, so the
  * model answers from the website itself and can cite page links.
  */
-function withRetrievedContext(messages: Anthropic.MessageParam[], lang: "en" | "bn"): Anthropic.MessageParam[] {
+function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Locale): Anthropic.MessageParam[] {
   const userTexts = messages.filter((m) => m.role === "user").map((m) => (typeof m.content === "string" ? m.content : ""));
   const question = userTexts.at(-1) ?? "";
-  const { hits } = search(question, { lang, k: 6, context: userTexts.at(-2) });
+  // The search index holds English and Bangla chunks; other languages search the English ones.
+  const { hits } = search(question, { lang: lang === "bn" ? "bn" : "en", k: 6, context: userTexts.at(-2) });
   const context = hits.length
     ? hits.map((h, i) => `[${i + 1}] ${h.title} — ${h.url}\n${h.text}`).join("\n\n")
     : "(no matching website content)";
   const grounded =
     `<context>\n${context}\n</context>\n\n` +
     "Answer the question below using ONLY the website content in <context> and the company overview. " +
-    "If the answer is not there, say so briefly and suggest the Information Sheet (/" + lang + "/quote) or WhatsApp. " +
+    "If the answer is not there, say so briefly and suggest the Measurement Form (/" + lang + "/quote) or WhatsApp. " +
     "Never invent prices, stock or guarantees. Reply in the user's language. " +
     "End with one line 'Sources:' listing 1-3 relevant pages as markdown links using only URLs from <context>.\n\n" +
     `Question: ${question}`;

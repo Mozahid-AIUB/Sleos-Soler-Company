@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
@@ -24,7 +25,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
   const tabs = [
     { id: "all" as const, label: t.product.all, count: products.length },
     ...categories
-      .map((c) => ({ id: c.id, label: c.name[lang], count: products.filter((x) => x.category === c.id).length }))
+      .map((c) => ({ id: c.id, label: pick(c.name, lang), count: products.filter((x) => x.category === c.id).length }))
       .filter((c) => c.count > 0),
   ];
 

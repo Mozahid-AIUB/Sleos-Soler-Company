@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Hind_Siliguri, Plus_Jakarta_Sans } from "next/font/google";
-import { hasLocale, locales } from "@/i18n/config";
+import { hasLocale, locales, localeTags, ogLocales } from "@/i18n/config";
+import { pick } from "@/i18n/content";
+import { categories } from "@/content/products";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { site } from "@/content/site";
 import { Header } from "@/components/layout/Header";
@@ -40,12 +42,15 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     metadataBase: new URL(site.url),
     title: { default: t.meta.title, template: `%s · ${site.name}` },
     description: t.meta.description,
-    alternates: { canonical: `/${lang}`, languages: { en: "/en", bn: "/bn" } },
+    alternates: {
+      canonical: `/${lang}`,
+      languages: Object.fromEntries(locales.map((l) => [localeTags[l], `/${l}`])),
+    },
     openGraph: {
       title: t.meta.title,
       description: t.meta.description,
       images: [{ url: "/brand/og.jpg", width: 1200, height: 630, alt: "OSLEOS" }],
-      locale: lang === "bn" ? "bn_BD" : "en_US",
+      locale: ogLocales[lang],
       type: "website",
     },
   };
@@ -57,12 +62,16 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const t = await getDictionary(lang);
 
   return (
-    <html lang={lang} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable}`}>
+    <html lang={localeTags[lang]} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable}`}>
       <body className="min-h-dvh">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-gold-500 focus:px-5 focus:py-3 focus:font-semibold focus:text-forest-950">
           Skip to content
         </a>
-        <Header lang={lang} t={t.nav} />
+        <Header
+          lang={lang}
+          t={t.nav}
+          categories={categories.map((c) => ({ id: c.id, name: pick(c.name, lang), blurb: pick(c.blurb, lang), image: c.image }))}
+        />
         <main id="main">{children}</main>
         <Footer lang={lang} t={t} />
         <AssistantWidget lang={lang} t={t.assistant} />

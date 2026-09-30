@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -55,7 +56,7 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
               {categories.map((c) => (
                 <li key={c.id}>
                   <Link href={`/${lang}/products#${c.id}`} className={linkClass}>
-                    {c.name[lang]}
+                    {pick(c.name, lang)}
                   </Link>
                 </li>
               ))}
@@ -80,7 +81,7 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
             <address className="mt-5 space-y-3 not-italic text-ink-600">
               <p className="max-w-[18rem] leading-relaxed">
                 <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" className={linkClass}>
-                  {site.address[lang]}
+                  {pick(site.address, lang)}
                 </a>
               </p>
               <p>

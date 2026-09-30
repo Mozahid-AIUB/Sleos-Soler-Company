@@ -81,6 +81,28 @@ export default async function QuotePage({ params }: PageProps<"/[lang]/quote">) 
           </aside>
         </div>
       </section>
+
+      {/* Technical terms guide (page 3 of the client's Measurement Form PDF) */}
+      <section id="guide" className="border-t border-cream-200 bg-white py-14 lg:py-20">
+        <div className="container-x">
+          <div className="max-w-2xl">
+            <p className="eyebrow reveal-fade text-teal-600">{q.eyebrow}</p>
+            <h2 className="reveal mt-3 text-[clamp(26px,2.8vw,36px)] font-bold leading-tight tracking-tight text-ink-900">{q.guideTitle}</h2>
+            <p className="reveal mt-3 leading-relaxed text-ink-600" style={at(1)}>
+              {q.guideBody}
+            </p>
+          </div>
+          <dl className="mt-10 grid gap-px overflow-hidden rounded-lg border border-cream-200 bg-cream-200 sm:grid-cols-2 lg:grid-cols-3">
+            {q.guide.map((g, i) => (
+              <div key={g.term} className="reveal bg-white p-6" style={at(i % 3)}>
+                <dt className="font-semibold text-ink-900">{g.term}</dt>
+                <dd className="mt-2 text-[14.5px] leading-relaxed text-ink-600">{g.text}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="reveal mt-6 text-[14px] text-ink-400">{q.guideTip}</p>
+        </div>
+      </section>
     </>
   );
 }

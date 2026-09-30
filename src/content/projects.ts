@@ -77,7 +77,7 @@ export const projects: Project[] = [
   },
   {
     slug: "narayanganj-warehouse",
-    title: { en: "Warehouse Roof to Revenue", bn: "ওয়্যারহাউসের ছাদ থেকে আয়" },
+    title: { en: "Warehouse Rooftop Solar", bn: "ওয়্যারহাউসের রুফটপ সোলার" },
     type: { en: "Commercial & Industrial · Rooftop", bn: "বাণিজ্যিক ও শিল্প · রুফটপ" },
     location: { en: "Narayanganj", bn: "নারায়ণগঞ্জ" },
     capacity: "800 kWp",

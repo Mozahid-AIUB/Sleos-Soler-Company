@@ -55,7 +55,9 @@ export const assistantKnowledge = `
 # Partner brands
 - PV modules: Trina Solar, Jinko Solar, LONGi, JA Solar, Canadian Solar, Astronergy.
 - Inverters: Sungrow, Huawei, Solis, GoodWe, Growatt, Crown, Deye.
-- Balance-of-system / electrical brands we use: Delixi Electric, CHNT, SAKO, CNC Electric, Tengen, Zhengxi.
+- Voltage stabilizer brands: SAKO, CNC Electric, Tengen (also CHNT, Zhengxi and Delixi Electric stabilizers).
+- Balance-of-system / electrical brands we use: Delixi Electric, CHNT, CNC Electric, Tengen, Zhengxi.
+- SAKO is supplied for voltage stabilizers only, not inverters.
 
 # Core solutions
 Solar PV systems (rooftop and ground-mounted), battery energy storage, hybrid power (solar + grid + generator), industrial solar, energy monitoring and management, net metering (grid-connected), EV charging, operation & maintenance, energy auditing.
@@ -66,13 +68,9 @@ Solar PV systems (rooftop and ground-mounted), battery energy storage, hybrid po
 - Hybrid: solar + battery + grid through a hybrid inverter; uses solar normally, stores energy, and backs up selected loads during outages. Ideal for homes and businesses wanting both savings and backup (useful against load-shedding).
 
 # Named OSLEOS solutions
-- Solar Bill Zero: we analyse electricity bills, daily consumption, peak demand, operating hours, rooftop area, load profile, solar potential and grid consumption; the customer receives a customised design, estimated monthly generation, estimated bill reduction, investment & payback analysis and a net-metering assessment. For factories, offices, restaurants, hotels, hospitals, schools, commercial buildings. Objective: maximum practical reduction in electricity cost.
-- Solar PowerGuard: solar + battery + grid + backup power. "Solar power when you have it, battery power when you need it." Keeps critical operations running during outages. For restaurants, pharmacies, clinics, diagnostic centres, offices, retail stores, small industries.
-- Solar-as-a-Service: for eligible commercial and industrial customers, OSLEOS can explore structured financing and energy-service arrangements so they can go solar without a large upfront investment. Steps: energy assessment, system design, financing/service structure, installation, operation & monitoring, long-term savings. Eligibility is decided case by case.
 - Hybrid Factory Power: solar + battery + grid + generator combined into one engineered power solution; lower energy costs, reduced generator fuel, better reliability. For factories, workshops, warehouses, cold storage, commercial facilities.
 - Solar Coldchain: solar designed around refrigeration loads for cold storage, frozen food, fisheries, food processing, agricultural storage.
 - Solar Irrigation / solar water pumping: PV modules -> MPPT pump controller -> (inverter) -> submersible or surface pump -> storage tank / pipeline -> sprinkler or drip irrigation, with optional water-level sensor automation. Reduces diesel dependence. Solar Irrigation-as-a-Service may be explored for selected projects. Actual pump, array and tank sizing is engineered per site.
-- Roof to Revenue: turns unused commercial/industrial rooftops into clean-energy assets (roof assessment, solar potential study, design, financial analysis, installation, monitoring).
 - Solar Parking: solar carports with optional battery storage and EV charging, for malls, hotels, offices, universities, hospitals.
 - Energy Guardian: ongoing monthly monitoring - solar generation, grid consumption, generator usage, battery performance, estimated savings, performance alerts, maintenance recommendations.
 - Solar Lift: solar/hybrid power for passenger elevators in residential and commercial buildings; requires project-specific engineering after assessing the elevator and building.
@@ -80,16 +78,25 @@ Solar PV systems (rooftop and ground-mounted), battery energy storage, hybrid po
 # Our process (from requirement to solar power)
 1. Consultation / customer requirement  2. Energy audit (bills and consumption)  3. Site survey (roof, electrical system, shading, space)  4. Engineering & design (capacity, inverter, battery if needed, protection)  5. Equipment selection and financial analysis (generation, savings, payback)  6. Professional installation, testing and commissioning  7. System handover with user guidance, then monitoring  8. After-sales support: maintenance, troubleshooting and optimisation.
 
-# Information Sheet (what we need for a quote)
-Electricity bill (amount and month), monthly consumption (kWh), total connected load, available roof area (sq ft or sq m), building type (residential / commercial / industrial / other), operating hours (hours per day, days per week), backup requirement (yes/no, duration, priority loads), and existing power source (grid only, generator, grid + generator, other).
+# Measurement Form (what we need for a quote)
+- The Measurement Form (Solar Project Measurement Form) is the quote form on the website at /{lang}/quote. It collects the initial information needed for a preliminary quotation and is sent to OSLEOS on WhatsApp.
+- Project details: project name, project type, project location, factory / company name, contact person, designation, phone / WhatsApp, email, Google Maps link and project site photos.
+- Operation & electricity: daily operating hours (8, 12, 16, 24 hours or other), transformer capacity (kVA), generator capacity (kVA), approximate daily (kWh/day) and monthly (kWh/month) consumption, sanction load, connected load, maximum active load and average active load (kVA), a list of loads with capacity and operating time, and electricity bill copies of the last 6 months.
+- Roof & site: approximate roof length and width, roof type (RCC, tin, metal sheet, other). Roof structure: roof height and purlin-to-purlin distance.
+- Backup & hybrid: backup load capacity (kW), backup time (hours), maximum load-shedding time (hours).
+- Inverter & cable route: inverter location, distance from inverter to MDB and to the backup load SDB (metres).
+- Project objective: minimise electricity bill, backup support, less grid dependence, green energy, net-metering export; whether an AI-integrated system or a self-cleaning solar system is required; off-grid, on-grid or hybrid; backup hours if hybrid.
+- Customers can attach PDF, JPG or PNG files (site photos, electricity bills), up to 10 MB each and 10 files.
+- If a customer is unsure about a value, they can leave it blank or share the electricity bill and site photos with OSLEOS.
+- MDB = Main Distribution Board. SDB = Sub Distribution Board for selected essential (backup) circuits. Sanction load = load approved by the electricity provider. Connected load = total rated capacity of all connected equipment.
 
 # How the OSLEOS AI assistant can help you
-- The OSLEOS AI assistant is available on the website 24/7 and answers in English or Bangla.
+- The OSLEOS AI assistant is available on the website 24/7 and answers in English, Chinese, Spanish, French or Bangla.
 - The OSLEOS AI assistant explains solar basics in simple words: on-grid vs off-grid vs hybrid systems, batteries, inverters, net metering and voltage stabilizers.
 - The OSLEOS AI assistant helps customers pick the right OSLEOS solution for a home, shop, office, factory, farm or institution.
 - The OSLEOS AI assistant gives details on the products and partner brands OSLEOS supplies (Trina, Jinko, LONGi, Sungrow, Huawei, Deye and more).
 - The OSLEOS AI assistant explains the government rooftop-solar incentive and how OSLEOS can help customers use it.
-- The OSLEOS AI assistant tells customers exactly what information is needed for a quote and guides them to the Information Sheet (quote form).
+- The OSLEOS AI assistant tells customers exactly what information is needed for a quote and guides them to the Measurement Form (quote form, /{lang}/quote), where customers can also attach site photos and electricity bills (PDF, JPG, PNG).
 - The OSLEOS AI assistant shares OSLEOS contact details, office address and working hours, and can hand the conversation over to the team on WhatsApp.
 - The OSLEOS AI assistant does not give prices: every system is designed and quoted by the OSLEOS engineering team after assessing the site.
 

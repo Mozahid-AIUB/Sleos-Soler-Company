@@ -1,3 +1,4 @@
+import { pick } from "@/i18n/content";
 import type { CSSProperties } from "react";
 import Image from "next/image";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -26,7 +27,7 @@ export function ProjectCard({
       <div className="reveal-img absolute inset-0 -z-10 [clip-path:inset(0)]" style={at(0)}>
         <Image
           src={project.image}
-          alt={project.title[lang]}
+          alt={pick(project.title, lang)}
           fill
           sizes={large ? "(min-width: 1024px) 60vw, 100vw" : "(min-width: 1024px) 40vw, 100vw"}
           className="object-cover transition-transform duration-[1.3s] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
@@ -39,9 +40,9 @@ export function ProjectCard({
         </span>
       )}
       <div className="reveal p-7 lg:p-9" style={at(2)}>
-        <p className={`text-[12.5px] font-semibold uppercase tracking-[0.14em] text-gold-400 ${site.draft && project.sample ? "pr-24" : ""}`}>{project.type[lang]}</p>
-        <h3 className={`mt-3 font-bold tracking-tight ${large ? "text-[clamp(26px,3vw,38px)]" : "text-[24px]"}`}>{project.title[lang]}</h3>
-        <p className="mt-3 max-w-xl leading-relaxed text-white/70">{project.summary[lang]}</p>
+        <p className={`text-[12.5px] font-semibold uppercase tracking-[0.14em] text-gold-400 ${site.draft && project.sample ? "pr-24" : ""}`}>{pick(project.type, lang)}</p>
+        <h3 className={`mt-3 font-bold tracking-tight ${large ? "text-[clamp(26px,3vw,38px)]" : "text-[24px]"}`}>{pick(project.title, lang)}</h3>
+        <p className="mt-3 max-w-xl leading-relaxed text-white/70">{pick(project.summary, lang)}</p>
         <div
           aria-hidden="true"
           className="reveal-line mt-6 h-px bg-no-repeat text-white/15 [background-image:linear-gradient(currentColor,currentColor)] [background-size:100%_1px]"
@@ -56,7 +57,7 @@ export function ProjectCard({
             <dt className="text-white/50">{t.location}</dt>
             <dd className="mt-0.5 flex items-center gap-1.5 text-[18px] font-bold">
               <Icon name="pin" size={16} className="text-gold-400" />
-              {project.location[lang]}
+              {pick(project.location, lang)}
             </dd>
           </div>
           <div>
