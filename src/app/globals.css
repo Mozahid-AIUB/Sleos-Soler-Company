@@ -94,8 +94,12 @@ html[lang="zh-CN"] body {
 
   .display {
     font-weight: 800;
-    /* Tighter than -0.02em makes "rv" in "Preserving" collide at 800 weight. */
-    letter-spacing: -0.02em;
+    /* Client requirement: letters must never touch. At 800 weight the font's
+       kerning pulls "rv" in "Preserving" together, so kerning is off and the
+       tracking stays neutral. */
+    letter-spacing: 0.01em;
+    font-kerning: none;
+    font-feature-settings: "kern" 0;
     line-height: 1.02;
     text-wrap: balance;
   }
