@@ -314,6 +314,7 @@ const en = {
     legalStatement: "Legal Statement",
     rights: "All rights reserved.",
     years: "Delivering solutions for 15 years",
+    designedBy: "Designed & developed by",
   },
   common: {
     learnMore: "Learn more",

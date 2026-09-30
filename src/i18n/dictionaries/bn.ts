@@ -316,6 +316,7 @@ const bn: Dictionary = {
     legalStatement: "আইনি বিবৃতি",
     rights: "সর্বস্বত্ব সংরক্ষিত।",
     years: "১৫ বছর ধরে সমাধান দিয়ে আসছি",
+    designedBy: "ডিজাইন ও ডেভেলপমেন্ট",
   },
   common: {
     learnMore: "আরও জানুন",

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import baseWhite from "../../../public/brand/osleos-logo-white-base.png";
-import baseBlack from "../../../public/brand/osleos-logo-black-base.png";
+import baseColor from "../../../public/brand/osleos-logo-color-base.png";
 import arcsWhite from "../../../public/brand/osleos-logo-white-arcs.png";
 import arcsBlack from "../../../public/brand/osleos-logo-black-arcs.png";
 
 /**
- * Official OSLEOS logo. The wordmark and sun disc are static; the two gold
+ * Official OSLEOS logo: white wordmark on dark backgrounds, brand-blue
+ * wordmark on light ones. The wordmark and sun disc are static; the two gold
  * arcs orbit the disc continuously (paused for prefers-reduced-motion).
  * Arc layer placement comes from logo_split.py (percent of the logo box,
  * centred on the disc).
@@ -24,7 +25,7 @@ export function Logo({
   className?: string;
   priority?: boolean;
 }) {
-  const base = light ? baseWhite : baseBlack;
+  const base = light ? baseWhite : baseColor;
   const arcs = light ? arcsWhite : arcsBlack;
   const g = light ? ARCS.white : ARCS.black;
   return (

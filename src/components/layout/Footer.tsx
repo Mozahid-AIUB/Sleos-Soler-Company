@@ -132,20 +132,43 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
       </div>
 
       <div className="border-t border-cream-200 bg-cream-50">
-        <div className="reveal-fade container-x flex flex-col gap-4 py-6 pb-24 text-[13px] text-ink-400 sm:pb-6 lg:flex-row lg:items-center lg:justify-between lg:pr-28">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {legal.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="link-line text-ink-600 transition-colors hover:text-forest-900">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="sm:pr-24 lg:pr-0">
-            © 2026 {site.name}. {f.rights} · {f.years}
-            {site.draft && <span className="block pt-1 text-[12px]">{t.common.draft}</span>}
-          </p>
+        <div className="reveal-fade container-x pb-24 text-[13px] text-ink-400 sm:pb-8">
+          <div className="flex flex-col gap-4 py-6 lg:flex-row lg:items-center lg:justify-between lg:pr-28">
+            <ul className="flex flex-wrap gap-x-5 gap-y-2">
+              {legal.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="link-line text-ink-600 transition-colors hover:text-forest-900">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <p className="sm:pr-24 lg:pr-0">
+              © 2026 {site.name}. {f.rights} · {f.years}
+              {site.draft && <span className="block pt-1 text-[12px]">{t.common.draft}</span>}
+            </p>
+          </div>
+
+          {/* Developer credit */}
+          <div className="flex items-center gap-4 border-t border-cream-200 pt-6 sm:justify-center">
+            <span aria-hidden="true" className="hidden h-px flex-1 bg-gradient-to-r from-transparent to-gold-400/60 sm:block" />
+            <a
+              href="https://mozahidulislam.pro.bd/"
+              target="_blank"
+              rel="noopener"
+              className="group inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 rounded-full border border-cream-200 bg-white py-2 pl-4 pr-2 shadow-[0_1px_2px_rgb(0_0_0/0.04)] transition-[border-color,box-shadow] duration-500 ease-out-expo hover:border-gold-400/70 hover:shadow-[0_10px_30px_-12px_rgb(180_130_40/0.45)]"
+            >
+              <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-ink-400">{f.designedBy}</span>
+              <span className="relative font-semibold text-ink-900">
+                Mozahidul Islam
+                <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-gold-500 transition-transform duration-500 ease-out-expo group-hover:scale-x-100" />
+              </span>
+              <span className="grid size-7 place-items-center rounded-full bg-forest-950 text-gold-400 transition-transform duration-500 ease-out-expo group-hover:rotate-45">
+                <Icon name="arrowUpRight" size={14} strokeWidth={2} />
+              </span>
+            </a>
+            <span aria-hidden="true" className="hidden h-px flex-1 bg-gradient-to-l from-transparent to-gold-400/60 sm:block" />
+          </div>
         </div>
       </div>
     </footer>
