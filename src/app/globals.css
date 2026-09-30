@@ -95,9 +95,9 @@ html[lang="zh-CN"] body {
   .display {
     font-weight: 800;
     /* Client requirement: letters must never touch. At 800 weight the font's
-       kerning pulls "rv" in "Preserving" together, so kerning is off and the
-       tracking stays neutral. */
-    letter-spacing: 0.01em;
+       arm of "r" reaches the "v" in "Preserving". Kerning off + 0.02em is the
+       smallest setting with a visible gap (checked with the real font). */
+    letter-spacing: 0.02em;
     font-kerning: none;
     font-feature-settings: "kern" 0;
     line-height: 1.02;
