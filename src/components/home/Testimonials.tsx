@@ -6,11 +6,11 @@ import { testimonials, type Testimonial } from "@/content/testimonials";
 import { site } from "@/content/site";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-function Group({ label, items, lang, cols }: { label: string; items: Testimonial[]; lang: Locale; cols: string }) {
+function Group({ label, items, lang, cols }: { label?: string; items: Testimonial[]; lang: Locale; cols: string }) {
   return (
     <div>
-      <h3 className="reveal-fade border-b border-cream-200 pb-3 text-[13px] font-semibold uppercase tracking-[0.16em] text-ink-900">{label}</h3>
-      <div className={`mt-6 grid gap-4 ${cols}`}>
+      {label && <h3 className="reveal-fade border-b border-cream-200 pb-3 text-[13px] font-semibold uppercase tracking-[0.16em] text-ink-900">{label}</h3>}
+      <div className={`${label ? "mt-6" : ""} grid gap-4 ${cols}`}>
         {items.map((r, i) => (
           <figure
             key={i}
@@ -41,7 +41,7 @@ export function Testimonials({ lang, t }: { lang: Locale; t: Dictionary["testimo
         <SectionHeading eyebrow={t.eyebrow} title={t.title} />
         {site.draft && <p className="mt-4 text-[13px] text-ink-400">{t.sample}</p>}
         <div className="mt-12 grid gap-14">
-          <Group label={t.clients} items={clients} lang={lang} cols="sm:grid-cols-2 xl:grid-cols-4" />
+          <Group items={clients} lang={lang} cols="sm:grid-cols-2 xl:grid-cols-4" />
           <Group label={t.manufacturers} items={manufacturers} lang={lang} cols="md:grid-cols-3" />
         </div>
       </div>
