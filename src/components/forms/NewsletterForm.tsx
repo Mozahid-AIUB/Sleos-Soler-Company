@@ -9,8 +9,7 @@ type Labels = Pick<Dictionary["newsletter"], "email" | "phone" | "submit" | "don
 
 /**
  * Email (+ phone) capture that hands off to WhatsApp. `compact` is the
- * one-line footer version (on the dark footer) used for the monthly updates
- * subscription.
+ * one-line footer version used for the monthly updates subscription.
  */
 export function NewsletterForm({
   t,
@@ -50,7 +49,7 @@ export function NewsletterForm({
               className="field !rounded-r-none"
             />
           </label>
-          <button type="submit" className="btn btn-gold shrink-0 !min-h-[50px] !rounded-l-none !px-4 sm:!px-5">
+          <button type="submit" className="btn btn-dark shrink-0 !min-h-[50px] !rounded-l-none !px-4 sm:!px-5">
             <WhatsappIcon size={17} />
             {t.submit}
           </button>
@@ -73,8 +72,8 @@ export function NewsletterForm({
           </button>
         </>
       )}
-      <p className={`text-[13px] ${compact ? "text-white/45" : "text-ink-400"}`} role="status">
-        {done ? <span className={`font-medium ${compact ? "text-gold-400" : "text-teal-600"}`}>{t.done}</span> : t.privacy}
+      <p className="text-[13px] text-ink-400" role="status">
+        {done ? <span className="font-medium text-teal-600">{t.done}</span> : t.privacy}
       </p>
     </form>
   );
