@@ -44,6 +44,8 @@ Readable page renders: `<scratchpad>/brochure/read/pageNN.png`; embedded images:
 - Brand film (AI video) on hold — removed from the home page.
 - "Information Sheet" renamed **Measurement Form**; `/quote` now mirrors the client's
   "Measurement Form (English).pdf" (36 questions, 8 sections, technical-terms guide).
-- Measurement Form accepts PDF/JPG/PNG attachments (site photos, bills): uploaded to `/api/upload`,
-  stored in `UPLOAD_DIR` (Docker: `/app/uploads` — needs a persistent volume in Coolify), and sent as links in the WhatsApp message.
+- Measurement Form lets visitors pick PDF/JPG/PNG files (site photos, bills). Nothing is stored on our server
+  (owner's decision): after the WhatsApp message, phones share the files straight to WhatsApp (Web Share API);
+  on other devices the visitor is asked to attach them in the chat. The message lists the file names.
+- "Years delivering power solutions" → "solar solutions" (all languages).
 - YouTube (@osleoshq) added to social links.

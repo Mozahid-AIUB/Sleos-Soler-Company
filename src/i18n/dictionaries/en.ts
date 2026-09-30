@@ -52,7 +52,7 @@ const en = {
       { title: "Long-term support", text: "Monitoring, maintenance and after-sales service long after handover." },
     ],
     floatValue: "15",
-    floatLabel: "Years delivering power solutions",
+    floatLabel: "Years delivering solar solutions",
   },
   categories: {
     eyebrow: "Product range",
@@ -171,7 +171,7 @@ const en = {
   },
   stats: {
     items: [
-      { value: "15 years", label: "Delivering power solutions" },
+      { value: "15 years", label: "Delivering solar solutions" },
       { value: "24.1%", label: "Peak module efficiency" },
       { value: "1,200+", label: "Projects delivered" },
       { value: "64", label: "Districts served" },
@@ -413,17 +413,19 @@ const en = {
       drop: "or drag and drop them here",
       types: "PDF, JPG or PNG · up to 10 MB each · max 10 files",
       remove: "Remove",
-      uploading: "Uploading files…",
-      failed: "Some files could not be uploaded. You can send them on WhatsApp instead.",
       tooLarge: "is larger than 10 MB",
       badType: "is not a PDF, JPG or PNG file",
       tooMany: "You can attach up to 10 files.",
       attached: "Attached files",
+      shareTitle: "Step 2: send your files",
+      shareBody: "Your files stay on your device. Tap the button, choose WhatsApp and then the OSLEOS chat.",
+      share: "Share files to WhatsApp",
+      manual: "Please attach these files in the OSLEOS WhatsApp chat:",
     },
     submit: "Send on WhatsApp",
     sending: "Preparing your form…",
     doneTitle: "Your measurement form is ready in WhatsApp",
-    doneBody: "Press send in WhatsApp and an engineer will review your details and reply within one working day. Attached files are included as links.",
+    doneBody: "Press send in WhatsApp and an engineer will review your details and reply within one working day.",
     again: "Open WhatsApp again",
     edit: "Edit my answers",
     asideTitle: "The right solar system starts with the right information.",
@@ -529,7 +531,7 @@ const en = {
       body: "What information this website collects, and what it doesn't.",
       sections: [
         { h: "Summary", p: ["This website is a static information site. It has no user accounts, sets no cookies, and runs no analytics or advertising trackers.", "We only receive personal information when you choose to send it to us by WhatsApp, phone or email."] },
-        { h: "Forms on this website", p: ["The Measurement Form, contact and subscription forms do not store your answers on our servers. When you press the button, your browser opens WhatsApp with a pre-filled message. Nothing is shared until you press send inside WhatsApp.", "Files you attach to the Measurement Form (PDF, JPG or PNG, such as site photos and electricity bills) are uploaded to our website server when you press send, so our team can open them from your WhatsApp message through a private link. The link is random and not listed anywhere, but anyone who has it can open the file, so please attach only what we need for your quotation. We delete attachments when they are no longer needed for your enquiry or project.", "Messages you send on WhatsApp are also handled by WhatsApp (Meta) under its own terms and privacy policy."] },
+        { h: "Forms on this website", p: ["The Measurement Form, contact and subscription forms do not store your answers on our servers. When you press the button, your browser opens WhatsApp with a pre-filled message. Nothing is shared until you press send inside WhatsApp.", "Files you choose in the Measurement Form (site photos, electricity bills) are not uploaded to our website. On phones that support it, your phone's share menu sends them straight to WhatsApp; otherwise you attach them in the WhatsApp chat yourself.", "Messages you send on WhatsApp are also handled by WhatsApp (Meta) under its own terms and privacy policy."] },
         { h: "AI assistant chat", p: ["If you use the AI assistant, the questions you type are sent to our website server and processed by Anthropic (the provider of the Claude AI model) to write the reply. Please do not enter sensitive personal information in the chat.", "We do not store chat conversations on our server; it keeps only short technical logs (such as errors and usage counts). Your conversation is kept in your own browser tab and is cleared when you close it. If you choose to continue on WhatsApp, a summary of your questions is sent there only when you press send."] },
         { h: "What we do with your details", p: ["We use the name, contact details and site information you send us only to answer your enquiry, prepare a proposal, install and service your system, and send updates you asked for.", "We do not sell or rent your information. We share it only with staff and installation partners who need it to serve you, or when the law requires it."] },
         { h: "Technical logs", p: ["Like any website, our hosting provider may keep short-term server logs (such as IP address, browser type and pages requested) to keep the site secure and working. These logs are not used to identify or profile visitors."] },
@@ -612,7 +614,7 @@ const en = {
     about: {
       eyebrow: "About OSLEOS",
       title: "Complete solar power solutions for Bangladesh",
-      body: "For 15 years OSLEOS has delivered power solutions built on reliable equipment and honest engineering.",
+      body: "For 15 years OSLEOS has delivered solar solutions built on reliable equipment and honest engineering.",
       storyTitle: "Who we are",
       story: [
         "OSLEOS is dedicated to delivering complete solar power solutions using reliable, high-quality equipment. We supply everything required to build safe, efficient and long-lasting systems for homes, businesses, industries and beyond.",

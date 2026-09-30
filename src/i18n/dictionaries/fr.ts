@@ -54,7 +54,7 @@ const fr: Dictionary = {
       { title: "Un suivi dans la durée", text: "Supervision, maintenance et service après-vente bien au-delà de la mise en service." },
     ],
     floatValue: "15",
-    floatLabel: "ans de solutions énergétiques",
+    floatLabel: "ans de solutions solaires",
   },
   categories: {
     eyebrow: "Gamme de produits",
@@ -173,7 +173,7 @@ const fr: Dictionary = {
   },
   stats: {
     items: [
-      { value: "15 ans", label: "de solutions énergétiques" },
+      { value: "15 ans", label: "de solutions solaires" },
       { value: "24.1%", label: "Rendement maximal des modules" },
       { value: "1,200+", label: "Projets réalisés" },
       { value: "64", label: "Districts desservis" },
@@ -415,17 +415,19 @@ const fr: Dictionary = {
       drop: "ou glissez-déposez-les ici",
       types: "PDF, JPG ou PNG · 10 Mo max. par fichier · 10 fichiers max.",
       remove: "Supprimer",
-      uploading: "Envoi des fichiers…",
-      failed: "Certains fichiers n'ont pas pu être envoyés. Vous pouvez les envoyer sur WhatsApp à la place.",
       tooLarge: "dépasse 10 Mo",
       badType: "n'est pas un fichier PDF, JPG ou PNG",
       tooMany: "Vous pouvez joindre jusqu'à 10 fichiers.",
       attached: "Fichiers joints",
+      shareTitle: "Étape 2 : envoyez vos fichiers",
+      shareBody: "Vos fichiers restent sur votre appareil. Appuyez sur le bouton, choisissez WhatsApp puis la conversation OSLEOS.",
+      share: "Partager les fichiers sur WhatsApp",
+      manual: "Veuillez joindre ces fichiers dans la conversation WhatsApp d'OSLEOS :",
     },
     submit: "Envoyer sur WhatsApp",
     sending: "Préparation de votre formulaire…",
     doneTitle: "Votre formulaire de relevé est prêt dans WhatsApp",
-    doneBody: "Appuyez sur Envoyer dans WhatsApp : un ingénieur étudiera vos informations et vous répondra sous un jour ouvré. Les fichiers joints sont inclus sous forme de liens.",
+    doneBody: "Appuyez sur envoyer dans WhatsApp : un ingénieur examinera vos informations et vous répondra sous un jour ouvré.",
     again: "Rouvrir WhatsApp",
     edit: "Modifier mes réponses",
     asideTitle: "Un bon système solaire commence par de bonnes informations.",
@@ -531,7 +533,7 @@ const fr: Dictionary = {
       body: "Les informations que ce site collecte, et celles qu'il ne collecte pas.",
       sections: [
         { h: "En résumé", p: ["Ce site est un site d'information statique. Il ne comporte aucun compte utilisateur, ne dépose aucun cookie et n'utilise aucun outil d'analyse ni traceur publicitaire.", "Nous ne recevons des données personnelles que lorsque vous choisissez de nous les transmettre par WhatsApp, par téléphone ou par e-mail."] },
-        { h: "Formulaires de ce site", p: ["Le formulaire de relevé, le formulaire de contact et le formulaire d'abonnement n'enregistrent pas vos réponses sur nos serveurs. Lorsque vous appuyez sur le bouton, votre navigateur ouvre WhatsApp avec un message prérempli. Rien n'est transmis tant que vous n'avez pas appuyé sur Envoyer dans WhatsApp.", "Les fichiers que vous joignez au formulaire de relevé (PDF, JPG ou PNG, tels que des photos du site et des factures d'électricité) sont envoyés sur le serveur de notre site web lorsque vous appuyez sur Envoyer, afin que notre équipe puisse les ouvrir depuis votre message WhatsApp au moyen d'un lien privé. Ce lien est aléatoire et n'est répertorié nulle part, mais toute personne qui le possède peut ouvrir le fichier : merci de ne joindre que ce dont nous avons besoin pour votre devis. Nous supprimons les pièces jointes lorsqu'elles ne sont plus nécessaires à votre demande ou à votre projet.", "Les messages que vous envoyez sur WhatsApp sont également traités par WhatsApp (Meta) conformément à ses propres conditions et à sa politique de confidentialité."] },
+        { h: "Formulaires de ce site", p: ["Le formulaire de relevé, le formulaire de contact et le formulaire d'abonnement n'enregistrent pas vos réponses sur nos serveurs. Lorsque vous appuyez sur le bouton, votre navigateur ouvre WhatsApp avec un message prérempli. Rien n'est transmis tant que vous n'avez pas appuyé sur Envoyer dans WhatsApp.", "Les fichiers que vous choisissez dans le formulaire de relevé (photos du site, factures d'électricité) ne sont pas envoyés sur notre site. Sur les téléphones compatibles, le menu de partage du téléphone les transmet directement à WhatsApp ; sinon, vous les joignez vous-même dans la conversation WhatsApp.", "Les messages que vous envoyez sur WhatsApp sont également traités par WhatsApp (Meta) conformément à ses propres conditions et à sa politique de confidentialité."] },
         { h: "Assistant IA", p: ["Si vous utilisez l'assistant IA, les questions que vous saisissez sont envoyées au serveur de notre site et traitées par Anthropic (fournisseur du modèle d'IA Claude) afin de rédiger la réponse. Merci de ne pas saisir d'informations personnelles sensibles dans la conversation.", "Nous ne stockons pas les conversations sur notre serveur ; celui-ci ne conserve que de brefs journaux techniques (erreurs, volumes d'utilisation, par exemple). Votre conversation est conservée dans l'onglet de votre navigateur et effacée à sa fermeture. Si vous choisissez de poursuivre sur WhatsApp, un résumé de vos questions n'y est envoyé que lorsque vous appuyez sur Envoyer."] },
         { h: "Utilisation de vos informations", p: ["Nous utilisons le nom, les coordonnées et les informations sur le site que vous nous transmettez uniquement pour répondre à votre demande, préparer une proposition, installer et entretenir votre système, et vous envoyer les actualités que vous avez demandées.", "Nous ne vendons ni ne louons vos informations. Nous ne les partageons qu'avec le personnel et les partenaires d'installation qui en ont besoin pour vous servir, ou lorsque la loi l'exige."] },
         { h: "Journaux techniques", p: ["Comme tout site web, notre hébergeur peut conserver pour une courte durée des journaux serveur (adresse IP, type de navigateur, pages consultées, par exemple) afin d'assurer la sécurité et le bon fonctionnement du site. Ces journaux ne sont pas utilisés pour identifier ou profiler les visiteurs."] },
@@ -614,7 +616,7 @@ const fr: Dictionary = {
     about: {
       eyebrow: "À propos d'OSLEOS",
       title: "Solutions solaires complètes pour le Bangladesh",
-      body: "Depuis 15 ans, OSLEOS fournit des solutions énergétiques reposant sur des équipements fiables et une ingénierie honnête.",
+      body: "Depuis 15 ans, OSLEOS fournit des solutions solaires reposant sur des équipements fiables et une ingénierie honnête.",
       storyTitle: "Qui sommes-nous",
       story: [
         "OSLEOS se consacre à la fourniture de solutions solaires complètes, à partir d'équipements fiables et de haute qualité. Nous fournissons tout le nécessaire pour construire des systèmes sûrs, performants et durables pour les habitations, les entreprises, l'industrie et au-delà.",

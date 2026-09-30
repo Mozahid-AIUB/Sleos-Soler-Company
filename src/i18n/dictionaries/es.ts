@@ -54,7 +54,7 @@ const es: Dictionary = {
       { title: "Soporte a largo plazo", text: "Monitoreo, mantenimiento y servicio posventa mucho después de la entrega." },
     ],
     floatValue: "15",
-    floatLabel: "Años aportando soluciones energéticas",
+    floatLabel: "Años aportando soluciones solares",
   },
   categories: {
     eyebrow: "Gama de productos",
@@ -173,7 +173,7 @@ const es: Dictionary = {
   },
   stats: {
     items: [
-      { value: "15 años", label: "Aportando soluciones energéticas" },
+      { value: "15 años", label: "Aportando soluciones solares" },
       { value: "24.1%", label: "Eficiencia máxima de módulo" },
       { value: "1,200+", label: "Proyectos entregados" },
       { value: "64", label: "Distritos atendidos" },
@@ -415,17 +415,19 @@ const es: Dictionary = {
       drop: "o arrástrelos y suéltelos aquí",
       types: "PDF, JPG o PNG · hasta 10 MB cada uno · máximo 10 archivos",
       remove: "Quitar",
-      uploading: "Subiendo archivos…",
-      failed: "No se pudieron subir algunos archivos. Puede enviarlos por WhatsApp.",
       tooLarge: "supera los 10 MB",
       badType: "no es un archivo PDF, JPG o PNG",
       tooMany: "Puede adjuntar hasta 10 archivos.",
       attached: "Archivos adjuntos",
+      shareTitle: "Paso 2: envíe sus archivos",
+      shareBody: "Sus archivos permanecen en su dispositivo. Pulse el botón, elija WhatsApp y luego el chat de OSLEOS.",
+      share: "Compartir archivos por WhatsApp",
+      manual: "Adjunte estos archivos en el chat de WhatsApp de OSLEOS:",
     },
     submit: "Enviar por WhatsApp",
     sending: "Preparando su formulario…",
     doneTitle: "Su formulario de medición está listo en WhatsApp",
-    doneBody: "Pulse enviar en WhatsApp y un ingeniero revisará sus datos y le responderá en un día hábil. Los archivos adjuntos se incluyen como enlaces.",
+    doneBody: "Pulse enviar en WhatsApp y un ingeniero revisará sus datos y le responderá en un día hábil.",
     again: "Abrir WhatsApp de nuevo",
     edit: "Editar mis respuestas",
     asideTitle: "El sistema solar adecuado empieza con la información adecuada.",
@@ -531,7 +533,7 @@ const es: Dictionary = {
       body: "Qué información recopila este sitio web y cuál no.",
       sections: [
         { h: "Resumen", p: ["Este sitio web es un sitio informativo estático. No tiene cuentas de usuario, no instala cookies y no utiliza herramientas de analítica ni rastreadores publicitarios.", "Solo recibimos información personal cuando usted decide enviárnosla por WhatsApp, teléfono o correo electrónico."] },
-        { h: "Formularios de este sitio web", p: ["El Formulario de medición y los formularios de contacto y de suscripción no almacenan sus respuestas en nuestros servidores. Al pulsar el botón, su navegador abre WhatsApp con un mensaje ya redactado. No se comparte nada hasta que usted pulsa enviar dentro de WhatsApp.", "Los archivos que adjunte al Formulario de medición (PDF, JPG o PNG, como fotos del lugar y facturas eléctricas) se suben al servidor de nuestro sitio web cuando usted pulsa enviar, para que nuestro equipo pueda abrirlos desde su mensaje de WhatsApp mediante un enlace privado. El enlace es aleatorio y no figura en ningún listado, pero cualquier persona que lo tenga puede abrir el archivo, por lo que le rogamos que adjunte solo lo que necesitamos para su cotización. Eliminamos los archivos adjuntos cuando ya no son necesarios para su consulta o proyecto.", "Los mensajes que envía por WhatsApp también son tratados por WhatsApp (Meta) conforme a sus propias condiciones y política de privacidad."] },
+        { h: "Formularios de este sitio web", p: ["El Formulario de medición y los formularios de contacto y de suscripción no almacenan sus respuestas en nuestros servidores. Al pulsar el botón, su navegador abre WhatsApp con un mensaje ya redactado. No se comparte nada hasta que usted pulsa enviar dentro de WhatsApp.", "Los archivos que elige en el Formulario de medición (fotos del sitio, facturas de electricidad) no se suben a nuestro sitio web. En los teléfonos compatibles, el menú de compartir del teléfono los envía directamente a WhatsApp; de lo contrario, usted mismo los adjunta en el chat de WhatsApp.", "Los mensajes que envía por WhatsApp también son tratados por WhatsApp (Meta) conforme a sus propias condiciones y política de privacidad."] },
         { h: "Chat con el asistente de IA", p: ["Si utiliza el asistente de IA, las preguntas que escribe se envían al servidor de nuestro sitio web y son procesadas por Anthropic (el proveedor del modelo de IA Claude) para redactar la respuesta. Le rogamos que no introduzca información personal sensible en el chat.", "No almacenamos las conversaciones del chat en nuestro servidor; este solo conserva breves registros técnicos (como errores y recuentos de uso). Su conversación se guarda en la pestaña de su propio navegador y se borra al cerrarla. Si decide continuar en WhatsApp, se envía allí un resumen de sus preguntas únicamente cuando usted pulsa enviar."] },
         { h: "Qué hacemos con sus datos", p: ["Utilizamos el nombre, los datos de contacto y la información del sitio que nos envía únicamente para responder a su consulta, preparar una propuesta, instalar y mantener su sistema y enviarle las novedades que haya solicitado.", "No vendemos ni alquilamos su información. Solo la compartimos con el personal y los socios de instalación que la necesitan para atenderle, o cuando la ley lo exige."] },
         { h: "Registros técnicos", p: ["Como cualquier sitio web, nuestro proveedor de alojamiento puede conservar registros del servidor a corto plazo (como la dirección IP, el tipo de navegador y las páginas solicitadas) para mantener el sitio seguro y operativo. Estos registros no se utilizan para identificar ni elaborar perfiles de los visitantes."] },
@@ -614,7 +616,7 @@ const es: Dictionary = {
     about: {
       eyebrow: "Acerca de OSLEOS",
       title: "Soluciones integrales de energía solar para Bangladesh",
-      body: "Desde hace 15 años, OSLEOS ofrece soluciones energéticas basadas en equipos fiables y una ingeniería honesta.",
+      body: "Desde hace 15 años, OSLEOS ofrece soluciones solares basadas en equipos fiables y una ingeniería honesta.",
       storyTitle: "Quiénes somos",
       story: [
         "OSLEOS se dedica a ofrecer soluciones integrales de energía solar con equipos fiables y de alta calidad. Suministramos todo lo necesario para construir sistemas seguros, eficientes y duraderos para hogares, empresas, industrias y mucho más.",

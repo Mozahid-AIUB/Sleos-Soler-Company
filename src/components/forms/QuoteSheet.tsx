@@ -9,8 +9,10 @@ import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 
 /*
  * Solar Project Measurement Form (client's "Measurement Form (English).pdf").
- * Answers go to WhatsApp as a pre-filled message; attached files are uploaded
- * to /api/upload first and included in the message as links.
+ * Answers go to WhatsApp as a pre-filled message. Attached files never leave
+ * the visitor's device through our server: after the message, phones that
+ * support the Web Share API send them straight to WhatsApp; elsewhere the
+ * visitor is asked to attach them in the chat.
  */
 
 type T = Dictionary["quote"];
@@ -199,7 +201,7 @@ function TextArea({ name, label, hint, placeholder, rows = 4 }: { name: string; 
 
 type Picked = { file: File; key: string };
 
-/** File picker with drag-and-drop; validation happens here, upload on submit. */
+/** File picker with drag-and-drop. Files stay in the browser (see ShareFiles). */
 function Files({
   label,
   hint,
@@ -296,6 +298,38 @@ function Files({
   );
 }
 
+/**
+ * Step 2 after the WhatsApp message: hand the chosen files to the phone's
+ * share sheet (WhatsApp shows up there), or list them to attach by hand.
+ */
+function ShareFiles({ files, t }: { files: File[]; t: T["upload"] }) {
+  const [canShare] = useState(() => typeof navigator !== "undefined" && !!navigator.canShare?.({ files }));
+  return (
+    <div className="mt-8 max-w-xl rounded-lg border border-cream-200 bg-cream-50 p-5 sm:p-6">
+      <p className="font-semibold text-ink-900">{t.shareTitle}</p>
+      {canShare ? (
+        <>
+          <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-600">{t.shareBody}</p>
+          <button type="button" onClick={() => void navigator.share({ files }).catch(() => {})} className="btn btn-dark mt-4 w-full sm:w-auto">
+            <WhatsappIcon size={18} />
+            {t.share}
+          </button>
+        </>
+      ) : (
+        <p className="mt-1.5 text-[14.5px] leading-relaxed text-ink-600">{t.manual}</p>
+      )}
+      <ul className="mt-3 grid gap-1 text-[13.5px] text-ink-600">
+        {files.map((f, i) => (
+          <li key={`${f.name}-${i}`} className="flex items-center gap-2">
+            <Icon name={/\.pdf$/i.test(f.name) ? "file" : "image"} size={15} className="shrink-0 text-ink-400" />
+            <span className="truncate">{f.name}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** Reads ?product= on the client so the page itself stays static. */
 function ProductField({ label, names }: { label: string; names: Record<string, string> }) {
   const slug = useSearchParams().get("product");
@@ -308,27 +342,12 @@ function ProductField({ label, names }: { label: string; names: Record<string, s
   );
 }
 
-async function upload(file: File): Promise<string | null> {
-  const body = new FormData();
-  body.append("file", file);
-  try {
-    const res = await fetch("/api/upload", { method: "POST", body });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { url?: string };
-    return data.url ?? null;
-  } catch {
-    return null;
-  }
-}
-
 export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; productNames: Record<string, string> }) {
   const f = t.f;
   const u = t.units;
   const [photos, setPhotos] = useState<Picked[]>([]);
   const [bills, setBills] = useState<Picked[]>([]);
   const [system, setSystem] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-  const [uploadFailed, setUploadFailed] = useState(false);
   const [sentUrl, setSentUrl] = useState<string | null>(null);
   const hybrid = f.systemTypes[2];
 
@@ -337,9 +356,8 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
       <form
         hidden={!!sentUrl}
         className="grid gap-10 [&>section:first-of-type]:border-t-0 [&>section:first-of-type]:pt-0"
-        onSubmit={async (e) => {
+        onSubmit={(e) => {
           e.preventDefault();
-          if (busy) return;
           const form = e.currentTarget;
           const d = new FormData(form);
           const v = (k: string) =>
@@ -355,16 +373,6 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
             const text = v(`${k}Other`);
             return text ? v(k).replace(other, `${other}: ${text}`) : v(k);
           };
-
-          // Open the WhatsApp tab now, inside the click, so pop-up blockers allow it; fill it after the uploads.
-          const tab = photos.length + bills.length > 0 ? window.open("", "_blank") : null;
-          setBusy(true);
-          setUploadFailed(false);
-          const links = async (list: Picked[]) => (await Promise.all(list.map((p) => upload(p.file)))).map((url, i) => url ?? `${list[i].file.name} ✗`);
-          const [photoLinks, billLinks] = await Promise.all([links(photos), links(bills)]);
-          const failed = [...photoLinks, ...billLinks].some((l) => l.endsWith("✗"));
-          setUploadFailed(failed);
-          setBusy(false);
 
           const size = v("roofLength") || v("roofWidth") ? `${v("roofLength") || "?"} × ${v("roofWidth") || "?"} ${v("roofUnit")}` : "";
           const rows: [string, string][] = [
@@ -405,11 +413,9 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
             [`36. ${f.hybridBackup}`, withUnit("hybridBackup", u.hours)],
             [t.sections.notes, v("notes")],
           ];
-          const extra = [
-            ...(photoLinks.length ? ["", `*10. ${f.photos}:*`, ...photoLinks] : []),
-            ...(billLinks.length ? ["", `*21. ${f.bills}:*`, ...billLinks] : []),
-          ];
-          const url = sendToWhatsApp(`${t.title} — OSLEOS website`, rows, extra, tab);
+          const files = [...photos, ...bills];
+          const extra = files.length ? ["", `*${t.upload.attached}:*`, ...files.map((x) => x.file.name)] : [];
+          const url = sendToWhatsApp(`${t.title} — OSLEOS website`, rows, extra);
           setSentUrl(url);
           window.scrollTo({ top: (form.parentElement?.getBoundingClientRect().top ?? 0) + window.scrollY - 120 });
         }}
@@ -500,10 +506,10 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
         </Section>
 
         <div className="grid gap-3 border-t border-cream-200 pt-8">
-          <button type="submit" disabled={busy} className="btn btn-gold !min-h-[56px] w-full disabled:opacity-70 sm:w-auto sm:justify-self-start sm:!px-8">
+          <button type="submit" className="btn btn-gold !min-h-[56px] w-full sm:w-auto sm:justify-self-start sm:!px-8">
             <WhatsappIcon size={19} />
-            {busy ? t.upload.uploading : t.submit}
-            {!busy && <Icon name="arrowRight" size={18} />}
+            {t.submit}
+            <Icon name="arrowRight" size={18} />
           </button>
         </div>
       </form>
@@ -515,7 +521,7 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
           </span>
           <h2 className="mt-6 text-[clamp(24px,2.6vw,32px)] font-bold leading-tight text-ink-900">{t.doneTitle}</h2>
           <p className="lead mt-4 max-w-xl text-ink-600">{t.doneBody}</p>
-          {uploadFailed && <p className="mt-3 max-w-xl text-[14px] text-red-700">{t.upload.failed}</p>}
+          {photos.length + bills.length > 0 && <ShareFiles files={[...photos, ...bills].map((x) => x.file)} t={t.upload} />}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={sentUrl} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
               <WhatsappIcon size={18} />

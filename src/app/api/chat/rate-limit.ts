@@ -6,7 +6,7 @@ import "server-only";
  */
 type Bucket = { tokens: number; updated: number };
 
-export function createLimiter(capacity: number, refillPerSecond: number, maxKeys = 5000) {
+function createLimiter(capacity: number, refillPerSecond: number, maxKeys = 5000) {
   const buckets = new Map<string, Bucket>();
   return (key: string): boolean => {
     const now = Date.now();

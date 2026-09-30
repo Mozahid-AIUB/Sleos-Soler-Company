@@ -19,12 +19,8 @@ WORKDIR /app
 ENV NODE_ENV=production \
     NEXT_TELEMETRY_DISABLED=1 \
     PORT=3000 \
-    HOSTNAME=0.0.0.0 \
-    UPLOAD_DIR=/app/uploads
-# Measurement Form attachments are written to /app/uploads. Mount a persistent
-# volume there in Coolify (Storages -> /app/uploads) so files survive redeploys.
-RUN addgroup -S nodejs -g 1001 && adduser -S nextjs -u 1001 -G nodejs \
- && mkdir -p /app/uploads && chown nextjs:nodejs /app/uploads
+    HOSTNAME=0.0.0.0
+RUN addgroup -S nodejs -g 1001 && adduser -S nextjs -u 1001 -G nodejs
 COPY --from=build --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=build --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=build --chown=nextjs:nodejs /app/public ./public
