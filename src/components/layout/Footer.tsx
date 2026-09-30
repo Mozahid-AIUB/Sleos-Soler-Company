@@ -131,36 +131,28 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
         </div>
       </div>
 
-      <div className="border-t border-cream-200 bg-cream-50">
-        <div className="reveal-fade container-x flex flex-col gap-3 py-5 text-[13px] lg:flex-row lg:items-center lg:justify-between">
-          <ul className="flex flex-wrap gap-x-5 gap-y-2">
-            {legal.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="link-line text-ink-600 transition-colors hover:text-forest-900">
-                  {l.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <p className="text-ink-400">{f.years}</p>
-        </div>
-      </div>
-
       <div className="bg-forest-950 text-[13px]">
-        <div className="container-x flex flex-col gap-3 py-5 pb-24 sm:flex-row sm:items-center sm:justify-between sm:pb-5 sm:pr-24">
-          <p className="text-white/60">
-            © 2026 {site.name}. {f.rights}
-            {site.draft && <span className="block pt-1 text-[12px] text-white/40">{t.common.draft}</span>}
-          </p>
-          <a href="https://mozahidulislam.pro.bd/" target="_blank" rel="noopener" className="group inline-flex items-center gap-2.5 self-start sm:self-auto">
+        <div className="container-x flex flex-col gap-4 py-6 pb-24 lg:flex-row lg:items-center lg:justify-between lg:pb-6 lg:pr-24">
+          <div className="flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-6">
+            <p className="text-white/60">
+              © 2026 {site.name}. {f.rights}
+            </p>
+            <ul className="flex flex-wrap gap-x-5 gap-y-1.5">
+              {legal.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="text-white/45 transition-colors duration-300 hover:text-white">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <a href="https://mozahidulislam.pro.bd/" target="_blank" rel="noopener" className="group inline-flex shrink-0 items-center gap-2.5 self-start lg:self-auto">
             <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-white/45">{f.designedBy}</span>
-            <span className="font-semibold text-white transition-colors duration-300 group-hover:text-gold-400">Mozahidul Islam</span>
-            <Icon
-              name="arrowUpRight"
-              size={13}
-              strokeWidth={2}
-              className="text-white/60 transition-[transform,color] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-gold-400"
-            />
+            <span className="font-semibold text-gold-400 underline decoration-gold-400/40 underline-offset-4 transition-colors duration-300 group-hover:decoration-gold-400">
+              Mozahidul Islam
+            </span>
+            <Icon name="arrowUpRight" size={13} strokeWidth={2} className="text-white/50 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </a>
         </div>
       </div>
