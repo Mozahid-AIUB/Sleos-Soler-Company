@@ -70,8 +70,9 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
     <header className={`header-in fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${solid ? "bg-white shadow-[0_1px_0_var(--color-cream-200)]" : "bg-transparent"}`}>
       {/* Utility bar */}
       <div
-        className={`hidden overflow-hidden border-b text-[13px] transition-[height,opacity] duration-300 lg:block ${
-          scrolled ? "h-0 border-transparent opacity-0" : "h-9 opacity-100"
+        // Clip only while collapsed, so the language menu can drop below the bar.
+        className={`relative z-10 hidden border-b text-[13px] transition-[height,opacity] duration-300 lg:block ${
+          scrolled ? "pointer-events-none h-0 overflow-hidden border-transparent opacity-0" : "h-9 opacity-100"
         } ${solid ? "border-cream-200 text-ink-600" : "border-white/15 text-white/75"}`}
       >
         <div className="container-x flex h-9 items-center justify-between gap-6 whitespace-nowrap">
