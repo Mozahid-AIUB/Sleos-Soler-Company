@@ -9,7 +9,9 @@ const nextConfig: NextConfig = {
   output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
-    qualities: [60, 75, 85],
+    // One quality for every image: 85 keeps photos crisp (75 looked soft on
+    // large heroes). Any other requested quality is served as 85.
+    qualities: [85],
     // Optimised images are cached 30 days (browser + Cloudflare edge).
     minimumCacheTTL: 2592000,
   },
