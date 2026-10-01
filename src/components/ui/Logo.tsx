@@ -1,8 +1,8 @@
 import Image from "next/image";
-import baseWhite from "../../../public/brand/osleos-logo-white-base.png";
-import baseColor from "../../../public/brand/osleos-logo-color-base.png";
-import arcsWhite from "../../../public/brand/osleos-logo-white-arcs.png";
-import arcsBlack from "../../../public/brand/osleos-logo-black-arcs.png";
+import baseWhite from "../../../public/brand/osleos-logo-white-base.webp";
+import baseColor from "../../../public/brand/osleos-logo-color-base.webp";
+import arcsWhite from "../../../public/brand/osleos-logo-white-arcs.webp";
+import arcsBlack from "../../../public/brand/osleos-logo-black-arcs.webp";
 
 /**
  * Official OSLEOS logo: white wordmark on dark backgrounds, brand-blue
@@ -30,13 +30,13 @@ export function Logo({
   const g = light ? ARCS.white : ARCS.black;
   return (
     <span className={`relative inline-block ${className}`}>
-      <Image src={base} alt="OSLEOS" priority={priority} sizes="180px" className="h-full w-auto" />
+      <Image src={base} alt="OSLEOS" priority={priority} unoptimized className="h-full w-auto" />
       <Image
         src={arcs}
         alt=""
         aria-hidden="true"
         priority={priority}
-        sizes="48px"
+        unoptimized
         className="logo-arcs pointer-events-none absolute max-w-none"
         style={{ left: `${g.left}%`, top: `${g.top}%`, width: `${g.width}%`, height: `${g.height}%` }}
       />

@@ -8,7 +8,9 @@ const nextConfig: NextConfig = {
   // Self-contained server bundle for Docker/Coolify (see Dockerfile, docs/DEPLOY.md).
   output: "standalone",
   images: {
-    formats: ["image/avif", "image/webp"],
+    // WebP only: AVIF took 2-7 s per large photo to encode on the VPS, so a
+    // freshly deployed page with many photos appeared not to load.
+    formats: ["image/webp"],
     // One quality for every image: 85 keeps photos crisp (75 looked soft on
     // large heroes). Any other requested quality is served as 85.
     qualities: [85],
