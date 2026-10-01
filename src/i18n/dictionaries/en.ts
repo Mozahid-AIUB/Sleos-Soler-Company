@@ -615,6 +615,47 @@ const en = {
       eyebrow: "About OSLEOS",
       title: "Complete solar power solutions for Bangladesh",
       body: "For 15 years OSLEOS has delivered solar solutions built on reliable equipment and honest engineering.",
+      teamEyebrow: "Leadership",
+      teamTitle: "The people behind OSLEOS",
+      teamBody: "Engineers and advisers with international training in renewable energy, electrical systems and corporate law.",
+      team: [
+        {
+          name: "Engr. Banzir Hazra",
+          role: "Head of Engineering",
+          credentials: "BEng Architectural Engineering · MSc Renewable Energy Engineering, Heriot-Watt University",
+          bio: [
+            "Engr. Banzir Hazra leads the engineering vision at OSLEOS, driving the development of innovative and sustainable solar energy solutions. With a strong academic foundation in Architectural Engineering and Renewable Energy Engineering from Heriot-Watt University, she brings a multidisciplinary approach to designing efficient, reliable and future-ready energy systems.",
+            "Her expertise lies in integrating renewable energy technologies with practical engineering solutions, ensuring that OSLEOS delivers high-performance solar projects that support a cleaner and more sustainable future. Through technical leadership, strategic planning and a commitment to innovation, she plays a key role in advancing OSLEOS' mission of accelerating the transition to renewable energy.",
+          ],
+        },
+        {
+          name: "Engr. Safuan Chowdhury",
+          role: "Chief Engineer",
+          credentials: "BEng Electrical and Electronic Engineering, University of Greater Manchester",
+          bio: [
+            "Engr. Safuan Chowdhury leads the engineering operations at OSLEOS, bringing expertise in Electrical and Electronic Engineering to the development of advanced solar energy solutions. With a strong foundation in electrical systems and engineering principles, he plays a vital role in ensuring the technical excellence, efficiency and reliability of OSLEOS' renewable energy projects.",
+            "His focus on precision engineering, system performance and sustainable technology enables OSLEOS to deliver dependable solar solutions tailored to a rapidly evolving energy landscape. Through technical leadership and a commitment to innovation, he contributes to building smarter, cleaner and more efficient energy systems for the future.",
+          ],
+        },
+        {
+          name: "Engr. Kiran Mathew",
+          role: "Advisor",
+          credentials: "BEng (Hons) Architectural Engineering, Heriot-Watt University · MSc Renewable Energy and Energy Efficiency (REMENA), University of Kassel, Germany & National Engineering School of Monastir (ENIM), Tunisia",
+          bio: [
+            "Engr. Kiran Mathew brings a global perspective and multidisciplinary expertise to OSLEOS as an Advisor, supporting the company's strategic direction in renewable energy innovation. With an academic background spanning Architectural Engineering and Renewable Energy & Energy Efficiency, she combines engineering knowledge with sustainable energy management practices.",
+            "Her international education across the UAE, Germany and Tunisia has shaped her expertise in developing energy-efficient solutions and advancing sustainable technologies. At OSLEOS, she provides valuable guidance on renewable energy strategy, system optimisation and the integration of sustainable practices, supporting the company's vision of a cleaner and more resilient energy future.",
+          ],
+        },
+        {
+          name: "Advocate Md. Maksudul Hasan (Shobuj)",
+          role: "Corporate Legal Advisor",
+          credentials: "LL.B (Honours), LL.M · Advocate, Supreme Court of Bangladesh",
+          bio: [
+            "Advocate Md. Maksudul Hasan serves as the Corporate Legal Advisor of OSLEOS, providing strategic legal guidance on corporate affairs, regulatory compliance and risk management.",
+            "With his extensive legal experience and expertise, he supports OSLEOS in maintaining strong governance standards and ensuring a secure legal foundation for sustainable growth in the renewable energy sector.",
+          ],
+        },
+      ],
       storyTitle: "Who we are",
       story: [
         "OSLEOS is dedicated to delivering complete solar power solutions using reliable, high-quality equipment. We supply everything required to build safe, efficient and long-lasting systems for homes, businesses, industries and beyond.",

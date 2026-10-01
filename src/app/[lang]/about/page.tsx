@@ -12,6 +12,7 @@ import { StatBand } from "@/components/home/StatBand";
 import { Partners } from "@/components/home/Partners";
 import { SystemPackage } from "@/components/home/SystemPackage";
 import { Newsletter } from "@/components/home/Newsletter";
+import { Team } from "@/components/about/Team";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
   const { lang } = await params;
@@ -87,6 +88,8 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       </section>
 
       {/* Why OSLEOS */}
+      <Team t={a} />
+
       <section className="section-y bg-white">
         <div className="container-x">
           <SectionHeading eyebrow={a.whyEyebrow} title={a.whyTitle} />

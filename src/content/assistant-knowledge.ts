@@ -34,6 +34,13 @@ export const assistantKnowledge = `
 - OSLEOS deals with the whole solar power system, including voltage stabilizers.
 - Peak solar module efficiency in our range: up to 24.1%.
 
+# OSLEOS leadership team
+- Engr. Banzir Hazra — Head of Engineering. BEng Architectural Engineering and MSc Renewable Energy Engineering, Heriot-Watt University. Leads the engineering vision and the design of efficient, reliable solar energy systems.
+- Engr. Safuan Chowdhury — Chief Engineer. BEng Electrical and Electronic Engineering, University of Greater Manchester. Leads engineering operations, technical quality and system performance.
+- Engr. Kiran Mathew — Advisor. BEng (Hons) Architectural Engineering, Heriot-Watt University; MSc Renewable Energy and Energy Efficiency (REMENA), University of Kassel (Germany) and ENIM (Tunisia). Advises on renewable energy strategy and system optimisation.
+- Advocate Md. Maksudul Hasan (Shobuj) — Corporate Legal Advisor. LL.B (Honours), LL.M; Advocate, Supreme Court of Bangladesh. Advises on corporate affairs, regulatory compliance and risk management.
+- The team is shown on the About page (/{lang}/about).
+
 # Why OSLEOS
 1. Customer-specific design - one system does not fit everyone.
 2. Financial approach - we evaluate the economics, not just the equipment.

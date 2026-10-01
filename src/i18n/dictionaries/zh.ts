@@ -617,6 +617,47 @@ const zh: Dictionary = {
       eyebrow: "关于 OSLEOS",
       title: "孟加拉国光伏发电整体解决方案",
       body: "15 年来，OSLEOS 以可靠的设备和务实的工程，持续交付太阳能解决方案。",
+      teamEyebrow: "领导团队",
+      teamTitle: "OSLEOS 背后的团队",
+      teamBody: "我们的工程师与顾问在可再生能源、电气系统和公司法领域均接受过国际化的专业培养。",
+      team: [
+        {
+          name: "Engr. Banzir Hazra",
+          role: "工程总监",
+          credentials: "建筑工程学士 · 可再生能源工程硕士，Heriot-Watt University（赫瑞-瓦特大学）",
+          bio: [
+            "Engr. Banzir Hazra 主导 OSLEOS 的工程发展方向，推动创新、可持续的太阳能解决方案的开发。她在 Heriot-Watt University 获得建筑工程与可再生能源工程学位，学术基础扎实，以跨学科的方法设计高效、可靠、面向未来的能源系统。",
+            "她擅长将可再生能源技术与切实可行的工程方案相结合，确保 OSLEOS 交付高性能的光伏项目，助力更清洁、更可持续的未来。凭借技术领导力、战略规划能力和对创新的执着追求，她在推进 OSLEOS 加速向可再生能源转型的使命中发挥着关键作用。",
+          ],
+        },
+        {
+          name: "Engr. Safuan Chowdhury",
+          role: "总工程师",
+          credentials: "电气与电子工程学士，University of Greater Manchester（大曼彻斯特大学）",
+          bio: [
+            "Engr. Safuan Chowdhury 负责 OSLEOS 的工程运营，将其在电气与电子工程领域的专业知识运用于先进太阳能解决方案的开发。他在电气系统和工程原理方面基础深厚，在确保 OSLEOS 可再生能源项目的技术卓越性、效率与可靠性方面发挥着重要作用。",
+            "他专注于精密工程、系统性能和可持续技术，使 OSLEOS 能够针对快速变化的能源格局，提供量身定制、稳定可靠的光伏解决方案。凭借技术领导力和对创新的坚持，他致力于为未来构建更智能、更清洁、更高效的能源系统。",
+          ],
+        },
+        {
+          name: "Engr. Kiran Mathew",
+          role: "顾问",
+          credentials: "建筑工程荣誉学士，Heriot-Watt University · 可再生能源与能源效率硕士（REMENA），德国 University of Kassel（卡塞尔大学）与突尼斯 National Engineering School of Monastir（ENIM，莫纳斯提尔国立工程学院）",
+          bio: [
+            "Engr. Kiran Mathew 以顾问身份为 OSLEOS 带来全球视野和跨学科专长，为公司在可再生能源创新方面的战略方向提供支持。她的学术背景涵盖建筑工程以及可再生能源与能源效率，将工程知识与可持续能源管理实践融为一体。",
+            "她在阿联酋、德国和突尼斯接受的国际化教育，塑造了她在开发节能解决方案和推动可持续技术方面的专长。在 OSLEOS，她就可再生能源战略、系统优化及可持续实践的整合提供宝贵指导，支持公司实现更清洁、更具韧性的能源未来的愿景。",
+          ],
+        },
+        {
+          name: "Advocate Md. Maksudul Hasan (Shobuj)",
+          role: "企业法律顾问",
+          credentials: "法学学士（荣誉）、法学硕士 · 孟加拉国最高法院执业律师",
+          bio: [
+            "Advocate Md. Maksudul Hasan 担任 OSLEOS 企业法律顾问，就公司事务、合规监管和风险管理提供战略性法律指导。",
+            "凭借丰富的法律经验和专业知识，他协助 OSLEOS 保持高标准的公司治理，为公司在可再生能源领域的可持续发展奠定稳固的法律基础。",
+          ],
+        },
+      ],
       storyTitle: "关于我们",
       story: [
         "OSLEOS 致力于采用可靠、高品质的设备，提供光伏发电整体解决方案。我们供应构建安全、高效、长寿命系统所需的全部设备，服务于家庭、企业、工业等各类用户。",

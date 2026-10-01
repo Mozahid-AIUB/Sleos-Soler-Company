@@ -617,6 +617,47 @@ const es: Dictionary = {
       eyebrow: "Acerca de OSLEOS",
       title: "Soluciones integrales de energía solar para Bangladesh",
       body: "Desde hace 15 años, OSLEOS ofrece soluciones solares basadas en equipos fiables y una ingeniería honesta.",
+      teamEyebrow: "Dirección",
+      teamTitle: "El equipo detrás de OSLEOS",
+      teamBody: "Ingenieros y asesores con formación internacional en energías renovables, sistemas eléctricos y derecho societario.",
+      team: [
+        {
+          name: "Engr. Banzir Hazra",
+          role: "Directora de Ingeniería",
+          credentials: "Grado en Ingeniería Arquitectónica · Máster en Ingeniería de Energías Renovables, Heriot-Watt University",
+          bio: [
+            "Engr. Banzir Hazra dirige la visión de ingeniería de OSLEOS e impulsa el desarrollo de soluciones de energía solar innovadoras y sostenibles. Con una sólida formación académica en Ingeniería Arquitectónica e Ingeniería de Energías Renovables por la Heriot-Watt University, aporta un enfoque multidisciplinar al diseño de sistemas energéticos eficientes, fiables y preparados para el futuro.",
+            "Su especialidad es integrar las tecnologías de energías renovables con soluciones de ingeniería prácticas, garantizando que OSLEOS ejecute proyectos solares de alto rendimiento que contribuyan a un futuro más limpio y sostenible. Gracias a su liderazgo técnico, su planificación estratégica y su compromiso con la innovación, desempeña un papel clave en el avance de la misión de OSLEOS: acelerar la transición hacia las energías renovables.",
+          ],
+        },
+        {
+          name: "Engr. Safuan Chowdhury",
+          role: "Ingeniero Jefe",
+          credentials: "Grado en Ingeniería Eléctrica y Electrónica, University of Greater Manchester",
+          bio: [
+            "Engr. Safuan Chowdhury dirige las operaciones de ingeniería de OSLEOS y aplica su experiencia en Ingeniería Eléctrica y Electrónica al desarrollo de soluciones avanzadas de energía solar. Con una sólida base en sistemas eléctricos y principios de ingeniería, desempeña un papel fundamental para garantizar la excelencia técnica, la eficiencia y la fiabilidad de los proyectos de energías renovables de OSLEOS.",
+            "Su enfoque en la ingeniería de precisión, el rendimiento de los sistemas y la tecnología sostenible permite a OSLEOS ofrecer soluciones solares fiables, adaptadas a un panorama energético en rápida evolución. Con su liderazgo técnico y su compromiso con la innovación, contribuye a construir sistemas energéticos más inteligentes, limpios y eficientes para el futuro.",
+          ],
+        },
+        {
+          name: "Engr. Kiran Mathew",
+          role: "Asesora",
+          credentials: "Grado con honores en Ingeniería Arquitectónica, Heriot-Watt University · Máster en Energías Renovables y Eficiencia Energética (REMENA), Universidad de Kassel (Alemania) y Escuela Nacional de Ingenieros de Monastir (ENIM, Túnez)",
+          bio: [
+            "Engr. Kiran Mathew aporta a OSLEOS, como Asesora, una perspectiva global y una experiencia multidisciplinar, apoyando la dirección estratégica de la empresa en materia de innovación en energías renovables. Con una formación académica que abarca la Ingeniería Arquitectónica y las Energías Renovables y la Eficiencia Energética, combina los conocimientos de ingeniería con prácticas de gestión energética sostenible.",
+            "Su formación internacional en los Emiratos Árabes Unidos, Alemania y Túnez ha forjado su experiencia en el desarrollo de soluciones energéticamente eficientes y en el impulso de tecnologías sostenibles. En OSLEOS, ofrece una valiosa orientación sobre estrategia de energías renovables, optimización de sistemas e integración de prácticas sostenibles, en apoyo de la visión de la empresa de un futuro energético más limpio y resiliente.",
+          ],
+        },
+        {
+          name: "Advocate Md. Maksudul Hasan (Shobuj)",
+          role: "Asesor Jurídico Corporativo",
+          credentials: "Licenciatura en Derecho (con honores), Máster en Derecho (LL.M) · Abogado ante el Tribunal Supremo de Bangladés",
+          bio: [
+            "Advocate Md. Maksudul Hasan es el Asesor Jurídico Corporativo de OSLEOS y presta asesoramiento jurídico estratégico en materia de asuntos societarios, cumplimiento normativo y gestión de riesgos.",
+            "Gracias a su amplia experiencia y conocimientos jurídicos, ayuda a OSLEOS a mantener sólidos estándares de gobierno corporativo y a garantizar una base jurídica segura para un crecimiento sostenible en el sector de las energías renovables.",
+          ],
+        },
+      ],
       storyTitle: "Quiénes somos",
       story: [
         "OSLEOS se dedica a ofrecer soluciones integrales de energía solar con equipos fiables y de alta calidad. Suministramos todo lo necesario para construir sistemas seguros, eficientes y duraderos para hogares, empresas, industrias y mucho más.",
