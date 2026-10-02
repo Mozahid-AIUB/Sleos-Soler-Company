@@ -102,6 +102,23 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                 ))}
               </ul>
 
+              {product.features && (
+                <div className="reveal mt-8 rounded-lg border border-gold-400/50 bg-white p-5" style={at(4)}>
+                  <h2 className="flex items-center gap-2 text-[15px] font-bold">
+                    <Icon name="bolt" size={17} className="text-gold-500" />
+                    {tp.smartFeatures}
+                  </h2>
+                  <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
+                    {pick(product.features, lang).map((f) => (
+                      <li key={f} className="flex items-start gap-2.5 text-[14.5px] text-ink-600">
+                        <span aria-hidden="true" className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <div className="reveal mt-9 grid gap-3 sm:grid-cols-2" style={at(4)}>
                 <Link href={quoteHref(lang, product.slug)} className="btn btn-dark w-full">
                   {tp.requestQuote}

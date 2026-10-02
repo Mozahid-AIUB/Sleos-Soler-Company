@@ -31,6 +31,8 @@ export type Product = {
   keySpec: Localized;
   specs: { label: Localized; value: string }[];
   highlights: Localized<string[]>;
+  /** Brand smart-feature list shown as its own block on the product page (Huawei). */
+  features?: Localized<string[]>;
   warranty?: Localized;
   image: string;
   featured?: boolean;
@@ -142,6 +144,12 @@ const L = {
 
 type Label = keyof typeof L;
 const spec = (label: Label, value: string) => ({ label: L[label], value });
+
+/** Huawei smart features (client list, Oct 2026) — shown on every Huawei product. */
+const huaweiFeatures: Localized<string[]> = {
+  en: ["AI-powered arc-fault protection", "Smart energy management", "Intelligent monitoring", "Smart I-V curve diagnosis", "Intelligent system diagnostics"],
+  bn: ["এআই-চালিত আর্ক-ফল্ট প্রোটেকশন", "স্মার্ট এনার্জি ম্যানেজমেন্ট", "ইন্টেলিজেন্ট মনিটরিং", "স্মার্ট I-V কার্ভ ডায়াগনসিস", "ইন্টেলিজেন্ট সিস্টেম ডায়াগনস্টিকস"],
+};
 
 const perProject: Localized = { en: "Per project / manufacturer terms", bn: "প্রকল্প ও প্রস্তুতকারকের শর্ত অনুযায়ী" };
 const perContract: Localized = { en: "Per contract", bn: "চুক্তি অনুযায়ী" };
@@ -585,6 +593,7 @@ export const products: Product[] = [
       en: ["AFCI active arcing protection", "Up to 30% more energy with optimisers", "Natural convection, no fans", "FusionSolar app monitoring"],
       bn: ["AFCI অ্যাকটিভ আর্কিং প্রোটেকশন", "অপটিমাইজারে ৩০% পর্যন্ত বেশি বিদ্যুৎ", "ফ্যানবিহীন প্রাকৃতিক কুলিং", "FusionSolar অ্যাপে মনিটরিং"],
     },
+    features: huaweiFeatures,
     warranty: perProject,
     image: "/media/products/inverter-string.webp",
     featured: true,
@@ -615,6 +624,7 @@ export const products: Product[] = [
       en: ["Smart string-level disconnector", "Smart I-V curve diagnosis", "MBUS power-line communication", "Smart air cooling"],
       bn: ["স্মার্ট স্ট্রিং-লেভেল ডিসকানেক্টর", "স্মার্ট I-V কার্ভ ডায়াগনসিস", "MBUS পাওয়ার-লাইন কমিউনিকেশন", "স্মার্ট এয়ার কুলিং"],
     },
+    features: huaweiFeatures,
     warranty: perProject,
     image: "/media/products/inverter-string.webp",
     source: "https://solar.huawei.com/admin/asset/v1/pro/view/c5056ea20b95424fad3c62f0a5e64a84.pdf",
@@ -978,6 +988,33 @@ export const products: Product[] = [
     image: "/media/products/battery-rack.webp",
   },
 
+  {
+    slug: "huawei-luna2000-5-15-s0",
+    category: "storage",
+    brand: "Huawei",
+    name: "LUNA2000-5/10/15-S0 Smart Energy Storage System",
+    tagline: { en: "Modular lithium storage for Huawei inverters", bn: "হুয়াওয়ে ইনভার্টারের জন্য মডুলার লিথিয়াম স্টোরেজ" },
+    description: {
+      en: "Huawei's modular LiFePO₄ battery with an energy optimiser in every 5 kWh module, so each module charges and discharges on its own. Start at 5 kWh and grow to 30 kWh with a SUN2000 inverter.",
+      bn: "হুয়াওয়ের মডুলার LiFePO₄ ব্যাটারি — প্রতিটি ৫ কিলোওয়াট-ঘণ্টা মডিউলে আলাদা এনার্জি অপটিমাইজার, তাই প্রতিটি মডিউল নিজে নিজে চার্জ ও ডিসচার্জ হয়। ৫ কিলোওয়াট-ঘণ্টা দিয়ে শুরু করে SUN2000 ইনভার্টারের সাথে ৩০ কিলোওয়াট-ঘণ্টা পর্যন্ত বাড়ানো যায়।",
+    },
+    keySpec: { en: "5–30 kWh · LiFePO₄", bn: "৫–৩০ কিলোওয়াট-ঘণ্টা · LiFePO₄" },
+    specs: [
+      spec("capacity", "5 kWh per module · 5–15 kWh per pack · up to 30 kWh"),
+      spec("chemistry", "LiFePO₄ (LFP)"),
+      spec("application", "Huawei SUN2000 hybrid inverters"),
+      spec("ip", "IP66 · natural cooling"),
+      spec("size", "670 × 150 × 600 mm · 63.8 kg (5 kWh)"),
+    ],
+    highlights: {
+      en: ["Each 5 kWh module optimised separately", "100% depth of discharge", "Five-layer safety protection", "Scales from 5 to 30 kWh"],
+      bn: ["প্রতিটি ৫ কিলোওয়াট-ঘণ্টা মডিউল আলাদাভাবে অপটিমাইজড", "১০০% ডেপথ অব ডিসচার্জ", "পাঁচ স্তরের নিরাপত্তা সুরক্ষা", "৫ থেকে ৩০ কিলোওয়াট-ঘণ্টা পর্যন্ত বাড়ানো যায়"],
+    },
+    features: huaweiFeatures,
+    warranty: perProject,
+    image: "/media/products/battery-lifepo4.webp",
+    source: "https://solar.huawei.com/en/products/luna2000-5-10-15-s0/specs/",
+  },
   /* ========================== CHARGE CONTROLLERS ======================== */
   {
     slug: "mppt-charge-controller",
@@ -1312,6 +1349,33 @@ export const products: Product[] = [
   },
 
   /* ======================= PROTECTION & ACCESSORIES ===================== */
+  {
+    slug: "huawei-sun2000-450w-p2",
+    category: "protection",
+    brand: "Huawei",
+    name: "SUN2000-450W-P2 Smart PV Optimizer",
+    tagline: { en: "Module-level optimiser for more energy and safety", bn: "বেশি বিদ্যুৎ ও নিরাপত্তার জন্য মডিউল-লেভেল অপটিমাইজার" },
+    description: {
+      en: "Fitted behind each panel, it lets every module work at its own best point, so shade or dirt on one panel no longer pulls down the whole string, and it shows each module's output in the FusionSolar app.",
+      bn: "প্রতিটি প্যানেলের পেছনে বসানো হয়, ফলে প্রতিটি মডিউল নিজের সেরা পয়েন্টে কাজ করে — একটি প্যানেলে ছায়া বা ময়লা পড়লেও পুরো স্ট্রিং আর পিছিয়ে পড়ে না; FusionSolar অ্যাপে প্রতিটি মডিউলের উৎপাদন দেখা যায়।",
+    },
+    keySpec: { en: "450 W · 99.5% max. efficiency", bn: "৪৫০ ওয়াট · সর্বোচ্চ ৯৯.৫% দক্ষতা" },
+    specs: [
+      spec("power", "450 W rated input"),
+      spec("input", "10–80 V MPPT range"),
+      spec("current", "14.5 A max. short-circuit input"),
+      spec("maxEff", "99.5% (99.0% weighted)"),
+      spec("ip", "IP68"),
+    ],
+    highlights: {
+      en: ["Module-level MPPT", "Less loss from shading and soiling", "Module-level monitoring and auto-mapping", "Arc-fault pinpointing"],
+      bn: ["মডিউল-লেভেল MPPT", "ছায়া ও ময়লায় কম ক্ষতি", "মডিউল-লেভেল মনিটরিং ও অটো-ম্যাপিং", "আর্ক-ফল্টের সঠিক অবস্থান শনাক্ত"],
+    },
+    features: huaweiFeatures,
+    warranty: perProject,
+    image: "/media/products/combiner-box.webp",
+    source: "https://solar.huawei.com/en/products/sun2000-450w-p2-600w-p/specs/",
+  },
   {
     slug: "cnc-ycb8-63pv-dc-mcb",
     category: "protection",

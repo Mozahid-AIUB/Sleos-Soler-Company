@@ -77,6 +77,7 @@ const zh: Dictionary = {
     inStock: "现货",
     vat: "含增值税",
     specs: "技术参数",
+    smartFeatures: "智能功能",
     highlights: "产品亮点",
     warranty: "质保",
     datasheet: "索取规格书",

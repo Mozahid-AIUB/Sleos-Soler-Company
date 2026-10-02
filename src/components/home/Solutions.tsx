@@ -8,8 +8,8 @@ import { Icon } from "@/components/ui/Icon";
 
 const order = [
   { key: "residential", image: "/media/projects/apartment-rooftop-dhaka.webp" },
-  { key: "commercial", image: "/media/projects/roof-to-revenue-chattogram.webp" },
-  { key: "utility", image: "/media/projects/solar-irrigation-rajshahi.webp" },
+  { key: "commercial", image: "/media/projects/commercial-rooftop-tilted.webp" },
+  { key: "utility", image: "/media/projects/solar-field-tilted.webp" },
 ] as const;
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

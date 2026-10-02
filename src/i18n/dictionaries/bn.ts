@@ -77,6 +77,7 @@ const bn: Dictionary = {
     inStock: "স্টকে আছে",
     vat: "ভ্যাটসহ",
     specs: "স্পেসিফিকেশন",
+    smartFeatures: "স্মার্ট ফিচার",
     highlights: "বৈশিষ্ট্য",
     warranty: "ওয়ারেন্টি",
     datasheet: "ডেটাশিট চান",

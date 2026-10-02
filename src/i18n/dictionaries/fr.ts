@@ -77,6 +77,7 @@ const fr: Dictionary = {
     inStock: "En stock",
     vat: "TVA incluse",
     specs: "Caractéristiques techniques",
+    smartFeatures: "Fonctions intelligentes",
     highlights: "Points forts",
     warranty: "Garantie",
     datasheet: "Demander la fiche technique",

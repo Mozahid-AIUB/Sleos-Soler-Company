@@ -58,7 +58,7 @@ export const projects: Project[] = [
       en: "Solar pumps with MPPT controllers replacing diesel for rice and vegetable growers.",
       bn: "MPPT কন্ট্রোলারসহ সোলার পাম্প, ধান ও সবজি চাষিদের জন্য ডিজেলের বিকল্প।",
     },
-    image: "/media/projects/solar-irrigation-rajshahi.webp",
+    image: "/media/projects/solar-field-tilted.webp",
     sample: true,
   },
   {

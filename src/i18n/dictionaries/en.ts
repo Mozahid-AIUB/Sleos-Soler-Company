@@ -75,6 +75,7 @@ const en = {
     inStock: "In stock",
     vat: "incl. VAT",
     specs: "Specifications",
+    smartFeatures: "Smart features",
     highlights: "Highlights",
     warranty: "Warranty",
     datasheet: "Request datasheet",

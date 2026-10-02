@@ -62,6 +62,7 @@ export const assistantKnowledge = `
 # Partner brands
 - PV modules: Trina Solar, Jinko Solar, LONGi, JA Solar, Canadian Solar, Astronergy.
 - Inverters: Sungrow, Huawei, Solis, GoodWe, Growatt, Crown, Deye.
+- Huawei products supplied by OSLEOS: SUN2000 smart solar inverters, LUNA2000 smart energy storage systems (LiFePO4, 5 kWh modules, 5–30 kWh) and SUN2000 smart PV optimizers (module-level). Huawei smart features: AI-powered arc-fault protection, smart energy management, intelligent monitoring, smart I-V curve diagnosis and intelligent system diagnostics.
 - Voltage stabilizer brands: SAKO, CNC Electric, Tengen (also CHNT, Zhengxi and Delixi Electric stabilizers).
 - Balance-of-system / electrical brands we use: Delixi Electric, CHNT, CNC Electric, Tengen, Zhengxi.
 - SAKO is supplied for voltage stabilizers only, not inverters.
