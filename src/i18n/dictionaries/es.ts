@@ -649,11 +649,11 @@ const es: Dictionary = {
           ],
         },
         {
-          name: "Advocate Md. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
           role: "Asesor Jurídico Corporativo",
-          credentials: "Licenciatura en Derecho (con honores), Máster en Derecho (LL.M) · Abogado ante el Tribunal Supremo de Bangladés",
+          credentials: "Licenciatura en Derecho (con honores), Máster en Derecho (LL.M.) · Abogado ante el Tribunal Supremo de Bangladés · Fiscal público adjunto, Tribunal Especial n.º 19 y Juzgado Metropolitano Adicional de lo Penal n.º 11, Daca · Secretario de Biblioteca y miembro del Comité Ejecutivo del Colegio de Abogados de Daca (2026–27)",
           bio: [
-            "Advocate Md. Maksudul Hasan es el Asesor Jurídico Corporativo de OSLEOS y presta asesoramiento jurídico estratégico en materia de asuntos societarios, cumplimiento normativo y gestión de riesgos.",
+            "Advocate Kh. Maksudul Hasan es el Asesor Jurídico Corporativo de OSLEOS y presta asesoramiento jurídico estratégico en materia de asuntos societarios, cumplimiento normativo y gestión de riesgos.",
             "Gracias a su amplia experiencia y conocimientos jurídicos, ayuda a OSLEOS a mantener sólidos estándares de gobierno corporativo y a garantizar una base jurídica segura para un crecimiento sostenible en el sector de las energías renovables.",
           ],
         },

@@ -647,11 +647,11 @@ const en = {
           ],
         },
         {
-          name: "Advocate Md. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
           role: "Corporate Legal Advisor",
-          credentials: "LL.B (Honours), LL.M · Advocate, Supreme Court of Bangladesh",
+          credentials: "LL.B. (Honours), LL.M. · Advocate, Supreme Court of Bangladesh · Additional Public Prosecutor, Special Tribunal-19 and Additional Metropolitan Sessions Judge Court-11, Dhaka · Library Secretary and Executive Committee Member, Dhaka Bar Association (2026–27)",
           bio: [
-            "Advocate Md. Maksudul Hasan serves as the Corporate Legal Advisor of OSLEOS, providing strategic legal guidance on corporate affairs, regulatory compliance and risk management.",
+            "Advocate Kh. Maksudul Hasan serves as the Corporate Legal Advisor of OSLEOS, providing strategic legal guidance on corporate affairs, regulatory compliance and risk management.",
             "With his extensive legal experience and expertise, he supports OSLEOS in maintaining strong governance standards and ensuring a secure legal foundation for sustainable growth in the renewable energy sector.",
           ],
         },

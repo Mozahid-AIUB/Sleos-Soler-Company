@@ -649,11 +649,11 @@ const zh: Dictionary = {
           ],
         },
         {
-          name: "Advocate Md. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
           role: "企业法律顾问",
-          credentials: "法学学士（荣誉）、法学硕士 · 孟加拉国最高法院执业律师",
+          credentials: "法学学士（荣誉）、法学硕士 · 孟加拉国最高法院执业律师 · 达卡第 19 特别法庭及第 11 附加都市刑事法院附加公诉人 · 达卡律师协会图书秘书、执行委员会委员（2026–27）",
           bio: [
-            "Advocate Md. Maksudul Hasan 担任 OSLEOS 企业法律顾问，就公司事务、合规监管和风险管理提供战略性法律指导。",
+            "Advocate Kh. Maksudul Hasan 担任 OSLEOS 企业法律顾问，就公司事务、合规监管和风险管理提供战略性法律指导。",
             "凭借丰富的法律经验和专业知识，他协助 OSLEOS 保持高标准的公司治理，为公司在可再生能源领域的可持续发展奠定稳固的法律基础。",
           ],
         },

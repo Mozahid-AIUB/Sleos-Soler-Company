@@ -62,7 +62,11 @@ export function Team({ t }: { t: About }) {
                 <div>
                   <p className="eyebrow text-teal-600">{m.role}</p>
                   <h3 className="mt-2 text-[22px] font-bold leading-snug tracking-tight text-ink-900">{m.name}</h3>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-ink-400">{m.credentials}</p>
+                  <ul className="mt-2 space-y-0.5 text-[13.5px] leading-relaxed text-ink-400">
+                    {m.credentials.split(" · ").map((c) => (
+                      <li key={c}>{c}</li>
+                    ))}
+                  </ul>
                   <div className="mt-4 space-y-3 border-t border-cream-200 pt-4 text-[15px] leading-relaxed text-ink-600">
                     {m.bio.map((b) => (
                       <p key={b.slice(0, 24)}>{b}</p>
