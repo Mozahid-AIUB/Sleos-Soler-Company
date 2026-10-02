@@ -321,14 +321,15 @@ html[data-motion] .reveal-scale:not([data-inview]) {
 }
 
 /* Image curtain: clips open from the bottom while the picture settles. */
+/* Opacity + transform only: both run on the compositor. (A clip-path wipe
+   repainted large photos every frame and made scrolling stutter.) */
 html[data-motion] .reveal-img {
-  clip-path: inset(0 0 0 0);
-  transition-property: clip-path, transform;
+  transition-property: opacity, transform;
   transition-duration: 1.3s;
 }
 html[data-motion] .reveal-img:not([data-inview]) {
-  clip-path: inset(18% 0 0 0);
-  transform: scale(1.04);
+  opacity: 0;
+  transform: translate3d(0, 24px, 0) scale(1.03);
 }
 
 /* Thin rules that draw in from the left. */
