@@ -12,11 +12,16 @@ type About = Dictionary["pages"]["about"];
  * order as `team` in the dictionaries); until a photo is added the card shows
  * the person's initials, so the section never renders a broken image.
  */
-const PHOTOS = ["banzir-hazra", "safuan-chowdhury", "kiran-mathew", "maksudul-hasan"];
+const PHOTOS = ["banzir-hazra", "lutfar-rahman", "safuan-chowdhury", "maksudul-hasan", "kiran-mathew"];
 
 const photoFor = (i: number) => {
   const file = PHOTOS[i];
-  return file && existsSync(path.join(process.cwd(), "public", "media", "team", `${file}.webp`)) ? `/media/team/${file}.webp` : null;
+  if (!file) return null;
+  for (const ext of ["webp", "png", "jpg", "jpeg"]) {
+    if (existsSync(path.join(process.cwd(), "public", "media", "team", `${file}.${ext}`)))
+      return `/media/team/${file}.${ext}`;
+  }
+  return null;
 };
 
 /** "Engr. Banzir Hazra" -> "BH"; honorifics and bracketed nicknames are skipped. */

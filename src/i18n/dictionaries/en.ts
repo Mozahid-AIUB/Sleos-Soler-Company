@@ -630,6 +630,16 @@ const en = {
           ],
         },
         {
+          name: "Engr. Lutfar Rahman",
+          role: "Chief Project Engineer | Solar PV & Battery Energy Storage Systems (BESS)",
+          credentials: "B.Sc. Electrical & Electronic Engineering, Jatiya Kabi Kazi Nazrul Islam University",
+          bio: [
+            "Engr. Lutfar Rahman serves as the Chief Project Engineer at OSLEOS, specialising in industrial and commercial Solar PV and Battery Energy Storage System (BESS) projects. With extensive hands-on experience in renewable energy engineering, he specialises in MW-scale Solar PV system design, industrial site assessments, system sizing, energy yield analysis, BESS sizing, SLD development, BOQ preparation, technical proposals, project execution and commissioning.",
+            "He is proficient in industry-standard engineering software including PVsyst, HelioScope, AutoCAD and SketchUp. Beyond project engineering, he is an experienced trainer in Solar PV design and renewable energy technologies, contributing to technical knowledge development among aspiring engineers and industry professionals.",
+            "His professional involvement includes 200+ MWp of Solar PV system design, 15+ MWh of BESS design, 10+ MWp of Solar EPC projects and 50+ industrial site surveys. At OSLEOS, he contributes his technical expertise toward delivering reliable, efficient and sustainable energy solutions for industrial and commercial applications.",
+          ],
+        },
+        {
           name: "Engr. Safuan Chowdhury",
           role: "Chief Engineer",
           credentials: "BEng Electrical and Electronic Engineering, University of Greater Manchester",
@@ -639,21 +649,21 @@ const en = {
           ],
         },
         {
-          name: "Engr. Kiran Mathew",
-          role: "Advisor",
-          credentials: "BEng (Hons) Architectural Engineering, Heriot-Watt University · MSc Renewable Energy and Energy Efficiency (REMENA), University of Kassel, Germany & National Engineering School of Monastir (ENIM), Tunisia",
-          bio: [
-            "Engr. Kiran Mathew brings a global perspective and multidisciplinary expertise to OSLEOS as an Advisor, supporting the company's strategic direction in renewable energy innovation. With an academic background spanning Architectural Engineering and Renewable Energy & Energy Efficiency, she combines engineering knowledge with sustainable energy management practices.",
-            "Her international education across the UAE, Germany and Tunisia has shaped her expertise in developing energy-efficient solutions and advancing sustainable technologies. At OSLEOS, she provides valuable guidance on renewable energy strategy, system optimisation and the integration of sustainable practices, supporting the company's vision of a cleaner and more resilient energy future.",
-          ],
-        },
-        {
           name: "Advocate Kh. Maksudul Hasan (Shobuj)",
           role: "Corporate Legal Advisor",
           credentials: "LL.B. (Honours), LL.M. · Advocate, Supreme Court of Bangladesh · Additional Public Prosecutor, Special Tribunal-19 and Additional Metropolitan Sessions Judge Court-11, Dhaka · Library Secretary and Executive Committee Member, Dhaka Bar Association (2026–27)",
           bio: [
             "Advocate Kh. Maksudul Hasan serves as the Corporate Legal Advisor of OSLEOS, providing strategic legal guidance on corporate affairs, regulatory compliance and risk management.",
             "With his extensive legal experience and expertise, he supports OSLEOS in maintaining strong governance standards and ensuring a secure legal foundation for sustainable growth in the renewable energy sector.",
+          ],
+        },
+        {
+          name: "Engr. Kiran Mathew",
+          role: "Advisor",
+          credentials: "BEng (Hons) Architectural Engineering, Heriot-Watt University · MSc Renewable Energy and Energy Efficiency (REMENA), University of Kassel, Germany & National Engineering School of Monastir (ENIM), Tunisia",
+          bio: [
+            "Engr. Kiran Mathew brings a global perspective and multidisciplinary expertise to OSLEOS as an Advisor, supporting the company's strategic direction in renewable energy innovation. With an academic background spanning Architectural Engineering and Renewable Energy & Energy Efficiency, she combines engineering knowledge with sustainable energy management practices.",
+            "Her international education across the UAE, Germany and Tunisia has shaped her expertise in developing energy-efficient solutions and advancing sustainable technologies. At OSLEOS, she provides valuable guidance on renewable energy strategy, system optimisation and the integration of sustainable practices, supporting the company's vision of a cleaner and more resilient energy future.",
           ],
         },
       ],
