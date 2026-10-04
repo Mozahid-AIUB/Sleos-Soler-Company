@@ -649,7 +649,7 @@ const en = {
           ],
         },
         {
-          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Sabuj)",
           role: "Corporate Legal Advisor",
           credentials: "LL.B. (Honours), LL.M. · Advocate, Supreme Court of Bangladesh · Additional Public Prosecutor, Special Tribunal-19 and Additional Metropolitan Sessions Judge Court-11, Dhaka · Library Secretary and Executive Committee Member, Dhaka Bar Association (2026–27)",
           bio: [

@@ -650,7 +650,7 @@ const fr: Dictionary = {
           ],
         },
         {
-          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Sabuj)",
           role: "Conseiller juridique d'entreprise",
           credentials: "Licence en droit (avec mention), LL.M. · Avocat près la Cour suprême du Bangladesh · Procureur public adjoint, Tribunal spécial n° 19 et Cour métropolitaine additionnelle des sessions n° 11, Dacca · Secrétaire de la bibliothèque et membre du comité exécutif du Barreau de Dacca (2026-2027)",
           bio: [

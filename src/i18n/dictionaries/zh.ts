@@ -650,7 +650,7 @@ const zh: Dictionary = {
           ],
         },
         {
-          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Sabuj)",
           role: "企业法律顾问",
           credentials: "法学学士（荣誉）、法学硕士 · 孟加拉国最高法院执业律师 · 达卡第 19 特别法庭及第 11 附加都市刑事法院附加公诉人 · 达卡律师协会图书秘书、执行委员会委员（2026–27）",
           bio: [

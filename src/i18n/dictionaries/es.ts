@@ -650,7 +650,7 @@ const es: Dictionary = {
           ],
         },
         {
-          name: "Advocate Kh. Maksudul Hasan (Shobuj)",
+          name: "Advocate Kh. Maksudul Hasan (Sabuj)",
           role: "Asesor Jurídico Corporativo",
           credentials: "Licenciatura en Derecho (con honores), Máster en Derecho (LL.M.) · Abogado ante el Tribunal Supremo de Bangladés · Fiscal público adjunto, Tribunal Especial n.º 19 y Juzgado Metropolitano Adicional de lo Penal n.º 11, Daca · Secretario de Biblioteca y miembro del Comité Ejecutivo del Colegio de Abogados de Daca (2026–27)",
           bio: [
