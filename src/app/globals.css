@@ -41,10 +41,15 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Plus Jakarta Sans ships fi/fl/ff/ffi/ffl ligatures that swallow the dot of
+     the "i" ("configuration", "offices"). Client asked for a clean "i". */
+  font-variant-ligatures: no-common-ligatures;
 }
 
 html[lang="bn"] body {
   font-family: var(--font-hind), var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  /* Bangla conjuncts may rely on ligature features; leave them alone. */
+  font-variant-ligatures: normal;
 }
 
 /* Chinese: Latin glyphs from Jakarta, CJK from the visitor's system font (no web-font download). */
