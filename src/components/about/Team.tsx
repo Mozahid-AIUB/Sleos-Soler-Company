@@ -76,6 +76,16 @@ export function Team({ t }: { t: About }) {
                     {m.bio.map((b) => (
                       <p key={b.slice(0, 24)}>{b}</p>
                     ))}
+                    {"highlights" in m && m.highlights && (
+                      <ul className="space-y-1.5">
+                        {m.highlights.map((h) => (
+                          <li key={h} className="flex gap-3">
+                            <span aria-hidden="true" className="mt-[11px] h-px w-4 shrink-0 bg-gold-500" />
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
               </article>

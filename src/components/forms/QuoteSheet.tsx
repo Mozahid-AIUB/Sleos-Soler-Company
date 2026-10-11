@@ -1,18 +1,23 @@
 "use client";
 
-import { Suspense, useRef, useState, type ReactNode } from "react";
+import { Suspense, useId, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import type { Dictionary } from "@/i18n/dictionaries/en";
-import { localizeDigits, type Locale } from "@/i18n/config";
+import { localeTags, localizeDigits, type Locale } from "@/i18n/config";
+import { site } from "@/content/site";
 import { sendToWhatsApp } from "@/lib/whatsapp";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
+import { Logo } from "@/components/ui/Logo";
 
 /*
  * Solar Project Measurement Form (client's "Measurement Form (English).pdf").
- * Answers go to WhatsApp as a pre-filled message. Attached files never leave
- * the visitor's device through our server: after the message, phones that
- * support the Web Share API send them straight to WhatsApp; elsewhere the
- * visitor is asked to attach them in the chat.
+ * Questions are numbered 1-43 and grouped into 8 sections exactly like the
+ * PDF. Answers go to WhatsApp as a pre-filled message. Attached files never
+ * leave the visitor's device through our server: after the message, phones
+ * that support the Web Share API send them straight to WhatsApp; elsewhere the
+ * visitor is asked to attach them in the chat. After sending, the answers can
+ * also be saved as a PDF through the browser's print dialog (see PrintSheet).
  */
 
 type T = Dictionary["quote"];
@@ -24,11 +29,27 @@ const OK_TYPE = /\.(pdf|jpe?g|png)$/i;
 
 const labelClass = "grid content-start gap-1.5 text-[14px] font-medium text-ink-900";
 
+/** Row of the submitted-answers summary; a null value makes it a sub-heading. */
+type Row = [label: string, value: string | null];
+type Group = { title: string; rows: Row[] };
+type Sent = { url: string; groups: Group[]; date: string };
+
 function Req() {
   return (
-    <span aria-hidden="true" className="text-teal-600">
+    <span aria-hidden="true" className="font-semibold text-red-600">
       {" "}*
     </span>
+  );
+}
+
+/** Question label: PDF number (muted), text and the required star. */
+function Lbl({ no, label, star = true }: { no?: string; label: string; star?: boolean }) {
+  return (
+    <>
+      {no && <span className="mr-1.5 tabular-nums text-ink-400">{no}</span>}
+      {label}
+      {star && <Req />}
+    </>
   );
 }
 
@@ -51,6 +72,7 @@ function Hint({ children }: { children: ReactNode }) {
 /** Text or number input; `unit` renders as a suffix inside the field. */
 function Field({
   name,
+  no,
   label,
   unit,
   hint,
@@ -62,6 +84,7 @@ function Field({
   className = "",
 }: {
   name: string;
+  no?: string;
   label: string;
   unit?: string;
   hint?: string;
@@ -75,8 +98,7 @@ function Field({
   return (
     <label className={`${labelClass} ${className}`}>
       <span>
-        {label}
-        {required && <Req />}
+        <Lbl no={no} label={label} />
       </span>
       <span className="relative">
         <input
@@ -97,9 +119,53 @@ function Field({
   );
 }
 
+/** Number input with a unit picker inside the field (the PDF's "___ m / ___ ft" and "kW / MW" blanks). */
+function Measure({
+  name,
+  no,
+  label,
+  units,
+  hint,
+  className = "",
+}: {
+  name: string;
+  no?: string;
+  label: string;
+  units: readonly string[];
+  hint?: string;
+  className?: string;
+}) {
+  const id = useId();
+  return (
+    <div className={`${labelClass} ${className}`}>
+      <label htmlFor={id}>
+        <Lbl no={no} label={label} />
+      </label>
+      <span className="relative">
+        <input id={id} name={name} type="text" inputMode="decimal" className="field pr-24 placeholder:text-ink-400" />
+        <span className="absolute right-1.5 top-1/2 -translate-y-1/2">
+          <select
+            name={`${name}Unit`}
+            defaultValue={units[0]}
+            aria-label={units.join(" / ")}
+            className="h-9 appearance-none rounded bg-cream-50 pl-2.5 pr-7 text-[13px] font-medium text-ink-600"
+          >
+            {units.map((u) => (
+              <option key={u}>{u}</option>
+            ))}
+          </select>
+          <Icon name="chevronDown" size={14} className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-ink-400" />
+        </span>
+      </span>
+      {hint && <Hint>{hint}</Hint>}
+    </div>
+  );
+}
+
 /** Choice tiles (native radios or checkboxes, keyboard friendly). */
 function Choice({
   name,
+  no,
   label,
   hint,
   options,
@@ -109,6 +175,7 @@ function Choice({
   onChange,
 }: {
   name: string;
+  no?: string;
   label: string;
   hint?: string;
   options: readonly string[];
@@ -120,8 +187,7 @@ function Choice({
   return (
     <fieldset className="grid gap-2.5">
       <legend className="mb-2.5 text-[14px] font-medium text-ink-900">
-        {label}
-        {required && <Req />}
+        <Lbl no={no} label={label} />
         {hint && (
           <>
             {" "}
@@ -189,10 +255,12 @@ function Select({ name, label, options }: { name: string; label: string; options
   );
 }
 
-function TextArea({ name, label, hint, placeholder, rows = 4 }: { name: string; label: string; hint?: string; placeholder?: string; rows?: number }) {
+function TextArea({ name, no, label, hint, placeholder, rows = 4 }: { name: string; no?: string; label: string; hint?: string; placeholder?: string; rows?: number }) {
   return (
     <label className={labelClass}>
-      {label}
+      <span>
+        <Lbl no={no} label={label} />
+      </span>
       <textarea name={name} rows={rows} placeholder={placeholder} className="field resize-y placeholder:text-ink-400" />
       {hint && <Hint>{hint}</Hint>}
     </label>
@@ -203,6 +271,7 @@ type Picked = { file: File; key: string };
 
 /** File picker with drag-and-drop. Files stay in the browser (see ShareFiles). */
 function Files({
+  no,
   label,
   hint,
   t,
@@ -210,6 +279,7 @@ function Files({
   onChange,
   total,
 }: {
+  no?: string;
   label: string;
   hint: string;
   t: T["upload"];
@@ -244,7 +314,9 @@ function Files({
 
   return (
     <div className="grid gap-2.5">
-      <p className="text-[14px] font-medium text-ink-900">{label}</p>
+      <p className="text-[14px] font-medium text-ink-900">
+        <Lbl no={no} label={label} />
+      </p>
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -330,13 +402,79 @@ function ShareFiles({ files, t }: { files: File[]; t: T["upload"] }) {
   );
 }
 
+/**
+ * Printable copy of the submitted answers. It lives in a portal on <body>,
+ * hidden on screen; the `.qs-print` rules in globals.css hide everything else
+ * when printing, so "Download PDF" (window.print + "Save as PDF") produces a
+ * clean one-document PDF in any language, Bangla included.
+ */
+function PrintSheet({ t, lang, sent }: { t: T; lang: Locale; sent: Sent }) {
+  const address = lang === "bn" ? site.address.bn : site.address.en;
+  return createPortal(
+    <div className="qs-print" lang={localeTags[lang]}>
+      <header className="flex items-start justify-between gap-6 border-b-2 border-ink-900 pb-4">
+        <Logo light={false} animated={false} className="h-10" />
+        <div className="text-right">
+          <p className="text-[15px] font-bold">{t.title}</p>
+          <p className="mt-1 text-[11px] text-ink-600">
+            {t.print.date}: {sent.date}
+          </p>
+        </div>
+      </header>
+      <p className="mt-4 text-[11px] text-ink-600">{t.print.footnote}</p>
+
+      {sent.groups.map((g) => (
+        <section key={g.title} className="mt-5">
+          <h2 className="qs-print-head bg-cream-100 px-3 py-1.5 text-[13px] font-bold">{g.title}</h2>
+          <table className="w-full border-collapse text-[11.5px]">
+            <tbody>
+              {g.rows.map(([label, value], i) =>
+                value === null ? (
+                  <tr key={`${label}-${i}`}>
+                    <th colSpan={2} className="border-b border-cream-200 px-3 py-1.5 text-left font-semibold">
+                      {label}
+                    </th>
+                  </tr>
+                ) : (
+                  <tr key={`${label}-${i}`}>
+                    <th className="w-[46%] border-b border-cream-200 px-3 py-1.5 text-left align-top font-semibold">{label}</th>
+                    <td className="whitespace-pre-line break-words border-b border-cream-200 px-3 py-1.5 align-top">{value || "—"}</td>
+                  </tr>
+                ),
+              )}
+            </tbody>
+          </table>
+        </section>
+      ))}
+
+      <div className="qs-print-sign mt-10 grid grid-cols-3 gap-6 text-[11px]">
+        {[t.print.preparedBy, t.print.clientSignature, t.print.date].map((l) => (
+          <p key={l} className="border-t border-ink-600 pt-1.5">
+            {l}
+          </p>
+        ))}
+      </div>
+
+      <footer className="mt-8 border-t border-cream-200 pt-3 text-[10.5px] leading-relaxed text-ink-600">
+        <p className="font-semibold text-ink-900">OSLEOS · {site.url.replace("https://", "")} · {site.email}</p>
+        <p>
+          {site.phones.map((p) => p.display).join(" · ")} · {address}
+        </p>
+      </footer>
+    </div>,
+    document.body,
+  );
+}
+
 /** Reads ?product= on the client so the page itself stays static. */
 function ProductField({ label, names }: { label: string; names: Record<string, string> }) {
   const slug = useSearchParams().get("product");
   if (!slug) return null;
   return (
     <label className={`${labelClass} sm:col-span-2`}>
-      {label}
+      <span>
+        <Lbl label={label} />
+      </span>
       <input name="product" defaultValue={names[slug] ?? slug} className="field" />
     </label>
   );
@@ -347,14 +485,25 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
   const u = t.units;
   const [photos, setPhotos] = useState<Picked[]>([]);
   const [bills, setBills] = useState<Picked[]>([]);
-  const [system, setSystem] = useState<string | null>(null);
-  const [sentUrl, setSentUrl] = useState<string | null>(null);
-  const hybrid = f.systemTypes[2];
+  const [sent, setSent] = useState<Sent | null>(null);
+  // "1." and, for the PDF's sub-items, "39(i)." with locale digits (Bangla).
+  const N = (n: number, sub?: string) => localizeDigits(`${n}`, lang) + (sub ?? "") + ".";
+  const capacityUnits = [u.kw, u.mw] as const;
+
+  const printPdf = () => {
+    const title = document.title;
+    document.title = `OSLEOS - ${t.title}`;
+    try {
+      window.print();
+    } finally {
+      document.title = title;
+    }
+  };
 
   return (
     <>
       <form
-        hidden={!!sentUrl}
+        hidden={!!sent}
         className="grid gap-10 [&>section:first-of-type]:border-t-0 [&>section:first-of-type]:pt-0"
         onSubmit={(e) => {
           e.preventDefault();
@@ -367,138 +516,254 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
               .filter(Boolean)
               .join(", ");
           const withUnit = (k: string, unit: string) => (v(k) ? `${v(k)} ${unit}` : "");
+          // Number plus the unit picked beside it (m / ft, kW / MW).
+          const measure = (k: string) => (v(k) ? `${v(k)} ${v(`${k}Unit`)}` : "");
           // "Other" plus the typed answer, as on the paper form ("Other: ____").
           const withOther = (k: string, options: readonly string[]) => {
             const other = options[options.length - 1];
             const text = v(`${k}Other`);
             return text ? v(k).replace(other, `${other}: ${text}`) : v(k);
           };
+          // "Transformer 1: 100 kVA, Others: 50 kVA" from the numbered boxes.
+          const each = (k: string, labels: readonly string[], unit: string) =>
+            labels
+              .map((l, i) => (v(`${k}${i}`) ? `${l}: ${v(`${k}${i}`)} ${unit}` : ""))
+              .filter(Boolean)
+              .join(", ");
+          const names = (list: Picked[]) => list.map((x) => x.file.name).join(", ");
 
           const size = v("roofLength") || v("roofWidth") ? `${v("roofLength") || "?"} × ${v("roofWidth") || "?"} ${v("roofUnit")}` : "";
-          const rows: [string, string][] = [
-            [f.product, v("product")],
-            [`1. ${f.projectName}`, v("projectName")],
-            [`2. ${f.projectType}`, withOther("projectType", f.projectTypes)],
-            [`3. ${f.location}`, v("location")],
-            [`4. ${f.company}`, v("company")],
-            [`5. ${f.contactPerson}`, v("contactPerson")],
-            [`6. ${f.designation}`, v("designation")],
-            [`7. ${f.phone}`, v("phone")],
-            [`8. ${f.email}`, v("email")],
-            [`9. ${f.mapsLink}`, v("mapsLink")],
-            [`11. ${f.hours}`, withOther("hours", f.hoursOptions)],
-            [`12. ${f.transformer}`, withUnit("transformer", u.kva)],
-            [`13. ${f.generator}`, withUnit("generator", u.kva)],
-            [`14. ${f.dailyUse}`, withUnit("dailyUse", u.kwhDay)],
-            [`15. ${f.monthlyUse}`, withUnit("monthlyUse", u.kwhMonth)],
-            [`16. ${f.sanctionLoad}`, withUnit("sanctionLoad", u.kva)],
-            [`17. ${f.connectedLoad}`, withUnit("connectedLoad", u.kva)],
-            [`18. ${f.maxLoad}`, withUnit("maxLoad", u.kva)],
-            [`19. ${f.avgLoad}`, withUnit("avgLoad", u.kva)],
-            [`20. ${f.loadList}`, v("loadList")],
-            [`22. ${f.roofSize}`, size],
-            [`23. ${f.roofType}`, withOther("roofType", f.roofTypes)],
-            [`24. ${f.backupLoad}`, withUnit("backupLoad", u.kw)],
-            [`25. ${f.backupTime}`, withUnit("backupTime", u.hours)],
-            [`26. ${f.loadShedding}`, withUnit("loadShedding", u.hours)],
-            [`27. ${f.inverterLocation}`, v("inverterLocation")],
-            [`28. ${f.distanceMdb}`, withUnit("distanceMdb", u.meters)],
-            [`29. ${f.distanceSdb}`, withUnit("distanceSdb", u.meters)],
-            [`30. ${f.roofHeight}`, withUnit("roofHeight", u.meters)],
-            [`31. ${f.purlin}`, withUnit("purlin", u.meters)],
-            [`32. ${f.goal}`, withOther("goal", f.goals)],
-            [`33. ${f.ai}`, v("ai")],
-            [`34. ${f.selfCleaning}`, v("selfCleaning")],
-            [`35. ${f.systemType}`, v("systemType")],
-            [`36. ${f.hybridBackup}`, withUnit("hybridBackup", u.hours)],
-            [t.sections.notes, v("notes")],
+          const title = (n: number, text: string) => `${N(n)} ${text}`;
+          const groups: Group[] = [
+            {
+              title: title(1, t.sections.project),
+              rows: [
+                ...(v("product") ? ([[f.product, v("product")]] as Row[]) : []),
+                [`${N(1)} ${f.projectName}`, v("projectName")],
+                [`${N(2)} ${f.projectType}`, withOther("projectType", f.projectTypes)],
+                [`${N(3)} ${f.location}`, v("location")],
+                [`${N(4)} ${f.company}`, v("company")],
+                [`${N(5)} ${f.contactPerson}`, v("contactPerson")],
+                [`${N(6)} ${f.designation}`, v("designation")],
+                [`${N(7)} ${f.phone}`, v("phone")],
+                [`${N(8)} ${f.email}`, v("email")],
+                [`${N(9)} ${f.mapsLink}`, v("mapsLink")],
+                [`${N(10)} ${f.photos}`, names(photos)],
+              ],
+            },
+            {
+              title: title(2, t.sections.existing),
+              rows: [
+                [`${N(11)} ${f.existingSolar}`, v("existingSolar")],
+                [`${N(12)} ${f.existingCapacity}`, measure("existingCapacity")],
+                [`${N(13)} ${f.expand}`, v("expand")],
+                [`${N(14)} ${f.expandCapacity}`, measure("expandCapacity")],
+              ],
+            },
+            {
+              title: title(3, t.sections.objective),
+              rows: [
+                [`${N(15)} ${f.goal}`, withOther("goal", f.goals)],
+                [`${N(16)} ${f.systemType}`, v("systemType")],
+                [`${N(17)} ${f.backupRequired}`, withUnit("backupRequired", u.hours)],
+                [`${N(18)} ${f.ai}`, v("ai")],
+                [`${N(19)} ${f.selfCleaning}`, v("selfCleaning")],
+              ],
+            },
+            {
+              title: title(4, t.sections.electricity),
+              rows: [
+                [`${N(20)} ${f.hours}`, withOther("hours", f.hoursOptions)],
+                [`${N(21)} ${f.dailyUse}`, withUnit("dailyUse", u.kwhDay)],
+                [`${N(22)} ${f.monthlyUse}`, withUnit("monthlyUse", u.kwhMonth)],
+                [`${N(23)} ${f.connectedLoad}`, withUnit("connectedLoad", u.kw)],
+                [`${N(24)} ${f.sanctionLoad}`, withUnit("sanctionLoad", u.kw)],
+                [`${N(25)} ${f.maxLoad}`, withUnit("maxLoad", u.kw)],
+                [`${N(26)} ${f.avgLoad}`, withUnit("avgLoad", u.kw)],
+                [`${N(27)} ${f.loadList}`, v("loadList")],
+                [`${N(28)} ${f.phaseType}`, withOther("phaseType", f.phaseTypes)],
+                [`${N(29)} ${f.transformer}`, each("transformer", f.transformerRows, u.kva)],
+                [`${N(30)} ${f.generator}`, each("generator", f.generatorRows, u.kva)],
+                [`${N(31)} ${f.bills}`, names(bills)],
+              ],
+            },
+            {
+              title: title(5, t.sections.backup),
+              rows: [
+                [`${N(32)} ${f.backupLoad}`, withUnit("backupLoad", u.kw)],
+                [`${N(33)} ${f.backupTime}`, withUnit("backupTime", u.hours)],
+                [`${N(34)} ${f.loadShedding}`, withUnit("loadShedding", u.hours)],
+              ],
+            },
+            {
+              title: title(6, t.sections.roof),
+              rows: [
+                [`${N(35)} ${f.roofSize}`, size],
+                [`${N(36)} ${f.roofType}`, withOther("roofType", f.roofTypes)],
+                [`${N(37)} ${f.roofHeight}`, measure("roofHeight")],
+                [`${N(38)} ${f.purlin}`, measure("purlin")],
+                [`${t.sections.structure}`, null],
+                [`${N(39)} ${f.mountingHeight}`, null],
+                [`${N(39, "(i)")} ${f.roofToBottom}`, measure("roofToBottom")],
+                [`${N(39, "(ii)")} ${f.frontHeight}`, measure("frontHeight")],
+                [`${N(39, "(iii)")} ${f.rearHeight}`, measure("rearHeight")],
+                [`${N(39, "(iv)")} ${f.tiltAngle}`, withUnit("tiltAngle", "°")],
+                [`${N(40)} ${f.elevatedPurpose}`, withOther("elevatedPurpose", f.elevatedPurposes)],
+              ],
+            },
+            {
+              title: title(7, t.sections.inverter),
+              rows: [
+                [`${N(41)} ${f.inverterLocation}`, v("inverterLocation")],
+                [`${N(42)} ${f.distanceMdb}`, measure("distanceMdb")],
+                [`${N(43)} ${f.distanceSdb}`, measure("distanceSdb")],
+              ],
+            },
+            { title: title(8, t.sections.notes), rows: [[f.notes, v("notes")]] },
           ];
-          const files = [...photos, ...bills];
-          const extra = files.length ? ["", `*${t.upload.attached}:*`, ...files.map((x) => x.file.name)] : [];
-          const url = sendToWhatsApp(`${t.title} — OSLEOS website`, rows, extra);
-          setSentUrl(url);
+          const rows = groups.flatMap((g) => g.rows).filter((r): r is [string, string] => r[1] !== null);
+          const url = sendToWhatsApp(`${t.title} — OSLEOS website`, rows);
+          const date = new Date().toLocaleDateString(localeTags[lang], { day: "numeric", month: "long", year: "numeric" });
+          setSent({ url, groups, date });
           window.scrollTo({ top: (form.parentElement?.getBoundingClientRect().top ?? 0) + window.scrollY - 120 });
         }}
       >
-        <p className="text-[14px] leading-relaxed text-ink-600">{t.note}</p>
+        <div className="grid gap-2">
+          <p className="text-[14px] font-medium text-ink-900">
+            <span aria-hidden="true" className="font-semibold text-red-600">
+              *
+            </span>{" "}
+            {t.legend.replace(/^\*\s*/, "")}
+          </p>
+          <p className="text-[14px] leading-relaxed text-ink-600">{t.note}</p>
+        </div>
 
         <Section id="project" n={1} title={t.sections.project} lang={lang}>
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field name="projectName" label={f.projectName} />
-            <Field name="location" label={f.location} required autoComplete="address-level2" />
-            <Field name="company" label={f.company} autoComplete="organization" />
-            <Field name="contactPerson" label={f.contactPerson} required autoComplete="name" />
-            <Field name="designation" label={f.designation} autoComplete="organization-title" />
-            <Field name="phone" label={f.phone} required type="tel" inputMode="tel" autoComplete="tel" />
-            <Field name="email" label={f.email} type="email" inputMode="email" autoComplete="email" />
-            <Field name="mapsLink" label={f.mapsLink} type="url" inputMode="url" placeholder={f.mapsHint} />
+            <Field name="projectName" no={N(1)} label={f.projectName} className="sm:col-span-2" />
+          </div>
+          <ChoiceWithOther name="projectType" no={N(2)} label={f.projectType} options={f.projectTypes} other={f.projectTypes[f.projectTypes.length - 1]} otherLabel={t.otherSpecify} />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field name="location" no={N(3)} label={f.location} required autoComplete="address-level2" />
+            <Field name="company" no={N(4)} label={f.company} autoComplete="organization" />
+            <Field name="contactPerson" no={N(5)} label={f.contactPerson} required autoComplete="name" />
+            <Field name="designation" no={N(6)} label={f.designation} autoComplete="organization-title" />
+            <Field name="phone" no={N(7)} label={f.phone} required type="tel" inputMode="tel" autoComplete="tel" />
+            <Field name="email" no={N(8)} label={f.email} type="email" inputMode="email" autoComplete="email" />
+            <Field name="mapsLink" no={N(9)} label={f.mapsLink} type="url" inputMode="url" placeholder={f.mapsHint} className="sm:col-span-2" />
             <Suspense fallback={null}>
               <ProductField label={f.product} names={productNames} />
             </Suspense>
           </div>
-          <ChoiceWithOther name="projectType" label={f.projectType} options={f.projectTypes} other={f.projectTypes[f.projectTypes.length - 1]} otherLabel={t.otherSpecify} />
-          <Files label={f.photos} hint={f.photosHint} t={t.upload} files={photos} onChange={setPhotos} total={photos.length + bills.length} />
+          <Files no={N(10)} label={f.photos} hint={f.photosHint} t={t.upload} files={photos} onChange={setPhotos} total={photos.length + bills.length} />
         </Section>
 
-        <Section id="electricity" n={2} title={t.sections.electricity} lang={lang}>
-          <ChoiceWithOther name="hours" label={f.hours} options={f.hoursOptions} other={f.hoursOptions[f.hoursOptions.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-5" />
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Field name="transformer" label={f.transformer} unit={u.kva} inputMode="decimal" />
-            <Field name="generator" label={f.generator} unit={u.kva} inputMode="decimal" />
-            <Field name="dailyUse" label={f.dailyUse} unit={u.kwhDay} inputMode="decimal" />
-            <Field name="monthlyUse" label={f.monthlyUse} unit={u.kwhMonth} inputMode="decimal" />
-            <Field name="sanctionLoad" label={f.sanctionLoad} unit={u.kva} inputMode="decimal" />
-            <Field name="connectedLoad" label={f.connectedLoad} unit={u.kva} inputMode="decimal" />
-            <Field name="maxLoad" label={f.maxLoad} unit={u.kva} inputMode="decimal" />
-            <Field name="avgLoad" label={f.avgLoad} unit={u.kva} inputMode="decimal" />
+        <Section id="existing" n={2} title={t.sections.existing} lang={lang}>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <Choice name="existingSolar" no={N(11)} label={f.existingSolar} options={[t.yes, t.no]} cols="grid-cols-2" />
+            <Measure name="existingCapacity" no={N(12)} label={f.existingCapacity} units={capacityUnits} />
+            <Choice name="expand" no={N(13)} label={f.expand} options={[t.yes, t.no]} cols="grid-cols-2" />
+            <Measure name="expandCapacity" no={N(14)} label={f.expandCapacity} units={capacityUnits} />
           </div>
-          <TextArea name="loadList" label={f.loadList} placeholder={f.loadListHint} rows={5} />
-          <Files label={f.bills} hint={f.billsHint} t={t.upload} files={bills} onChange={setBills} total={photos.length + bills.length} />
         </Section>
 
-        <Section id="roof" n={3} title={t.sections.roof} lang={lang}>
+        <Section id="objective" n={3} title={t.sections.objective} lang={lang}>
+          <ChoiceWithOther name="goal" no={N(15)} label={f.goal} hint={f.goalHint} options={f.goals} multiple other={f.goals[f.goals.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-2" />
+          <Choice name="systemType" no={N(16)} label={f.systemType} options={f.systemTypes} />
+          <div className="grid gap-6 sm:grid-cols-2">
+            <Field name="backupRequired" no={N(17)} label={f.backupRequired} unit={u.hours} inputMode="decimal" />
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <Choice name="ai" no={N(18)} label={f.ai} options={[t.yes, t.no]} cols="grid-cols-2" />
+            <Choice name="selfCleaning" no={N(19)} label={f.selfCleaning} options={[t.yes, t.no]} cols="grid-cols-2" />
+          </div>
+        </Section>
+
+        <Section id="electricity" n={4} title={t.sections.electricity} lang={lang}>
+          <ChoiceWithOther name="hours" no={N(20)} label={f.hours} options={f.hoursOptions} other={f.hoursOptions[f.hoursOptions.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-5" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field name="dailyUse" no={N(21)} label={f.dailyUse} unit={u.kwhDay} inputMode="decimal" />
+            <Field name="monthlyUse" no={N(22)} label={f.monthlyUse} unit={u.kwhMonth} inputMode="decimal" />
+            <Field name="connectedLoad" no={N(23)} label={f.connectedLoad} unit={u.kw} inputMode="decimal" />
+            <Field name="sanctionLoad" no={N(24)} label={f.sanctionLoad} unit={u.kw} inputMode="decimal" />
+            <Field name="maxLoad" no={N(25)} label={f.maxLoad} unit={u.kw} inputMode="decimal" />
+            <Field name="avgLoad" no={N(26)} label={f.avgLoad} unit={u.kw} inputMode="decimal" />
+          </div>
+          <TextArea name="loadList" no={N(27)} label={f.loadList} placeholder={f.loadListHint} rows={5} />
+          <ChoiceWithOther name="phaseType" no={N(28)} label={f.phaseType} options={f.phaseTypes} other={f.phaseTypes[f.phaseTypes.length - 1]} otherLabel={t.otherSpecify} />
           <fieldset className="grid gap-2.5">
-            <legend className="mb-2.5 text-[14px] font-medium text-ink-900">{f.roofSize}</legend>
+            <legend className="mb-2.5 text-[14px] font-medium text-ink-900">
+              <span className="mr-1.5 tabular-nums text-ink-400">{N(29)}</span>
+              {f.transformer}
+            </legend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {f.transformerRows.map((l, i) => (
+                <Field key={l} name={`transformer${i}`} label={l} unit={u.kva} inputMode="decimal" />
+              ))}
+            </div>
+          </fieldset>
+          <fieldset className="grid gap-2.5">
+            <legend className="mb-2.5 text-[14px] font-medium text-ink-900">
+              <span className="mr-1.5 tabular-nums text-ink-400">{N(30)}</span>
+              {f.generator}
+            </legend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {f.generatorRows.map((l, i) => (
+                <Field key={l} name={`generator${i}`} label={l} unit={u.kva} inputMode="decimal" />
+              ))}
+            </div>
+          </fieldset>
+          <Files no={N(31)} label={f.bills} hint={f.billsHint} t={t.upload} files={bills} onChange={setBills} total={photos.length + bills.length} />
+        </Section>
+
+        <Section id="backup" n={5} title={t.sections.backup} lang={lang}>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <Field name="backupLoad" no={N(32)} label={f.backupLoad} unit={u.kw} inputMode="decimal" />
+            <Field name="backupTime" no={N(33)} label={f.backupTime} unit={u.hours} inputMode="decimal" />
+            <Field name="loadShedding" no={N(34)} label={f.loadShedding} unit={u.hours} inputMode="decimal" />
+          </div>
+        </Section>
+
+        <Section id="roof" n={6} title={t.sections.roof} lang={lang}>
+          <fieldset className="grid gap-2.5">
+            <legend className="mb-2.5 text-[14px] font-medium text-ink-900">
+              <span className="mr-1.5 tabular-nums text-ink-400">{N(35)}</span>
+              {f.roofSize}
+            </legend>
             <div className="grid grid-cols-[1fr_1fr_0.8fr] gap-3 sm:gap-4">
               <Field name="roofLength" label={f.length} inputMode="decimal" />
               <Field name="roofWidth" label={f.width} inputMode="decimal" />
               <Select name="roofUnit" label={f.lengthUnits.join(" / ")} options={f.lengthUnits} />
             </div>
           </fieldset>
-          <ChoiceWithOther name="roofType" label={f.roofType} options={f.roofTypes} other={f.roofTypes[f.roofTypes.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-4" />
-        </Section>
-
-        <Section id="backup" n={4} title={t.sections.backup} lang={lang}>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <Field name="backupLoad" label={f.backupLoad} unit={u.kw} inputMode="decimal" />
-            <Field name="backupTime" label={f.backupTime} unit={u.hours} inputMode="decimal" />
-            <Field name="loadShedding" label={f.loadShedding} unit={u.hours} inputMode="decimal" />
-          </div>
-        </Section>
-
-        <Section id="inverter" n={5} title={t.sections.inverter} lang={lang}>
-          <Field name="inverterLocation" label={f.inverterLocation} placeholder={f.inverterLocationHint} />
+          <ChoiceWithOther name="roofType" no={N(36)} label={f.roofType} options={f.roofTypes} other={f.roofTypes[f.roofTypes.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-4" />
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field name="distanceMdb" label={f.distanceMdb} unit={u.meters} inputMode="decimal" />
-            <Field name="distanceSdb" label={f.distanceSdb} unit={u.meters} inputMode="decimal" />
+            <Measure name="roofHeight" no={N(37)} label={f.roofHeight} units={f.lengthUnits} />
+            <Measure name="purlin" no={N(38)} label={f.purlin} units={f.lengthUnits} hint={f.purlinHint} />
           </div>
+
+          <h3 className="mt-2 text-[16px] font-bold text-ink-900">{t.sections.structure}</h3>
+          <fieldset className="grid gap-4">
+            <legend className="mb-1 text-[14px] font-medium text-ink-900">
+              <span className="mr-1.5 tabular-nums text-ink-400">{N(39)}</span>
+              {f.mountingHeight}
+            </legend>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Measure name="roofToBottom" no="(i)" label={f.roofToBottom} units={f.lengthUnits} />
+              <Measure name="frontHeight" no="(ii)" label={f.frontHeight} units={f.lengthUnits} />
+              <Measure name="rearHeight" no="(iii)" label={f.rearHeight} units={f.lengthUnits} />
+              <Field name="tiltAngle" no="(iv)" label={f.tiltAngle} unit="°" inputMode="decimal" />
+            </div>
+          </fieldset>
+          <ChoiceWithOther name="elevatedPurpose" no={N(40)} label={f.elevatedPurpose} options={f.elevatedPurposes} other={f.elevatedPurposes[f.elevatedPurposes.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-3" />
         </Section>
 
-        <Section id="structure" n={6} title={t.sections.structure} lang={lang}>
+        <Section id="inverter" n={7} title={t.sections.inverter} lang={lang}>
+          <Field name="inverterLocation" no={N(41)} label={f.inverterLocation} placeholder={f.inverterLocationHint} />
           <div className="grid gap-4 sm:grid-cols-2">
-            <Field name="roofHeight" label={f.roofHeight} unit={u.meters} inputMode="decimal" />
-            <Field name="purlin" label={f.purlin} unit={u.meters} inputMode="decimal" hint={f.purlinHint} />
+            <Measure name="distanceMdb" no={N(42)} label={f.distanceMdb} units={f.lengthUnits} />
+            <Measure name="distanceSdb" no={N(43)} label={f.distanceSdb} units={f.lengthUnits} />
           </div>
-        </Section>
-
-        <Section id="objective" n={7} title={t.sections.objective} lang={lang}>
-          <ChoiceWithOther name="goal" label={f.goal} hint={f.goalHint} options={f.goals} multiple other={f.goals[f.goals.length - 1]} otherLabel={t.otherSpecify} cols="sm:grid-cols-2" />
-          <div className="grid gap-6 sm:grid-cols-2">
-            <Choice name="ai" label={f.ai} options={[t.yes, t.no]} cols="grid-cols-2" />
-            <Choice name="selfCleaning" label={f.selfCleaning} options={[t.yes, t.no]} cols="grid-cols-2" />
-          </div>
-          <Choice name="systemType" label={f.systemType} options={f.systemTypes} onChange={(val, on) => on && setSystem(val)} />
-          {system === hybrid && <Field name="hybridBackup" label={f.hybridBackup} unit={u.hours} inputMode="decimal" className="sm:max-w-[calc(50%-0.5rem)]" />}
         </Section>
 
         <Section id="notes" n={8} title={t.sections.notes} lang={lang}>
@@ -514,7 +779,7 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
         </div>
       </form>
 
-      {sentUrl && (
+      {sent && (
         <div role="status" className="py-6 sm:py-10">
           <span className="flex h-12 w-12 items-center justify-center rounded-full bg-forest-900 text-gold-400">
             <Icon name="check" size={24} strokeWidth={2.2} />
@@ -523,14 +788,22 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
           <p className="lead mt-4 max-w-xl text-ink-600">{t.doneBody}</p>
           {photos.length + bills.length > 0 && <ShareFiles files={[...photos, ...bills].map((x) => x.file)} t={t.upload} />}
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href={sentUrl} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
+            <a href={sent.url} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
               <WhatsappIcon size={18} />
               {t.again}
             </a>
-            <button type="button" onClick={() => setSentUrl(null)} className="btn btn-outline">
+            <button type="button" onClick={printPdf} className="btn btn-dark">
+              <Icon name="download" size={18} />
+              {t.pdf.button}
+            </button>
+            <button type="button" onClick={() => setSent(null)} className="btn btn-outline">
               {t.edit}
             </button>
           </div>
+          <p className="mt-3 max-w-xl text-[13.5px] leading-relaxed text-ink-400">
+            <span className="font-semibold text-ink-600">{t.pdf.title}.</span> {t.pdf.body}
+          </p>
+          <PrintSheet t={t} lang={lang} sent={sent} />
         </div>
       )}
     </>

@@ -496,3 +496,41 @@ html.lenis body {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* ---------- Measurement form: printable copy ("Download PDF") ----------
+   QuoteSheet renders .qs-print into <body> after the form is sent. It is
+   hidden on screen; when printing, everything else is hidden so "Save as PDF"
+   yields just the filled-in form. */
+
+.qs-print {
+  display: none;
+}
+
+@page qs {
+  margin: 14mm;
+}
+
+@media print {
+  body > *:not(.qs-print) {
+    display: none !important;
+  }
+  .qs-print {
+    display: block;
+    page: qs;
+    color: var(--color-ink-900);
+    background: #fff;
+    font-size: 12px;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .qs-print section,
+  .qs-print tr,
+  .qs-print footer,
+  .qs-print-sign {
+    break-inside: avoid;
+  }
+  .qs-print-head {
+    break-after: avoid;
+  }
+}
