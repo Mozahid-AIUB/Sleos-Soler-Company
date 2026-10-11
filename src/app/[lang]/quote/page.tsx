@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
@@ -13,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/quote">): 
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: `${t.quote.title} · ${t.quote.eyebrow}`, description: t.quote.body };
+  return { title: `${t.quote.title} · ${t.quote.eyebrow}`, description: t.quote.body, alternates: pageAlternates(lang, "/quote") };
 }
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

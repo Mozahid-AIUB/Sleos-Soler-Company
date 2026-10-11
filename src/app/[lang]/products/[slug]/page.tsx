@@ -6,7 +6,9 @@ import { notFound } from "next/navigation";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { categories, getProduct, products } from "@/content/products";
-import { whatsappLink } from "@/content/site";
+import { site, whatsappLink } from "@/content/site";
+import { pageAlternates } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ProductImage } from "@/components/product/ProductImage";
 import { ProductCard, quoteHref } from "@/components/product/ProductCard";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
@@ -21,7 +23,13 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products/[
   const product = getProduct(slug);
   if (!hasLocale(lang) || !product) return {};
   const title = product.brand ? `${product.brand} ${product.name}` : product.name;
-  return { title, description: `${pick(product.tagline, lang)}. ${pick(product.keySpec, lang)}` };
+  const description = `${pick(product.tagline, lang)}. ${pick(product.keySpec, lang)}`;
+  return {
+    title,
+    description,
+    alternates: pageAlternates(lang, `/products/${slug}`),
+    openGraph: { title, description, images: [{ url: product.image }] },
+  };
 }
 
 export default async function ProductPage({ params }: PageProps<"/[lang]/products/[slug]">) {
@@ -50,8 +58,34 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
     ...(product.warranty ? [{ label: tp.warranty, value: pick(product.warranty, lang) }] : []),
   ];
 
+  const url = `${site.url}/${lang}/products/${product.slug}`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        name: fullName,
+        description: `${pick(product.tagline, lang)}. ${pick(product.description, lang)}`,
+        image: `${site.url}${product.image}`,
+        url,
+        brand: { "@type": "Brand", name: product.brand ?? site.name },
+        category: category ? pick(category.name, lang) : undefined,
+        manufacturer: product.brand ? { "@type": "Organization", name: product.brand } : { "@type": "Organization", name: site.name },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: t.common.home, item: `${site.url}/${lang}` },
+          { "@type": "ListItem", position: 2, name: tp.back, item: `${site.url}/${lang}/products` },
+          { "@type": "ListItem", position: 3, name: product.name, item: url },
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <JsonLd data={schema} />
       <div className="h-[72px] lg:h-[120px]" />
       <section className="bg-cream-50 pb-20 pt-8 lg:pb-28">
         <div className="container-x">

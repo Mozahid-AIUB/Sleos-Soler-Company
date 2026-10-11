@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
@@ -10,7 +11,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/contact">)
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.pages.contact.title, description: t.pages.contact.body };
+  return { title: t.pages.contact.title, description: t.pages.contact.body, alternates: pageAlternates(lang, "/contact") };
 }
 
 export default async function ContactPage({ params }: PageProps<"/[lang]/contact">) {

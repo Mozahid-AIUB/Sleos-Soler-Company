@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/sustainabi
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.sustainability.eyebrow, description: t.sustainability.body };
+  return { title: t.sustainability.eyebrow, description: t.sustainability.body, alternates: pageAlternates(lang, "/sustainability") };
 }
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

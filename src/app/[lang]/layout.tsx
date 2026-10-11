@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Hind_Siliguri, Plus_Jakarta_Sans } from "next/font/google";
 import { hasLocale, locales, localeTags, ogLocales } from "@/i18n/config";
+import { pageAlternates } from "@/lib/seo";
 import { pick } from "@/i18n/content";
 import { categories } from "@/content/products";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -10,6 +11,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AssistantWidget } from "@/components/chat/AssistantWidget";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { Analytics } from "@/components/seo/Analytics";
 import "../globals.css";
 
 // Variable font: one file covers every weight used.
@@ -42,10 +45,10 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     metadataBase: new URL(site.url),
     title: { default: t.meta.title, template: `%s · ${site.name}` },
     description: t.meta.description,
-    alternates: {
-      canonical: `/${lang}`,
-      languages: Object.fromEntries(locales.map((l) => [localeTags[l], `/${l}`])),
-    },
+    // Home page; every other page sets its own in generateMetadata.
+    alternates: pageAlternates(lang),
+    // Google Search Console HTML-tag verification (set GOOGLE_SITE_VERIFICATION in Coolify).
+    verification: process.env.GOOGLE_SITE_VERIFICATION ? { google: process.env.GOOGLE_SITE_VERIFICATION } : undefined,
     openGraph: {
       title: t.meta.title,
       description: t.meta.description,
@@ -55,6 +58,35 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     },
   };
 }
+
+/** Organisation + website data for Google (knowledge panel, local results). */
+const orgSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": `${site.url}/#organization`,
+      name: site.name,
+      url: site.url,
+      logo: `${site.url}/brand/osleos-app-icon.png`,
+      image: `${site.url}/brand/og.jpg`,
+      description: "Complete solar power systems, inverters, batteries and voltage stabilizers for homes, businesses and industry in Bangladesh.",
+      telephone: site.phones[0].display,
+      email: site.email,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Tanjima Villa, 31/1, Lift-2, Flat-C2 (2nd Floor), East Hazipara, Rampura",
+        addressLocality: "Dhaka",
+        postalCode: "1219",
+        addressCountry: "BD",
+      },
+      geo: { "@type": "GeoCoordinates", latitude: 23.7586356, longitude: 90.4184124 },
+      areaServed: { "@type": "Country", name: "Bangladesh" },
+      sameAs: Object.values(site.social),
+    },
+    { "@type": "WebSite", "@id": `${site.url}/#website`, url: site.url, name: site.name, publisher: { "@id": `${site.url}/#organization` }, inLanguage: locales.map((l) => localeTags[l]) },
+  ],
+};
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
@@ -76,6 +108,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <Footer lang={lang} t={t} />
         <AssistantWidget lang={lang} t={t.assistant} />
         <MotionProvider />
+        <JsonLd data={orgSchema} />
+        <Analytics />
       </body>
     </html>
   );

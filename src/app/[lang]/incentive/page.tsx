@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import Link from "next/link";
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/incentive"
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.incentive.pageTitle, description: t.incentive.body };
+  return { title: t.incentive.pageTitle, description: t.incentive.body, alternates: pageAlternates(lang, "/incentive") };
 }
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

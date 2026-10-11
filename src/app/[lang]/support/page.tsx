@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/support">)
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.support.eyebrow, description: t.support.body };
+  return { title: t.support.eyebrow, description: t.support.body, alternates: pageAlternates(lang, "/support") };
 }
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

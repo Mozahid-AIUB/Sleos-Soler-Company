@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
@@ -9,7 +10,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/privacy">)
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.legal.privacy.title, description: t.legal.privacy.body };
+  return { title: t.legal.privacy.title, description: t.legal.privacy.body, alternates: pageAlternates(lang, "/privacy") };
 }
 
 export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy">) {

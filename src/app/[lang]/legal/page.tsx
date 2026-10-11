@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
@@ -9,7 +10,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/legal">): 
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.legal.terms.title, description: t.legal.terms.body };
+  return { title: t.legal.terms.title, description: t.legal.terms.body, alternates: pageAlternates(lang, "/legal") };
 }
 
 export default async function LegalPage({ params }: PageProps<"/[lang]/legal">) {

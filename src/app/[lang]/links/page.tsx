@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/links">): 
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.footer.links, description: t.links.body };
+  return { title: t.footer.links, description: t.links.body, alternates: pageAlternates(lang, "/links") };
 }
 
 type Item = { href: string; label: string; sub?: string; icon: ReactNode; external?: boolean; internal?: boolean; primary?: boolean };

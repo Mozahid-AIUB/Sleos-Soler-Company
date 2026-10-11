@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/projects">
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.pages.projects.title, description: t.pages.projects.body };
+  return { title: t.pages.projects.title, description: t.pages.projects.body, alternates: pageAlternates(lang, "/projects") };
 }
 
 export default async function ProjectsPage({ params }: PageProps<"/[lang]/projects">) {

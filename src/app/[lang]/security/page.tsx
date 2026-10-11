@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
@@ -11,7 +12,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/security">
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.legal.security.title, description: t.legal.security.body };
+  return { title: t.legal.security.title, description: t.legal.security.body, alternates: pageAlternates(lang, "/security") };
 }
 
 export default async function SecurityPage({ params }: PageProps<"/[lang]/security">) {

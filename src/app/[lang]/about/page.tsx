@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { CSSProperties } from "react";
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/about">): 
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.pages.about.eyebrow, description: t.pages.about.body };
+  return { title: t.pages.about.eyebrow, description: t.pages.about.body, alternates: pageAlternates(lang, "/about") };
 }
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;

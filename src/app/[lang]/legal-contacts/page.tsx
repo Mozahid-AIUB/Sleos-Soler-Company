@@ -1,3 +1,4 @@
+import { pageAlternates } from "@/lib/seo";
 import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
@@ -12,7 +13,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/legal-cont
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.legal.contacts.title, description: t.legal.contacts.body };
+  return { title: t.legal.contacts.title, description: t.legal.contacts.body, alternates: pageAlternates(lang, "/legal-contacts") };
 }
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
