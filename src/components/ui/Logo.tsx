@@ -8,12 +8,12 @@ import arcsBlack from "../../../public/brand/osleos-logo-black-arcs.webp";
  * Official OSLEOS logo: white wordmark on dark backgrounds, brand-blue
  * wordmark on light ones. The wordmark and sun disc are static; the two gold
  * arcs orbit the disc continuously (paused for prefers-reduced-motion).
- * Arc layer placement comes from logo_split.py (percent of the logo box,
- * centred on the disc).
+ * Arc layer placement is the square arc layer's box as a percent of the logo
+ * box, centred on the disc (the arcs are split out of the supplied artwork).
  */
 const ARCS = {
-  white: { left: 0.331, top: 0.888, width: 22.001, height: 98.225 },
-  black: { left: 0.331, top: 0.888, width: 22.001, height: 98.225 },
+  white: { left: -0.839, top: -1.068, width: 21.377, height: 102.866 },
+  black: { left: -0.776, top: -0.961, width: 21.466, height: 102.848 },
 } as const;
 
 export function Logo({
