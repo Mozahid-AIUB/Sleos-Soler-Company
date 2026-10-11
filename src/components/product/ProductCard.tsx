@@ -5,6 +5,7 @@ import type { Locale } from "@/i18n/config";
 import { categories, type Product } from "@/content/products";
 import { ProductImage } from "@/components/product/ProductImage";
 import { Icon } from "@/components/ui/Icon";
+import { BrandMark } from "@/components/product/BrandMark";
 
 export const quoteHref = (lang: Locale, slug: string) => `/${lang}/quote?product=${encodeURIComponent(slug)}`;
 
@@ -18,7 +19,9 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
       </Link>
       <div className="flex flex-1 flex-col p-5">
         <p className="flex flex-wrap items-center gap-x-2 text-[12.5px] font-medium text-ink-400">
-          {product.brand && <span className="font-semibold uppercase tracking-[0.08em] text-teal-600">{product.brand}</span>}
+          {product.brand && (
+            <span className="font-semibold uppercase tracking-[0.08em] text-teal-600"><BrandMark brand={product.brand} /></span>
+          )}
           {product.brand && <span aria-hidden="true">·</span>}
           <span>{category && pick(category.name, lang)}</span>
         </p>

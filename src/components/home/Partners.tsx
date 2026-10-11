@@ -32,7 +32,7 @@ const inverters: Logo[] = [
 
 const stabilizers = ["SAKO", "CNC Electric", "Tengen"];
 
-const brands = ["Delixi Electric", "CHNT", "CNC Electric", "Tengen", "Zhengxi"];
+const brands = ["Delixi Electric", "CHINT", "CNC Electric", "Tengen", "Zhengxi"];
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
 

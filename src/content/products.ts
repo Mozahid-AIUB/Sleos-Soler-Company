@@ -108,7 +108,7 @@ const L = {
   bifaciality: { en: "Bifaciality", bn: "বাইফেসিয়ালিটি" },
   dims: { en: "Dimensions", bn: "মাপ" },
   weight: { en: "Weight", bn: "ওজন" },
-  tempCo: { en: "Temp. coefficient (Pmax)", bn: "তাপমাত্রা সহগ (Pmax)" },
+  tempCo: { en: "Temp. Coefficient (Pmax)", bn: "তাপমাত্রা সহগ (Pmax)" },
   degradation: { en: "Degradation", bn: "ডিগ্রেডেশন" },
   load: { en: "Mechanical load", bn: "মেকানিক্যাল লোড" },
   type: { en: "Type", bn: "ধরন" },
@@ -129,6 +129,7 @@ const L = {
   protections: { en: "Protections", bn: "প্রোটেকশন" },
   standard: { en: "Standard", bn: "স্ট্যান্ডার্ড" },
   current: { en: "Rated current", bn: "রেটেড কারেন্ট" },
+  maxDischarge: { en: "Maximum discharge current (Imax)", bn: "সর্বোচ্চ ডিসচার্জ কারেন্ট (Imax)" },
   voltage: { en: "Rated voltage", bn: "রেটেড ভোল্টেজ" },
   breaking: { en: "Breaking capacity", bn: "ব্রেকিং ক্যাপাসিটি" },
   poles: { en: "Poles", bn: "পোল" },
@@ -151,12 +152,12 @@ const huaweiFeatures: Localized<string[]> = {
   bn: ["এআই-চালিত আর্ক-ফল্ট প্রোটেকশন", "স্মার্ট এনার্জি ম্যানেজমেন্ট", "ইন্টেলিজেন্ট মনিটরিং", "স্মার্ট I-V কার্ভ ডায়াগনসিস", "ইন্টেলিজেন্ট সিস্টেম ডায়াগনস্টিকস"],
 };
 
-const perProject: Localized = { en: "Per project / manufacturer terms", bn: "প্রকল্প ও প্রস্তুতকারকের শর্ত অনুযায়ী" };
+const perProject: Localized = { en: "As per manufacturer warranty terms", bn: "প্রস্তুতকারকের ওয়ারেন্টি শর্ত অনুযায়ী" };
 const perContract: Localized = { en: "Per contract", bn: "চুক্তি অনুযায়ী" };
 
 /* ------------------------------------------------------------------ */
 
-export const products: Product[] = [
+const catalogue: Product[] = [
   /* ============================ SOLAR PANELS ============================ */
   {
     slug: "trina-vertex-s-plus-neg9r28",
@@ -168,15 +169,15 @@ export const products: Product[] = [
       en: "Trina's compact i-TOPCon module: high output from a small, light panel that suits Bangladesh's crowded city rooftops, with dual-glass durability against heat and humidity.",
       bn: "ট্রিনার কমপ্যাক্ট i-TOPCon মডিউল — ছোট ও হালকা প্যানেলে বেশি উৎপাদন, যা শহরের সীমিত ছাদের জন্য উপযোগী। ডুয়াল-গ্লাস গঠন গরম ও আর্দ্রতায় দীর্ঘ সময় টেকে।",
     },
-    keySpec: { en: "430–460 W · up to 23.0%", bn: "৪৩০–৪৬০ ওয়াট · সর্বোচ্চ ২৩.০%" },
+    keySpec: { en: "425–450 W · up to 22.5%", bn: "৪২৫–৪৫০ ওয়াট · সর্বোচ্চ ২২.৫%" },
     specs: [
-      spec("power", "430–460 W"),
-      spec("eff", "23.0%"),
-      spec("cells", "N-type i-TOPCon, 144 half-cells"),
+      spec("power", "425–450 W"),
+      spec("eff", "22.5%"),
+      spec("cells", "N-type i-TOPCon, 144 cells"),
       spec("glass", "Dual glass, 1.6 + 1.6 mm"),
       spec("dims", "1762 × 1134 × 30 mm"),
       spec("weight", "21.0 kg"),
-      spec("tempCo", "−0.29 %/°C"),
+      spec("tempCo", "−0.30 %/K"),
       spec("degradation", "1% year 1, 0.4%/yr after"),
     ],
     highlights: {
@@ -194,18 +195,18 @@ export const products: Product[] = [
     name: "Vertex N TSM-NEG19RC.20",
     tagline: { en: "Bifacial dual-glass module for factories and solar parks", bn: "কারখানা ও সোলার পার্কের জন্য বাইফেসিয়াল ডুয়াল-গ্লাস মডিউল" },
     description: {
-      en: "A 210R-cell i-TOPCon module built for large rooftops and ground-mount plants. The rear side adds yield from reflected light, and the low temperature coefficient holds output in hot weather.",
-      bn: "বড় ছাদ ও গ্রাউন্ড-মাউন্ট প্ল্যান্টের জন্য তৈরি 210R সেলের i-TOPCon মডিউল। পেছনের দিক প্রতিফলিত আলো থেকে বাড়তি বিদ্যুৎ দেয়, আর কম তাপমাত্রা সহগ গরমেও উৎপাদন ধরে রাখে।",
+      en: "An N-type TOPCon module built for large rooftops and ground-mount plants. The rear side adds yield from reflected light, and the low temperature coefficient holds output in hot weather.",
+      bn: "বড় ছাদ ও গ্রাউন্ড-মাউন্ট প্ল্যান্টের জন্য তৈরি N-টাইপ TOPCon মডিউল। পেছনের দিক প্রতিফলিত আলো থেকে বাড়তি বিদ্যুৎ দেয়, আর কম তাপমাত্রা সহগ গরমেও উৎপাদন ধরে রাখে।",
     },
     keySpec: { en: "590–620 W · bifacial", bn: "৫৯০–৬২০ ওয়াট · বাইফেসিয়াল" },
     specs: [
       spec("power", "590–620 W"),
       spec("eff", "23.0%"),
-      spec("cells", "N-type i-TOPCon, 132 cells (210R)"),
+      spec("cells", "N-type TOPCon, 132 cells"),
       spec("bifaciality", "80 ± 5%"),
       spec("glass", "Dual glass, 2.0 + 2.0 mm"),
       spec("dims", "2382 × 1134 × 30 mm"),
-      spec("weight", "33.7 kg"),
+      spec("weight", "33.0 kg"),
       spec("tempCo", "−0.29 %/°C"),
     ],
     highlights: {
@@ -231,7 +232,7 @@ export const products: Product[] = [
     specs: [
       spec("power", "420–440 W"),
       spec("eff", "22.02%"),
-      spec("cells", "N-type mono, 108 half-cells"),
+      spec("cells", "N-type mono, 108 cells"),
       spec("glass", "3.2 mm AR-coated tempered"),
       spec("dims", "1762 × 1134 × 30 mm"),
       spec("weight", "22 kg"),
@@ -260,12 +261,12 @@ export const products: Product[] = [
     keySpec: { en: "570–590 W · bifacial", bn: "৫৭০–৫৯০ ওয়াট · বাইফেসিয়াল" },
     specs: [
       spec("power", "570–590 W"),
-      spec("eff", "22.84%"),
+      spec("eff", "22.45%"),
       spec("cells", "N-type TOPCon, 144 half-cells"),
       spec("bifaciality", "80 ± 5%"),
       spec("glass", "Dual glass, 2.0 + 2.0 mm"),
       spec("dims", "2278 × 1134 × 30 mm"),
-      spec("weight", "31.0 kg"),
+      spec("weight", "32 kg"),
       spec("tempCo", "−0.29 %/°C"),
     ],
     highlights: {
@@ -359,7 +360,7 @@ export const products: Product[] = [
       en: ["All-black, double-glass build", "Rear-side gain on elevated mounts", "5,400 Pa / 2,400 Pa load rating", "1500 V DC system voltage"],
       bn: ["অল-ব্ল্যাক, ডাবল-গ্লাস গঠন", "উঁচু মাউন্টে পেছন দিক থেকে বাড়তি উৎপাদন", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "১৫০০ ভোল্ট ডিসি সিস্টেম ভোল্টেজ"],
     },
-    warranty: { en: "Up to 25-year product · 30-year power", bn: "২৫ বছর পর্যন্ত প্রোডাক্ট · ৩০ বছর পাওয়ার" },
+    warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
     image: "/media/img/engineer-panel.webp",
     source: "https://www.jasolar.eu/fileadmin/data/products/4.0/JAM54D41_LB.pdf",
   },
@@ -523,7 +524,7 @@ export const products: Product[] = [
     keySpec: { en: "10 kW · 3-phase hybrid", bn: "১০ কিলোওয়াট · থ্রি-ফেজ হাইব্রিড" },
     specs: [
       spec("type", "Three-phase hybrid"),
-      spec("ratedAc", "9,999 W"),
+      spec("ratedAc", "10,000 W"),
       spec("maxPv", "15,000 W recommended"),
       spec("mppt", "2 × MPPT, 200–950 V"),
       spec("battery", "Li-ion, 150–600 V, 30 A"),
@@ -922,12 +923,12 @@ export const products: Product[] = [
     slug: "lead-acid-solar-battery",
     category: "storage",
     name: "Lead-Acid Solar Battery",
-    tagline: { en: "Proven, cost-effective backup", bn: "পরীক্ষিত ও সাশ্রয়ী ব্যাকআপ" },
+    tagline: { en: "Reliable, cost-effective backup solution", bn: "নির্ভরযোগ্য ও সাশ্রয়ী ব্যাকআপ সমাধান" },
     description: {
-      en: "A proven battery technology for solar backup and off-grid systems where a lower first cost matters. Batteries can be connected for 12 V, 24 V, 48 V and other system voltages.",
-      bn: "সোলার ব্যাকআপ ও অফ-গ্রিড সিস্টেমের জন্য পরীক্ষিত ব্যাটারি প্রযুক্তি, যেখানে প্রাথমিক খরচ কম রাখা জরুরি। ১২, ২৪, ৪৮ ভোল্টসহ বিভিন্ন সিস্টেম ভোল্টেজে সংযোগ করা যায়।",
+      en: "A proven battery technology for solar backup and off-grid systems where a lower initial cost is important. OSLEOS batteries can be configured for 12V, 24V, 48V, and other system voltage requirements.",
+      bn: "সোলার ব্যাকআপ ও অফ-গ্রিড সিস্টেমের জন্য পরীক্ষিত ব্যাটারি প্রযুক্তি, যেখানে প্রাথমিক খরচ কম রাখা জরুরি। OSLEOS ব্যাটারি ১২, ২৪, ৪৮ ভোল্টসহ প্রয়োজনীয় অন্যান্য সিস্টেম ভোল্টেজের জন্য কনফিগার করা যায়।",
     },
-    keySpec: { en: "12 / 24 / 48 V systems", bn: "১২ / ২৪ / ৪৮ ভোল্ট সিস্টেম" },
+    keySpec: { en: "12V / 24V / 48V Systems", bn: "১২ভি / ২৪ভি / ৪৮ভি সিস্টেম" },
     specs: [
       spec("capacity", "Various Ah / kWh ratings"),
       spec("systemV", "12 V, 24 V, 48 V and more"),
@@ -935,7 +936,7 @@ export const products: Product[] = [
       spec("application", "Basic to moderate backup"),
     ],
     highlights: {
-      en: ["Lower initial cost", "Widely used, easy to service", "Available in many capacities", "Works with most solar inverters"],
+      en: ["Lower initial cost", "Widely used and easy to service", "Available in multiple capacities", "Compatible with most solar inverters"],
       bn: ["কম প্রাথমিক খরচ", "বহুল ব্যবহৃত, সার্ভিস সহজ", "অনেক ক্যাপাসিটিতে পাওয়া যায়", "বেশিরভাগ সোলার ইনভার্টারের সাথে চলে"],
     },
     warranty: perProject,
@@ -995,7 +996,7 @@ export const products: Product[] = [
     name: "LUNA2000-5/10/15-S0 Smart Energy Storage System",
     tagline: { en: "Modular lithium storage for Huawei inverters", bn: "হুয়াওয়ে ইনভার্টারের জন্য মডুলার লিথিয়াম স্টোরেজ" },
     description: {
-      en: "Huawei's modular LiFePO₄ battery with an energy optimiser in every 5 kWh module, so each module charges and discharges on its own. Start at 5 kWh and grow to 30 kWh with a SUN2000 inverter.",
+      en: "Huawei's modular LiFePO₄ battery with an energy optimiser in every 5 kWh module, so each module charges and discharges on its own. Start at 5 kWh and scale up to 30 kWh using multiple battery modules with compatible SUN2000 inverters.",
       bn: "হুয়াওয়ের মডুলার LiFePO₄ ব্যাটারি — প্রতিটি ৫ কিলোওয়াট-ঘণ্টা মডিউলে আলাদা এনার্জি অপটিমাইজার, তাই প্রতিটি মডিউল নিজে নিজে চার্জ ও ডিসচার্জ হয়। ৫ কিলোওয়াট-ঘণ্টা দিয়ে শুরু করে SUN2000 ইনভার্টারের সাথে ৩০ কিলোওয়াট-ঘণ্টা পর্যন্ত বাড়ানো যায়।",
     },
     keySpec: { en: "5–30 kWh · LiFePO₄", bn: "৫–৩০ কিলোওয়াট-ঘণ্টা · LiFePO₄" },
@@ -1011,7 +1012,7 @@ export const products: Product[] = [
       bn: ["প্রতিটি ৫ কিলোওয়াট-ঘণ্টা মডিউল আলাদাভাবে অপটিমাইজড", "১০০% ডেপথ অব ডিসচার্জ", "পাঁচ স্তরের নিরাপত্তা সুরক্ষা", "৫ থেকে ৩০ কিলোওয়াট-ঘণ্টা পর্যন্ত বাড়ানো যায়"],
     },
     features: huaweiFeatures,
-    warranty: perProject,
+    warranty: { en: "10 years (subject to Huawei warranty terms)", bn: "১০ বছর (হুয়াওয়ের ওয়ারেন্টি শর্ত সাপেক্ষে)" },
     image: "/media/products/battery-lifepo4.webp",
     source: "https://solar.huawei.com/en/products/luna2000-5-10-15-s0/specs/",
   },
@@ -1020,20 +1021,20 @@ export const products: Product[] = [
     slug: "mppt-charge-controller",
     category: "controllers",
     name: "MPPT Solar Charge Controller",
-    tagline: { en: "Harvests more energy in changing weather", bn: "বদলানো আবহাওয়ায় বেশি বিদ্যুৎ সংগ্রহ" },
+    tagline: { en: "Harvests more solar energy in changing weather conditions", bn: "বদলানো আবহাওয়ায় বেশি সোলার বিদ্যুৎ সংগ্রহ" },
     description: {
-      en: "Tracks the maximum power point of the panels to collect more energy, a strong choice for Bangladesh's heat, humidity, monsoon cloud and load-shedding.",
-      bn: "প্যানেলের সর্বোচ্চ পাওয়ার পয়েন্ট ট্র্যাক করে বেশি বিদ্যুৎ সংগ্রহ করে — বাংলাদেশের গরম, আর্দ্রতা, বর্ষার মেঘ ও লোডশেডিংয়ের জন্য ভালো পছন্দ।",
+      en: "Advanced OSLEOS MPPT technology tracks the maximum power point of solar panels to capture more energy and improve charging performance. A strong choice for Bangladesh's heat, humidity, monsoon clouds, and load-shedding conditions.",
+      bn: "উন্নত OSLEOS MPPT প্রযুক্তি প্যানেলের সর্বোচ্চ পাওয়ার পয়েন্ট ট্র্যাক করে বেশি বিদ্যুৎ সংগ্রহ করে এবং চার্জিং কার্যক্ষমতা বাড়ায় — বাংলাদেশের গরম, আর্দ্রতা, বর্ষার মেঘ ও লোডশেডিংয়ের জন্য ভালো পছন্দ।",
     },
     keySpec: { en: "10–60 A · 12/24/48 V", bn: "১০–৬০ অ্যাম্পিয়ার · ১২/২৪/৪৮ ভোল্ট" },
     specs: [
-      spec("current", "10 / 20 / 30 / 40 / 60 A"),
-      spec("systemV", "12 V / 24 V / 48 V"),
-      spec("chemistry", "Lead-acid, tubular, GEL, AGM, LiFePO₄"),
+      spec("current", "10A / 20A / 30A / 40A / 60A"),
+      spec("systemV", "12V / 24V / 48V DC systems"),
+      spec("chemistry", "Lead-acid (Tubular, GEL, AGM) and LiFePO₄ batteries"),
       spec("application", "Residential, commercial, telecom"),
     ],
     highlights: {
-      en: ["Higher efficiency than PWM", "Better battery charging", "Suits larger systems", "Protects against over-charge and deep discharge"],
+      en: ["Higher efficiency than PWM", "Better battery charging", "Suitable for larger solar systems", "Protects against overcharging and deep discharge"],
       bn: ["PWM-এর চেয়ে বেশি দক্ষ", "ভালো ব্যাটারি চার্জিং", "বড় সিস্টেমের উপযোগী", "ওভারচার্জ ও ডিপ ডিসচার্জ থেকে সুরক্ষা"],
     },
     warranty: perProject,
@@ -1043,17 +1044,17 @@ export const products: Product[] = [
     slug: "pwm-charge-controller",
     category: "controllers",
     name: "PWM Solar Charge Controller",
-    tagline: { en: "Simple, affordable control for small systems", bn: "ছোট সিস্টেমের জন্য সহজ ও সাশ্রয়ী কন্ট্রোল" },
+    tagline: { en: "Simple, affordable control for small solar systems", bn: "ছোট সোলার সিস্টেমের জন্য সহজ ও সাশ্রয়ী কন্ট্রোল" },
     description: {
-      en: "A simple controller widely used in small solar home systems for lighting, fans and entry-level backup.",
-      bn: "ছোট সোলার হোম সিস্টেমে বাতি, ফ্যান ও প্রাথমিক ব্যাকআপের জন্য বহুল ব্যবহৃত সহজ কন্ট্রোলার।",
+      en: "A simple and reliable controller widely used in small solar home systems for lighting, fans, and entry-level backup applications.",
+      bn: "ছোট সোলার হোম সিস্টেমে বাতি, ফ্যান ও প্রাথমিক ব্যাকআপের জন্য বহুল ব্যবহৃত সহজ ও নির্ভরযোগ্য কন্ট্রোলার।",
     },
-    keySpec: { en: "12 / 24 V systems", bn: "১২ / ২৪ ভোল্ট সিস্টেম" },
+    keySpec: { en: "12V / 24V Systems", bn: "১২ / ২৪ ভোল্ট সিস্টেম" },
     specs: [
-      spec("current", "10 / 20 / 30 A"),
-      spec("systemV", "12 V / 24 V"),
-      spec("chemistry", "Lead-acid, GEL, AGM"),
-      spec("application", "Homes, shops, solar lights"),
+      spec("current", "10A / 20A / 30A"),
+      spec("systemV", "12V / 24V"),
+      spec("chemistry", "Lead-acid (GEL, AGM, Tubular)"),
+      spec("application", "Homes, shops, and solar lighting systems"),
     ],
     highlights: {
       en: ["Cost-effective", "Easy to use", "USB outputs on many models", "Extends battery life"],
@@ -1065,10 +1066,10 @@ export const products: Product[] = [
   {
     slug: "smart-hybrid-charge-controller",
     category: "controllers",
-    name: "Smart / Hybrid Charge Controller",
+    name: "Smart Hybrid Charge Controller",
     tagline: { en: "Intelligent charging with display and monitoring", bn: "ডিসপ্লে ও মনিটরিংসহ স্মার্ট চার্জিং" },
     description: {
-      en: "Intelligent charging profiles, a clear display and monitoring for offices, remote sites and hybrid setups with different battery types.",
+      en: "Intelligent charging profiles, a clear display, and monitoring features for offices, remote sites, and hybrid setups with multiple battery types.",
       bn: "স্মার্ট চার্জিং প্রোফাইল, পরিষ্কার ডিসপ্লে ও মনিটরিং — অফিস, দূরবর্তী সাইট এবং বিভিন্ন ব্যাটারির হাইব্রিড সেটআপের জন্য।",
     },
     keySpec: { en: "Multi-battery support", bn: "একাধিক ব্যাটারি সাপোর্ট" },
@@ -1112,7 +1113,7 @@ export const products: Product[] = [
   {
     slug: "chint-tnd1-svc-stabilizer",
     category: "stabilizers",
-    brand: "CHNT",
+    brand: "CHINT",
     name: "TND1 (SVC) Single-Phase Voltage Regulator",
     tagline: { en: "Servo stabilizer for homes and small businesses", bn: "বাসা ও ছোট ব্যবসার জন্য সার্ভো স্ট্যাবিলাইজার" },
     description: {
@@ -1145,7 +1146,7 @@ export const products: Product[] = [
       en: "Handles very low grid voltage, down to 80 V, and still delivers a steady 220 V, which suits rural homes, clinics and small businesses.",
       bn: "গ্রিডের ভোল্টেজ ৮০ ভোল্ট পর্যন্ত নেমে গেলেও স্থির ২২০ ভোল্ট দেয় — গ্রামের বাসা, ক্লিনিক ও ছোট ব্যবসার জন্য উপযোগী।",
     },
-    keySpec: { en: "1–5 kVA · 80–260 V in", bn: "১–৫ kVA · ৮০–২৬০ ভোল্ট ইনপুট" },
+    keySpec: { en: "1–5 kVA · 80–260 V input", bn: "১–৫ kVA · ৮০–২৬০ ভোল্ট ইনপুট" },
     specs: [
       spec("capacity", "1–5 kVA"),
       spec("input", "80–260 V"),
@@ -1174,7 +1175,7 @@ export const products: Product[] = [
     keySpec: { en: "10–2,000 kVA · 3-phase", bn: "১০–২,০০০ kVA · থ্রি-ফেজ" },
     specs: [
       spec("capacity", "10–2,000 kVA"),
-      spec("type", "Column varitran + compensation transformer"),
+      spec("type", "Column-type voltage regulator + compensation transformer"),
       spec("protections", "Over-voltage, phase loss, phase order, fault"),
       spec("application", "Factories, cold storage, solar plants"),
     ],
@@ -1249,7 +1250,7 @@ export const products: Product[] = [
       en: "A wall-mounted stabilizer that accepts 100–260 V and delivers 220 V ±3%, with a digital display of input, output and load, suited to homes and offices with weak or unstable supply.",
       bn: "দেয়ালে বসানো স্ট্যাবিলাইজার — ১০০–২৬০ ভোল্ট ইনপুট নিয়ে ২২০ ভোল্ট ±৩% দেয়; ইনপুট, আউটপুট ও লোডের ডিজিটাল ডিসপ্লেসহ, দুর্বল বা অস্থির লাইনের বাসা ও অফিসের জন্য উপযোগী।",
     },
-    keySpec: { en: "0.5–30 kVA · 100–260 V in", bn: "০.৫–৩০ kVA · ১০০–২৬০ ভোল্ট ইনপুট" },
+    keySpec: { en: "0.5–30 kVA · 100–260 V input", bn: "০.৫–৩০ kVA · ১০০–২৬০ ভোল্ট ইনপুট" },
     specs: [
       spec("capacity", "0.5–30 kVA"),
       spec("input", "100–260 V"),
@@ -1404,7 +1405,7 @@ export const products: Product[] = [
   {
     slug: "chint-nu6-ii-spd",
     category: "protection",
-    brand: "CHNT",
+    brand: "CHINT",
     name: "NU6-II Surge Protective Device",
     tagline: { en: "Type 2 surge protection for AC boards", bn: "এসি বোর্ডের জন্য টাইপ ২ সার্জ প্রোটেকশন" },
     description: {
@@ -1415,13 +1416,13 @@ export const products: Product[] = [
     specs: [
       spec("poles", "1P / 2P / 3P / 4P"),
       spec("voltage", "230/400 V AC; Uc 385–460 V"),
-      spec("current", "Imax 40 / 60 / 100 kA (8/20 µs)"),
+      spec("maxDischarge", "40 / 60 / 100 kA (8/20 µs)"),
       spec("protections", "Up 1.8–2 kV"),
-      spec("standard", "IEC/EN 61643-1 · Type 2"),
+      spec("standard", "IEC 61643-11"),
     ],
     highlights: {
-      en: ["Protects inverter AC output", "Multiple discharge ratings", "DIN-rail mounting", "Pairs with CHNT breakers"],
-      bn: ["ইনভার্টারের এসি আউটপুট সুরক্ষা", "বিভিন্ন ডিসচার্জ রেটিং", "DIN-রেলে বসানো", "CHNT ব্রেকারের সাথে মানানসই"],
+      en: ["Protects inverter AC output", "Multiple discharge ratings", "DIN-rail mounting", "Pairs with CHINT breakers"],
+      bn: ["ইনভার্টারের এসি আউটপুট সুরক্ষা", "বিভিন্ন ডিসচার্জ রেটিং", "DIN-রেলে বসানো", "CHINT ব্রেকারের সাথে মানানসই"],
     },
     warranty: perProject,
     image: "/media/products/spd.webp",
@@ -1502,14 +1503,14 @@ export const products: Product[] = [
       en: "Durable, UV-resistant PV cable and MC4-type connectors for safe, low-loss panel-to-system connections.",
       bn: "টেকসই, ইউভি-প্রতিরোধী পিভি ক্যাবল ও MC4-টাইপ কানেক্টর — প্যানেল থেকে সিস্টেম পর্যন্ত নিরাপদ ও কম-লসের সংযোগ।",
     },
-    keySpec: { en: "Red / black PV cable · MC4", bn: "লাল / কালো পিভি ক্যাবল · MC4" },
+    keySpec: { en: "Red / Black PV Cable · MC4 Connectors", bn: "লাল / কালো পিভি ক্যাবল · MC4" },
     specs: [
       spec("type", "PV cable (red / black), MC4-type connectors"),
-      spec("application", "Array wiring to combiner and inverter"),
+      spec("application", "PV array wiring to combiner box and inverter"),
     ],
     highlights: {
-      en: ["Transmission", "Durability", "Safety", "Sized for voltage drop"],
-      bn: ["বিদ্যুৎ পরিবহন", "স্থায়িত্ব", "নিরাপত্তা", "ভোল্টেজ ড্রপ অনুযায়ী সাইজ"],
+      en: ["Efficient power transmission", "Durability", "Safety", "Sized for voltage drop"],
+      bn: ["দক্ষ বিদ্যুৎ পরিবহন", "স্থায়িত্ব", "নিরাপত্তা", "ভোল্টেজ ড্রপ অনুযায়ী সাইজ"],
     },
     image: "/media/products/cables.webp",
   },
@@ -1687,7 +1688,7 @@ export const products: Product[] = [
   {
     slug: "solar-coldchain",
     category: "commercial",
-    name: "Solar Coldchain",
+    name: "Solar Cold Chain System",
     tagline: { en: "Protect your cold storage, reduce energy cost", bn: "কোল্ড স্টোরেজ সুরক্ষিত, বিদ্যুৎ খরচ কম" },
     description: {
       en: "Solar solutions designed around refrigeration loads and operating needs, not just a fixed capacity, with storage, grid integration, backup and monitoring.",
@@ -1733,13 +1734,13 @@ export const products: Product[] = [
     name: "Solar-Powered Water Pumping System",
     tagline: { en: "Irrigation and water supply for off-grid areas", bn: "অফ-গ্রিড এলাকায় সেচ ও পানি সরবরাহ" },
     description: {
-      en: "PV modules feed an MPPT pump controller and inverter that drive a submersible pump into a storage tank; a level sensor starts and stops the pump automatically and HDPE pipes carry water to sprinkler or drip irrigation.",
-      bn: "পিভি মডিউল MPPT পাম্প কন্ট্রোলার ও ইনভার্টারকে বিদ্যুৎ দেয়, যা সাবমার্সিবল পাম্প চালিয়ে ট্যাংকে পানি তোলে; লেভেল সেন্সর স্বয়ংক্রিয়ভাবে পাম্প চালু-বন্ধ করে এবং HDPE পাইপে পানি স্প্রিংকলার বা ড্রিপ সেচে যায়।",
+      en: "PV modules power an MPPT pump controller and inverter to drive a submersible pump. Automatic level sensors control pumping based on tank requirements.",
+      bn: "পিভি মডিউল MPPT পাম্প কন্ট্রোলার ও ইনভার্টারকে বিদ্যুৎ দেয়, যা সাবমার্সিবল পাম্প চালায়। স্বয়ংক্রিয় লেভেল সেন্সর ট্যাংকের প্রয়োজন অনুযায়ী পাম্প নিয়ন্ত্রণ করে।",
     },
-    keySpec: { en: "e.g. ~12 m³/h · 120 m³ tank", bn: "যেমন ~১২ ঘনমিটার/ঘণ্টা · ১২০ ঘনমিটার ট্যাংক" },
+    keySpec: { en: "Designed according to required flow rate and storage capacity", bn: "প্রয়োজনীয় প্রবাহ ও স্টোরেজ ক্যাপাসিটি অনুযায়ী ডিজাইন" },
     specs: [
       spec("components", "PV array, MPPT pump controller, inverter, submersible pump, tank, level sensor, HDPE pipe"),
-      spec("capacity", "Illustrated system ≈ 12 m³/h (3.33 L/s), 120 m³ tank"),
+      spec("capacity", "Configured according to water demand, pump head, and storage requirements"),
       spec("idealFor", "Remote farms, off-grid water supply"),
     ],
     highlights: {
@@ -1901,6 +1902,16 @@ export const products: Product[] = [
     image: "/media/img/panels-tilted.webp",
   },
 ];
+
+/**
+ * Items with no manufacturer brand are sold under the OSLEOS brand (client request,
+ * Oct 2026). The water heater is left unbranded because the photo supplied for it
+ * carries a third-party logo.
+ */
+export const OSLEOS_BRAND = "OSLEOS";
+export const products: Product[] = catalogue.map((p) =>
+  p.brand || p.slug === "solar-water-heater" ? p : { ...p, brand: OSLEOS_BRAND },
+);
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 export const featuredProducts = () => products.filter((p) => p.featured).slice(0, 4);

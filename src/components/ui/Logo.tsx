@@ -20,10 +20,13 @@ export function Logo({
   light = true,
   className = "h-8 lg:h-9",
   priority = false,
+  animated = true,
 }: {
   light?: boolean;
   className?: string;
   priority?: boolean;
+  /** Set false for small static uses (e.g. product cards) so the arcs do not orbit. */
+  animated?: boolean;
 }) {
   const base = light ? baseWhite : baseColor;
   const arcs = light ? arcsWhite : arcsBlack;
@@ -37,7 +40,7 @@ export function Logo({
         aria-hidden="true"
         priority={priority}
         unoptimized
-        className="logo-arcs pointer-events-none absolute max-w-none"
+        className={`${animated ? "logo-arcs " : ""}pointer-events-none absolute max-w-none`}
         style={{ left: `${g.left}%`, top: `${g.top}%`, width: `${g.width}%`, height: `${g.height}%` }}
       />
     </span>

@@ -371,7 +371,7 @@
  "PV · battery · load": "FV · batería · carga",
  "PV · hybrid power · lift drive": "FV · energía híbrida · accionamiento del ascensor",
  "PWM, MPPT & smart controllers": "Controladores PWM, MPPT e inteligentes",
- "Pairs with CHNT breakers": "Se combina con interruptores CHNT",
+ "Pairs with CHINT breakers": "Se combina con interruptores CHINT",
  "Panels · controller · battery · inverter": "Paneles · controlador · batería · inversor",
  "Panels · grid-tied inverter · meter": "Paneles · inversor de conexión a red · medidor",
  "Panels · hybrid inverter · battery": "Paneles · inversor híbrido · batería",

@@ -371,7 +371,7 @@
  "PV · battery · load": "PV · batterie · charge",
  "PV · hybrid power · lift drive": "PV · alimentation hybride · entraînement d'ascenseur",
  "PWM, MPPT & smart controllers": "Régulateurs PWM, MPPT & intelligents",
- "Pairs with CHNT breakers": "Associé aux disjoncteurs CHNT",
+ "Pairs with CHINT breakers": "Associé aux disjoncteurs CHINT",
  "Panels · controller · battery · inverter": "Panneaux · régulateur · batterie · onduleur",
  "Panels · grid-tied inverter · meter": "Panneaux · onduleur réseau · compteur",
  "Panels · hybrid inverter · battery": "Panneaux · onduleur hybride · batterie",

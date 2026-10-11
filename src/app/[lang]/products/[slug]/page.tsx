@@ -10,6 +10,7 @@ import { site, whatsappLink } from "@/content/site";
 import { pageAlternates } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ProductImage } from "@/components/product/ProductImage";
+import { BrandMark } from "@/components/product/BrandMark";
 import { ProductCard, quoteHref } from "@/components/product/ProductCard";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SplitText } from "@/components/motion/SplitText";
@@ -22,7 +23,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products/[
   const { lang, slug } = await params;
   const product = getProduct(slug);
   if (!hasLocale(lang) || !product) return {};
-  const title = product.brand ? `${product.brand} ${product.name}` : product.name;
+  // The title template already ends with "· OSLEOS", so own-brand items skip the brand prefix.
+  const title = product.brand && product.brand !== site.name ? `${product.brand} ${product.name}` : product.name;
   const description = `${pick(product.tagline, lang)}. ${pick(product.keySpec, lang)}`;
   return {
     title,
@@ -108,7 +110,11 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
             {/* Info */}
             <div>
               <p className="reveal text-[13px] font-semibold uppercase tracking-[0.16em] text-teal-600" style={at(0)}>
-                {product.brand ? `${product.brand} · ` : ""}
+                {product.brand && (
+                  <>
+                    <BrandMark brand={product.brand} className="h-[18px]" /> ·{" "}
+                  </>
+                )}
                 {category && pick(category.name, lang)}
               </p>
               <SplitText as="h1" text={product.name} now delayMs={120} className="mt-3 text-[clamp(30px,3.6vw,46px)] font-extrabold leading-[1.08] tracking-tight" />

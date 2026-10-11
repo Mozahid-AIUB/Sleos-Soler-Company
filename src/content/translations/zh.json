@@ -371,7 +371,7 @@
  "PV · battery · load": "光伏 · 电池 · 负载",
  "PV · hybrid power · lift drive": "光伏 · 混合供电 · 电梯驱动",
  "PWM, MPPT & smart controllers": "PWM、MPPT 及智能控制器",
- "Pairs with CHNT breakers": "可与 CHNT 断路器配套使用",
+ "Pairs with CHINT breakers": "可与 CHINT 断路器配套使用",
  "Panels · controller · battery · inverter": "组件 · 控制器 · 电池 · 逆变器",
  "Panels · grid-tied inverter · meter": "组件 · 并网逆变器 · 电表",
  "Panels · hybrid inverter · battery": "组件 · 混合逆变器 · 电池",
