@@ -45,6 +45,10 @@ export function ProductGrid({
         {tabs.map((t) => (
           <button
             key={t.id}
+            // Header/footer/home links point at /products#<category>. Without an
+            // element carrying that id, Next keeps the old scroll offset and
+            // lands near the bottom of this long page.
+            id={t.id}
             type="button"
             role="tab"
             aria-selected={active === t.id}
@@ -53,7 +57,7 @@ export function ProductGrid({
               setBrand(null);
               history.replaceState(null, "", t.id === "all" ? window.location.pathname : `#${t.id}`);
             }}
-            className={`flex shrink-0 items-center gap-2 rounded-full border px-5 py-2.5 text-[14.5px] font-semibold transition-colors duration-300 ${
+            className={`flex shrink-0 scroll-mt-28 items-center gap-2 rounded-full border px-5 py-2.5 text-[14.5px] font-semibold transition-colors duration-300 ${
               active === t.id ? "border-forest-900 bg-forest-900 text-white" : "border-cream-200 bg-white text-ink-600 hover:border-ink-400"
             }`}
           >
