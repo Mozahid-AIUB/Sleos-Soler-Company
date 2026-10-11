@@ -39,6 +39,9 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
   const [scrolled, setScrolled] = useState(false);
   const [menuFor, setMenuFor] = useState<string | null>(null);
   const menuOpen = menuFor === pathname;
+  // Desktop mega menu stays open while a link inside it keeps focus (focus-within) and the pointer is over it.
+  // After a click we force it shut until the pointer leaves, so it never lingers over the page it opened.
+  const [megaClosed, setMegaClosed] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -107,9 +110,13 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
 
         <nav className="hidden h-full items-center gap-1 lg:flex" aria-label="Main">
           {/* Products mega menu (hover or keyboard focus) */}
-          <div className="group/mega flex h-full items-center xl:relative">
+          <div className="group/mega flex h-full items-center xl:relative" onMouseLeave={() => setMegaClosed(false)}>
             <Link
               href={`/${lang}/products`}
+              onClick={(e) => {
+                setMegaClosed(true);
+                e.currentTarget.blur();
+              }}
               className={`group/nav flex items-center gap-1 px-4 py-2 text-[15px] font-medium transition-colors ${
                 pathname.startsWith(`/${lang}/products`) ? navText : navMuted
               }`}
@@ -117,12 +124,16 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
               <span className={underline(pathname.startsWith(`/${lang}/products`))}>{t.products}</span>
               <Icon name="chevronDown" size={15} className="transition-transform duration-300 group-hover/mega:rotate-180" />
             </Link>
-            <div className="invisible absolute left-1/2 top-full w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100">
+            <div className={`invisible absolute left-1/2 top-full w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 ${megaClosed ? "pointer-events-none !invisible !opacity-0" : ""}`}>
               <div className="grid grid-cols-3 gap-2 rounded-lg border border-cream-200 bg-white p-3 text-ink-900 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)]">
                 {categories.map((c, i) => (
                   <Link
                     key={c.id}
                     href={`/${lang}/products#${c.id}`}
+                    onClick={(e) => {
+                      setMegaClosed(true);
+                      e.currentTarget.blur();
+                    }}
                     className="group/item flex translate-y-1.5 items-center gap-3 rounded-md p-2 opacity-0 transition-[opacity,transform,background-color] duration-500 ease-out-expo hover:bg-cream-50 group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100 group-hover/mega:translate-y-0 group-hover/mega:opacity-100"
                     style={{ transitionDelay: `${60 + i * 35}ms` }}
                   >
@@ -175,7 +186,14 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
           menuOpen ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <nav className="container-x flex min-h-full flex-col pb-10 pt-4" aria-label="Mobile">
+        <nav
+          className="container-x flex min-h-full flex-col pb-10 pt-4"
+          aria-label="Mobile"
+          // A link to /products#x from /products keeps the same pathname, so close the menu explicitly.
+          onClick={(e) => {
+            if ((e.target as HTMLElement).closest("a")) setMenuFor(null);
+          }}
+        >
           <Link
             href={`/${lang}/products`}
             className={`border-b border-cream-200 py-4 text-[20px] font-semibold text-ink-900 ${menuRow(menuOpen, 0).className}`}
