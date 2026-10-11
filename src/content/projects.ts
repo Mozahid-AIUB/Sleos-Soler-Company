@@ -30,7 +30,7 @@ export const projects: Project[] = [
       en: "Bill analysis, roof study and a net-metered system that now covers a large share of the factory's daytime load.",
       bn: "বিল বিশ্লেষণ, ছাদ যাচাই আর নেট-মিটারড সিস্টেম, যা এখন কারখানার দিনের লোডের বড় অংশ পূরণ করে।",
     },
-    image: "/media/projects/factory-rooftop-gazipur.webp",
+    image: "/media/projects/gazipur-garments-rooftop.webp",
     sample: true,
   },
   {
