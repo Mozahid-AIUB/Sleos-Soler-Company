@@ -8,6 +8,7 @@ import { IncentiveHighlight } from "@/components/home/IncentiveHighlight";
 import { Partners } from "@/components/home/Partners";
 import { Categories } from "@/components/home/Categories";
 import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { BrandFilm } from "@/components/home/BrandFilm";
 import { Solutions } from "@/components/home/Solutions";
 import { StatBand } from "@/components/home/StatBand";
 import { ProjectsShowcase } from "@/components/home/ProjectsShowcase";
@@ -29,7 +30,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <Intro lang={lang} t={t.intro} />
       <Categories lang={lang} t={t.categories} />
       <FeaturedProducts lang={lang} t={t} />
-      {/* Brand film (AI video) on hold per client, Sep 2026. Re-add <BrandFilm lang={lang} t={t.film} /> from @/components/home/BrandFilm. */}
+      <BrandFilm lang={lang} t={t.film} />
       <Solutions lang={lang} t={t.solutions} />
       <StatBand t={t.stats} />
       <ProjectsShowcase lang={lang} t={t.projects} />
