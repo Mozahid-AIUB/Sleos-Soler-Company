@@ -1812,6 +1812,94 @@ export const products: Product[] = [
     warranty: perContract,
     image: "/media/products/sol-lift.webp",
   },
+  {
+    slug: "solar-water-heater",
+    category: "commercial",
+    name: "ETC Solar Water Heater",
+    tagline: { en: "Hot water from the sun, all day", bn: "সারাদিন সূর্যের তাপে গরম পানি" },
+    description: {
+      en: "Evacuated tube collectors capture sunlight and heat the water stored in an insulated stainless-steel tank, cutting the electricity, gas or diesel spent on hot water. Sized to your daily demand for hotels, hospitals, factories, hostels and homes.",
+      bn: "ভ্যাকুয়াম টিউব কালেক্টর সূর্যের আলো ধরে ইনসুলেটেড স্টেইনলেস-স্টিল ট্যাংকের পানি গরম করে, ফলে গরম পানির জন্য বিদ্যুৎ, গ্যাস বা ডিজেলের খরচ কমে। হোটেল, হাসপাতাল, কারখানা, হোস্টেল ও বাসার দৈনিক চাহিদা অনুযায়ী সাইজ করা হয়।",
+    },
+    keySpec: { en: "Vacuum tubes · insulated stainless-steel tank", bn: "ভ্যাকুয়াম টিউব · ইনসুলেটেড স্টেইনলেস-স্টিল ট্যাংক" },
+    specs: [
+      spec("components", "Evacuated tube collectors, insulated stainless-steel tank, stand, piping"),
+      spec("idealFor", "Hotels, hospitals, factories, hostels, homes"),
+      spec("battery", "Not required"),
+    ],
+    highlights: {
+      en: ["Advanced heat insulation ring", "Horizontal foaming technology", "Solder-joint-free design", "Heat-loss protection"],
+      bn: ["অ্যাডভান্সড হিট ইনসুলেশন রিং", "হরিজন্টাল ফোমিং প্রযুক্তি", "সোল্ডার-জয়েন্ট-ফ্রি ডিজাইন", "তাপ-ক্ষয় থেকে সুরক্ষা"],
+    },
+    warranty: perContract,
+    image: "/media/products/solar-water-heater.webp",
+  },
+  {
+    slug: "solar-farm",
+    category: "commercial",
+    name: "Solar Farm",
+    tagline: { en: "Utility-scale solar, built end to end", bn: "ইউটিলিটি-স্কেল সোলার, শুরু থেকে শেষ পর্যন্ত" },
+    description: {
+      en: "Ground-mounted PV plants that feed clean power into the grid, delivered as one EPC package from site survey and design to supply, installation, grid connection and commissioning. Each plant is engineered around the site, the grid connection point and the offtake arrangement.",
+      bn: "গ্রাউন্ড-মাউন্টেড পিভি প্ল্যান্ট গ্রিডে পরিচ্ছন্ন বিদ্যুৎ সরবরাহ করে — সাইট জরিপ ও ডিজাইন থেকে সরবরাহ, ইনস্টলেশন, গ্রিড সংযোগ ও কমিশনিং পর্যন্ত একটি EPC প্যাকেজে। প্রতিটি প্ল্যান্ট সাইট, গ্রিড সংযোগ পয়েন্ট ও বিদ্যুৎ বিক্রির ব্যবস্থা অনুযায়ী ডিজাইন করা হয়।",
+    },
+    keySpec: { en: "Ground-mounted PV · grid connection · EPC", bn: "গ্রাউন্ড-মাউন্টেড পিভি · গ্রিড সংযোগ · EPC" },
+    specs: [
+      spec("components", "PV modules, ground-mount structures, inverters, transformer & grid connection, monitoring"),
+      spec("scope", "Site survey, design, supply, installation, grid connection, commissioning (EPC)"),
+      spec("idealFor", "Utility and independent power producers, industrial estates, large landowners"),
+    ],
+    highlights: {
+      en: ["Clean, large-scale generation", "Single EPC partner", "Designed around the site and grid point", "Remote monitoring"],
+      bn: ["বড় আকারে পরিচ্ছন্ন বিদ্যুৎ উৎপাদন", "একজন EPC অংশীদার", "সাইট ও গ্রিড পয়েন্ট অনুযায়ী ডিজাইন", "রিমোট মনিটরিং"],
+    },
+    warranty: perContract,
+    image: "/media/img/utility-aerial.webp",
+  },
+  {
+    slug: "solar-street-light",
+    category: "commercial",
+    name: "Solar Street Light",
+    tagline: { en: "Light the road, no grid needed", bn: "গ্রিড ছাড়াই আলোকিত রাস্তা" },
+    description: {
+      en: "An LED street light with its own PV panel, LiFePO₄ battery and smart controller, available as an all-in-one or split unit. It charges by day and switches on automatically from dusk to dawn, with no trenching or electricity bill.",
+      bn: "নিজস্ব পিভি প্যানেল, LiFePO₄ ব্যাটারি ও স্মার্ট কন্ট্রোলারসহ LED স্ট্রিট লাইট — অল-ইন-ওয়ান বা স্প্লিট ইউনিট। দিনে চার্জ হয় এবং সন্ধ্যা থেকে ভোর পর্যন্ত নিজে থেকে জ্বলে; ক্যাবল খোঁড়া বা বিদ্যুৎ বিলের ঝামেলা নেই।",
+    },
+    keySpec: { en: "LED · PV panel · LiFePO₄ battery · smart controller", bn: "LED · পিভি প্যানেল · LiFePO₄ ব্যাটারি · স্মার্ট কন্ট্রোলার" },
+    specs: [
+      spec("type", "All-in-one or split (separate panel and pole-mounted lamp)"),
+      spec("components", "LED luminaire, PV panel, LiFePO₄ battery, smart controller, pole"),
+      spec("idealFor", "Roads, villages, campuses, factories, parks, car parks"),
+    ],
+    highlights: {
+      en: ["Dusk-to-dawn automatic operation", "No cabling or electricity bill", "Quick, low-cost installation", "Works through load-shedding"],
+      bn: ["সন্ধ্যা থেকে ভোর স্বয়ংক্রিয় চালু-বন্ধ", "ক্যাবলিং বা বিদ্যুৎ বিল নেই", "দ্রুত ও কম খরচে ইনস্টলেশন", "লোডশেডিংয়েও জ্বলে"],
+    },
+    warranty: perContract,
+    image: "/media/products/cc-street.webp",
+  },
+  {
+    slug: "solar-powered-cameras",
+    category: "commercial",
+    name: "Solar Powered Cameras",
+    tagline: { en: "Security where there is no power point", bn: "যেখানে বিদ্যুৎ সংযোগ নেই, সেখানেও নিরাপত্তা" },
+    description: {
+      en: "CCTV and IP cameras powered by their own PV panel and battery, for sites with no mains supply. Wireless 4G or Wi-Fi links and night vision keep remote sites watched around the clock.",
+      bn: "নিজস্ব পিভি প্যানেল ও ব্যাটারিতে চলা CCTV ও IP ক্যামেরা, যেখানে মেইন বিদ্যুৎ নেই সেসব সাইটের জন্য। ওয়্যারলেস 4G বা Wi-Fi সংযোগ ও নাইট ভিশনে দূরবর্তী সাইট চব্বিশ ঘণ্টা নজরে থাকে।",
+    },
+    keySpec: { en: "Camera · PV panel · battery · 4G / Wi-Fi", bn: "ক্যামেরা · পিভি প্যানেল · ব্যাটারি · 4G / Wi-Fi" },
+    specs: [
+      spec("components", "CCTV/IP camera with night vision, PV panel, battery, charge controller, 4G or Wi-Fi link"),
+      spec("idealFor", "Farms, construction sites, remote substations, fisheries, off-grid properties"),
+      spec("battery", "Required"),
+    ],
+    highlights: {
+      en: ["No mains power or cabling", "Night vision", "Remote viewing over 4G or Wi-Fi", "Runs through power cuts"],
+      bn: ["মেইন বিদ্যুৎ বা ক্যাবলিং লাগে না", "নাইট ভিশন", "4G বা Wi-Fi-তে দূর থেকে দেখা যায়", "বিদ্যুৎ গেলেও চলে"],
+    },
+    warranty: perContract,
+    image: "/media/img/panels-tilted.webp",
+  },
 ];
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
