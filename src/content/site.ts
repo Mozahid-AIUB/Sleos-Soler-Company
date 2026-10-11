@@ -28,8 +28,10 @@ export const site = {
   whatsapp: "8801711752202",
   whatsappDisplay: "+880 1711-752202",
   address,
-  /** Google Maps search for the office address. */
-  mapsUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address.en)}`,
+  /** Google Maps pin for the office, supplied by the client (an address search landed on the wrong spot). */
+  mapsUrl: "https://maps.app.goo.gl/cfncX3g2yELo3r1E8?g_st=iw",
+  /** Embedded map of the same pin (coordinates resolved from the link above). */
+  mapsEmbedUrl: "https://maps.google.com/maps?q=23.7586356,90.4184124(OSLEOS)&z=17&output=embed",
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61594452931737",
     instagram: "https://www.instagram.com/osleoshq/",

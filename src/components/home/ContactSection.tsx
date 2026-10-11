@@ -64,6 +64,14 @@ export function ContactSection({
             {t.directions}
             <Icon name="arrowUpRight" size={15} />
           </a>
+          <iframe
+            src={site.mapsEmbedUrl}
+            title={`OSLEOS ${t.visit}`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            allowFullScreen
+            className="mt-3 aspect-[4/3] w-full rounded-lg border border-cream-200 bg-cream-100 sm:aspect-[16/10]"
+          />
         </span>
       ),
     },
