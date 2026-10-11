@@ -1,4 +1,4 @@
-import { pageAlternates } from "@/lib/seo";
+import { pageAlternates, seoMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
@@ -17,7 +17,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/solutions"
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.pages.solutions.title, description: t.pages.solutions.body, alternates: pageAlternates(lang, "/solutions") };
+  const m = seoMeta(lang, "solutions");
+  return { title: m?.title ?? t.pages.solutions.title, description: m?.description ?? t.pages.solutions.body, alternates: pageAlternates(lang, "/solutions") };
 }
 
 export default async function SolutionsPage({ params }: PageProps<"/[lang]/solutions">) {

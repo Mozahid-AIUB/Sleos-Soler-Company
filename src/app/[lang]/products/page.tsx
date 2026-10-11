@@ -1,4 +1,4 @@
-import { pageAlternates } from "@/lib/seo";
+import { pageAlternates, seoMeta } from "@/lib/seo";
 import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products">
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
   const t = await getDictionary(lang);
-  return { title: t.pages.products.title, description: t.pages.products.body, alternates: pageAlternates(lang, "/products") };
+  const m = seoMeta(lang, "products");
+  return { title: m?.title ?? t.pages.products.title, description: m?.description ?? t.pages.products.body, alternates: pageAlternates(lang, "/products") };
 }
 
 export default async function ProductsPage({ params }: PageProps<"/[lang]/products">) {

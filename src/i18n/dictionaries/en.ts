@@ -1,8 +1,8 @@
 const en = {
   meta: {
-    title: "OSLEOS — Complete Solar Power Solutions in Bangladesh",
+    title: "OSLEOS — Solar Company in Bangladesh | Rooftop Solar & Inverters",
     description:
-      "Complete solar power systems for homes, businesses, industry and agriculture in Bangladesh. Tier-1 panels, inverters, batteries, protection and voltage stabilizers, engineered and installed by OSLEOS.",
+      "OSLEOS designs and installs rooftop solar systems, hybrid inverters and batteries in Dhaka and across Bangladesh. Genuine Tier-1 brands. Get a free quote.",
   },
   nav: {
     products: "Products",
