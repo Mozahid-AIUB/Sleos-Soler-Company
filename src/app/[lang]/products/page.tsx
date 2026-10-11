@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { categories, products } from "@/content/products";
+import { aiIntro, categories, products } from "@/content/products";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -27,7 +27,12 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
   const tabs = [
     { id: "all" as const, label: t.product.all, count: products.length },
     ...categories
-      .map((c) => ({ id: c.id, label: pick(c.name, lang), count: products.filter((x) => x.category === c.id).length }))
+      .map((c) => ({
+        id: c.id,
+        label: pick(c.name, lang),
+        count: products.filter((x) => x.category === c.id).length,
+        intro: c.id === "ai" ? pick(aiIntro, lang) : undefined,
+      }))
       .filter((c) => c.count > 0),
   ];
 

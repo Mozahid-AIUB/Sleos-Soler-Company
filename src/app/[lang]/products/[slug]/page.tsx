@@ -1,3 +1,5 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { pick } from "@/i18n/content";
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
@@ -61,6 +63,9 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
   ];
 
   const url = `${site.url}/${lang}/products/${product.slug}`;
+  // Datasheets are plain files: drop <slug>.pdf into public/datasheets and the button turns into a download.
+  const datasheetFile = `/datasheets/${product.slug}.pdf`;
+  const hasDatasheet = existsSync(path.join(process.cwd(), "public", datasheetFile));
   const schema = {
     "@context": "https://schema.org",
     "@graph": [
@@ -105,6 +110,9 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
             {/* Visual */}
             <div className="reveal-img group relative aspect-square overflow-hidden rounded-lg bg-cream-100 md:aspect-[4/3] lg:aspect-square lg:sticky lg:top-28 lg:self-start">
               <ProductImage src={product.image} alt={fullName} sizes="(min-width: 1024px) 55vw, 100vw" />
+              {product.imageCredit && (
+                <p className="absolute inset-x-0 bottom-0 bg-black/55 px-3 py-1.5 text-[11px] leading-snug text-white/90">{pick(product.imageCredit, lang)}</p>
+              )}
             </div>
 
             {/* Info */}
@@ -196,10 +204,17 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                   </div>
                 ))}
               </dl>
-              <a href={whatsappLink(`Please send me the datasheet for ${fullName}.`)} target="_blank" rel="noopener noreferrer" className="btn btn-outline mt-6">
-                <Icon name="download" size={18} />
-                {tp.datasheet}
-              </a>
+              {hasDatasheet ? (
+                <a href={datasheetFile} download={`${product.slug}-datasheet.pdf`} className="btn btn-outline mt-6">
+                  <Icon name="download" size={18} />
+                  {tp.datasheetDownload}
+                </a>
+              ) : (
+                <a href={whatsappLink(`Please send me the datasheet for ${fullName}.`)} target="_blank" rel="noopener noreferrer" className="btn btn-outline mt-6">
+                  <Icon name="download" size={18} />
+                  {tp.datasheet}
+                </a>
+              )}
             </div>
           </div>
         </div>

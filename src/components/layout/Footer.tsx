@@ -1,4 +1,5 @@
 import { pick } from "@/i18n/content";
+import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
@@ -9,6 +10,8 @@ import { Logo } from "@/components/ui/Logo";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SocialLinks } from "@/components/layout/SocialLinks";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
+import sredaLogo from "../../../public/brand/sreda-logo.webp";
+import bstiLogo from "../../../public/brand/bsti-logo.webp";
 
 export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
   const f = t.footer;
@@ -46,6 +49,11 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
           <div className="flex flex-col gap-3 md:items-end">
             <p className="text-[13px] font-medium text-ink-400">{f.follow}</p>
             <SocialLinks dark={false} />
+            {/* Official marks (client request): SREDA approval and BSTI certification. */}
+            <div className="mt-2 flex items-center gap-6">
+              <Image src={sredaLogo} alt={site.certifications[0]} unoptimized className="h-11 w-auto" />
+              <Image src={bstiLogo} alt={site.certifications[1]} unoptimized className="h-11 w-auto" />
+            </div>
           </div>
         </div>
 

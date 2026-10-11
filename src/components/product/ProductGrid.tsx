@@ -3,7 +3,7 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import type { CategoryId } from "@/content/products";
 
-type Tab = { id: CategoryId | "all"; label: string; count: number };
+type Tab = { id: CategoryId | "all"; label: string; count: number; /** Optional lead-in shown above the cards while this tab is active. */ intro?: string };
 type Card = { category: CategoryId; brand?: string; node: ReactNode; key: string };
 
 /**
@@ -66,6 +66,10 @@ export function ProductGrid({
           </button>
         ))}
       </div>
+
+      {tabs.find((t) => t.id === active)?.intro && (
+        <p className="mt-6 max-w-3xl text-[16px] leading-relaxed text-ink-600">{tabs.find((t) => t.id === active)?.intro}</p>
+      )}
 
       {brands.length > 1 && (
         <div className="mt-5 flex items-center gap-3 border-t border-cream-200 pt-5 md:items-start">

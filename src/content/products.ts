@@ -17,7 +17,8 @@ export type CategoryId =
   | "stabilizers"
   | "protection"
   | "mounting"
-  | "commercial";
+  | "commercial"
+  | "ai";
 
 export type Product = {
   slug: string;
@@ -35,6 +36,8 @@ export type Product = {
   features?: Localized<string[]>;
   warranty?: Localized;
   image: string;
+  /** Attribution line for photos that need one (CC BY / CC BY-SA). Shown under the image on the product page. */
+  imageCredit?: Localized;
   featured?: boolean;
   /** Where the specs came from (manufacturer datasheet). Not rendered. */
   source?: string;
@@ -94,7 +97,22 @@ export const categories: { id: CategoryId; name: Localized; blurb: Localized; im
     blurb: { en: "Complete PV systems & energy solutions", bn: "সম্পূর্ণ পিভি সিস্টেম ও এনার্জি সলিউশন" },
     image: "/media/img/utility-aerial.webp",
   },
+  {
+    id: "ai",
+    name: { en: "AI Integrated Solar Solutions", bn: "এআই ইন্টিগ্রেটেড সোলার সলিউশন" },
+    blurb: {
+      en: "Solar noise barriers, colored PV glass, robotic cleaning, trackers and more",
+      bn: "সোলার নয়েজ ব্যারিয়ার, রঙিন পিভি গ্লাস, রোবটিক ক্লিনিং, ট্র্যাকার ও আরও অনেক কিছু",
+    },
+    image: "/media/products/solar-noise-barrier.webp",
+  },
 ];
+
+/** Intro line shown above the products of the AI Integrated tab (client wording). */
+export const aiIntro: Localized = {
+  en: "OSLEOS is developing partnerships with leading global technology providers to bring AI-enabled solar and intelligent energy-storage technologies to Bangladesh.",
+  bn: "OSLEOS বিশ্বের শীর্ষস্থানীয় প্রযুক্তি সরবরাহকারীদের সঙ্গে অংশীদারিত্ব গড়ে তুলছে, যাতে এআই-সক্ষম সোলার ও ইন্টেলিজেন্ট এনার্জি-স্টোরেজ প্রযুক্তি বাংলাদেশে নিয়ে আসা যায়।",
+};
 
 /* ------------------------------------------------------------------ */
 /* Spec labels, shared so the tables read consistently.                */
@@ -141,6 +159,24 @@ const L = {
   model: { en: "Commercial model", bn: "বাণিজ্যিক মডেল" },
   material: { en: "Material", bn: "উপাদান" },
   application: { en: "Application", bn: "ব্যবহার" },
+  soundIndex: { en: "Weighted sound reduction index", bn: "ওয়েটেড সাউন্ড রিডাকশন ইনডেক্স" },
+  nrc: { en: "Noise Reduction Coefficient", bn: "নয়েজ রিডাকশন কোএফিশিয়েন্ট" },
+  certs: { en: "Certification", bn: "সার্টিফিকেশন" },
+  cleaning: { en: "Cleaning method", bn: "ক্লিনিং পদ্ধতি" },
+  control: { en: "Control", bn: "নিয়ন্ত্রণ" },
+  powerSupply: { en: "Power supply", bn: "পাওয়ার সাপ্লাই" },
+  runtime: { en: "Run time", bn: "চলার সময়" },
+  speed: { en: "Cleaning speed", bn: "ক্লিনিং গতি" },
+  sensors: { en: "Sensors", bn: "সেন্সর" },
+  detects: { en: "Detects", bn: "যা শনাক্ত করে" },
+  signalOut: { en: "Signal output", bn: "সিগনাল আউটপুট" },
+  trackRange: { en: "Tracking range", bn: "ট্র্যাকিং রেঞ্জ" },
+  trackAcc: { en: "Tracking accuracy", bn: "ট্র্যাকিং নির্ভুলতা" },
+  motor: { en: "Drive motor", bn: "ড্রাইভ মোটর" },
+  opTemp: { en: "Operating temperature", bn: "অপারেটিং তাপমাত্রা" },
+  windSpeed: { en: "Max. wind speed", bn: "সর্বোচ্চ বাতাসের গতি" },
+  snowLoad: { en: "Max. snow load", bn: "সর্বোচ্চ তুষার লোড" },
+  slope: { en: "Terrain slope tolerance", bn: "জমির ঢাল সহনীয়তা" },
 } satisfies Record<string, Localized>;
 
 type Label = keyof typeof L;
@@ -1855,7 +1891,7 @@ const catalogue: Product[] = [
       bn: ["বড় আকারে পরিচ্ছন্ন বিদ্যুৎ উৎপাদন", "একজন EPC অংশীদার", "সাইট ও গ্রিড পয়েন্ট অনুযায়ী ডিজাইন", "রিমোট মনিটরিং"],
     },
     warranty: perContract,
-    image: "/media/img/utility-aerial.webp",
+    image: "/media/products/solar-farm.webp",
   },
   {
     slug: "solar-street-light",
@@ -1877,7 +1913,7 @@ const catalogue: Product[] = [
       bn: ["সন্ধ্যা থেকে ভোর স্বয়ংক্রিয় চালু-বন্ধ", "ক্যাবলিং বা বিদ্যুৎ বিল নেই", "দ্রুত ও কম খরচে ইনস্টলেশন", "লোডশেডিংয়েও জ্বলে"],
     },
     warranty: perContract,
-    image: "/media/products/cc-street.webp",
+    image: "/media/products/solar-street-light.webp",
   },
   {
     slug: "solar-powered-cameras",
@@ -1899,18 +1935,236 @@ const catalogue: Product[] = [
       bn: ["মেইন বিদ্যুৎ বা ক্যাবলিং লাগে না", "নাইট ভিশন", "4G বা Wi-Fi-তে দূর থেকে দেখা যায়", "বিদ্যুৎ গেলেও চলে"],
     },
     warranty: perContract,
-    image: "/media/img/panels-tilted.webp",
+    image: "/media/products/solar-powered-cameras.webp",
+  },
+  /* ===================== AI INTEGRATED SOLAR SOLUTIONS ===================== */
+  {
+    slug: "solar-noise-barrier",
+    category: "ai",
+    brand: "Trina Solar",
+    name: "TEG Solar Noise Barrier",
+    tagline: { en: "A roadside noise barrier that also generates power", bn: "শব্দ আটকানোর পাশাপাশি বিদ্যুৎ উৎপাদনকারী রোডসাইড ব্যারিয়ার" },
+    description: {
+      en: "Trina Solar's solar noise barrier combines a photovoltaic module with sound-proofing and sound-absorbing materials, so one structure cuts road noise and produces clean electricity. It is built for roads near residential areas, schools and hospitals, and suits both new construction and renovation of existing noise barriers.",
+      bn: "ট্রিনা সোলারের সোলার নয়েজ ব্যারিয়ারে পিভি মডিউলের সঙ্গে শব্দ-নিরোধক ও শব্দ-শোষক উপাদান যুক্ত, ফলে একই কাঠামো সড়কের শব্দ কমায় এবং পরিচ্ছন্ন বিদ্যুৎ তৈরি করে। আবাসিক এলাকা, স্কুল ও হাসপাতালের পাশের সড়কের জন্য তৈরি; নতুন নির্মাণ ও বিদ্যমান ব্যারিয়ার সংস্কার দুটোতেই ব্যবহার করা যায়।",
+    },
+    keySpec: { en: "35 dB sound reduction · NRC 0.9 · TÜV & CTC certified", bn: "৩৫ ডিবি শব্দ হ্রাস · NRC ০.৯ · TÜV ও CTC সার্টিফাইড" },
+    specs: [
+      spec("soundIndex", "35 dB"),
+      spec("nrc", "0.9"),
+      spec("certs", "TÜV and CTC certified (first BIPV CTC product certification)"),
+      spec("type", "Vertical and angled, serrated, semi-enclosure and full-enclosure formats"),
+      spec("cells", "Trinasolar high-efficiency cells"),
+      spec("application", "Roads near residential areas, schools and hospitals"),
+    ],
+    highlights: {
+      en: ["PV module and noise barrier in one structure", "Fire-, wind- and seismic-resistant", "For new builds and renovations", "Clean, low-carbon electricity"],
+      bn: ["একই কাঠামোতে পিভি মডিউল ও নয়েজ ব্যারিয়ার", "আগুন, বাতাস ও ভূমিকম্প সহনশীল", "নতুন নির্মাণ ও সংস্কার দুটোর জন্য", "পরিচ্ছন্ন, কম-কার্বন বিদ্যুৎ"],
+    },
+    warranty: perContract,
+    image: "/media/products/solar-noise-barrier.webp",
+    source: "https://www.trinasolar.com/en-glb/teg-solar-noise-barrier/",
+  },
+  {
+    slug: "colored-pv-glass",
+    category: "ai",
+    brand: "Trina Solar",
+    name: "Colored Photovoltaic Glass",
+    tagline: { en: "Building facades that generate electricity, in colour", bn: "রঙিন ভবন-ফ্যাসাড, যা নিজেই বিদ্যুৎ তৈরি করে" },
+    description: {
+      en: "Colorful photovoltaic building material from Trina Solar, made with N-type TOPCon cells and laminated tempered glass. It replaces conventional cladding on facades, canopies, balustrades, shading structures and skylights, with colours and textures that can be customised to the architecture.",
+      bn: "ট্রিনা সোলারের রঙিন ফটোভোল্টাইক বিল্ডিং ম্যাটেরিয়াল, যা N-টাইপ TOPCon সেল ও টেম্পারড গ্লাস দিয়ে তৈরি। ভবনের ফ্যাসাড, ক্যানোপি, বেলুস্ট্রেড, শেডিং স্ট্রাকচার ও স্কাইলাইটে সাধারণ ক্ল্যাডিংয়ের জায়গা নেয়; স্থাপত্য অনুযায়ী রঙ ও টেক্সচার কাস্টমাইজ করা যায়।",
+    },
+    keySpec: { en: "195–205 Wp/m² · N-type TOPCon cells", bn: "১৯৫–২০৫ Wp/m² · N-টাইপ TOPCon সেল" },
+    specs: [
+      spec("glass", "Not less than 5.0 mm tempered glass with PVB film"),
+      spec("power", "195–205 Wp/m²"),
+      spec("cells", "N-type TOPCon"),
+      spec("standard", "Meets curtain-wall specifications; compatible with PV and building standards"),
+      spec("application", "Facades, canopies, balustrades, shading, skylights"),
+    ],
+    highlights: {
+      en: ["Extensive colour and texture customisation", "Fire- and weather-resistant", "Same lifespan as the building material", "Clean, low-carbon electricity"],
+      bn: ["রঙ ও টেক্সচার ব্যাপকভাবে কাস্টমাইজযোগ্য", "আগুন ও আবহাওয়া সহনশীল", "ভবনের উপকরণের সমান আয়ু", "পরিচ্ছন্ন, কম-কার্বন বিদ্যুৎ"],
+    },
+    warranty: perContract,
+    image: "/media/products/colored-pv-glass.webp",
+    source: "https://www.trinasolar.com/en-glb/teg-colored-photovoltaic-glass",
+  },
+  {
+    slug: "robotic-panel-cleaning",
+    category: "ai",
+    name: "Automated Robotic Solar Panel Cleaning System",
+    tagline: { en: "Robots that keep panels clean without water or crews", bn: "পানি বা কর্মী ছাড়াই প্যানেল পরিষ্কার রাখে রোবট" },
+    description: {
+      en: "A hanging-type cleaning robot (model TAR03a) that dry-cleans PV rows with polymer roller brushes. It is controlled from a mobile app or a platform, can run on a self-sensing mode, and recharges from solar, so large plants and remote sites stay clean without manual washing. Length can be customised to the panel size.",
+      bn: "ঝুলন্ত ধরনের ক্লিনিং রোবট (মডেল TAR03a), যা পলিমার রোলার ব্রাশ দিয়ে ড্রাই-ক্লিনিং করে। মোবাইল অ্যাপ বা প্ল্যাটফর্ম থেকে নিয়ন্ত্রণ করা যায়, সেলফ-সেন্সিং মোডেও চলে এবং সোলার থেকে নিজে চার্জ নেয়; ফলে বড় প্ল্যান্ট ও দূরবর্তী সাইট হাতে ধোয়া ছাড়াই পরিষ্কার থাকে। প্যানেলের মাপ অনুযায়ী দৈর্ঘ্য কাস্টমাইজ করা যায়।",
+    },
+    keySpec: { en: "Dry cleaning · up to 20 m/min · 8–10 h per charge", bn: "ড্রাই ক্লিনিং · সর্বোচ্চ ২০ মি/মিনিট · প্রতি চার্জে ৮–১০ ঘণ্টা" },
+    specs: [
+      spec("type", "Hanging-type automatic cleaning robot (model TAR03a)"),
+      spec("cleaning", "Dry cleaning with polymer roller brushes"),
+      spec("control", "Mobile app or platform; self-sensing mode"),
+      spec("powerSupply", "Lithium battery, solar self-charging"),
+      spec("runtime", "8–10 hours per charge"),
+      spec("speed", "Up to 20 m/min"),
+      spec("weight", "Approx. 49 kg"),
+      spec("idealFor", "Large-scale solar installations, remote plants, desert sites"),
+    ],
+    highlights: {
+      en: ["Waterless dry cleaning", "App or platform control", "Solar self-charging", "Modular brush, simple to adjust as it wears"],
+      bn: ["পানি ছাড়া ড্রাই ক্লিনিং", "অ্যাপ বা প্ল্যাটফর্ম থেকে নিয়ন্ত্রণ", "সোলার থেকে নিজে চার্জ", "মডুলার ব্রাশ, ক্ষয়ে গেলে সহজে অ্যাডজাস্ট করা যায়"],
+    },
+    warranty: perContract,
+    image: "/media/products/robotic-panel-cleaning.webp",
+    // Specs: Hunan Teamants TAR03a listing. A second client URL (todos-china.com) only says it supplies
+    // "automatic solar panel cleaning robots" and gives no specs or usable images.
+    source: "https://teamants.en.made-in-china.com/product/XTSUYGuPXsVN/China-Fully-Automatic-Solar-Panel-Cleaning-System-for-Optimal-Energy-Output.html",
+  },
+  {
+    slug: "panel-breakage-sensors",
+    category: "ai",
+    name: "Solar System Breakage Sensors",
+    tagline: { en: "Vision and laser sensors that catch breakage early", bn: "ভাঙন আগেই ধরে ফেলে ভিশন ও লেজার সেন্সর" },
+    description: {
+      en: "Machine-vision and laser sensors that check solar wafers and cells for broken edges and fine breakouts, and reject damaged parts before they break up completely and damage other material. Used on solar production lines for position checking and fracture control.",
+      bn: "মেশিন-ভিশন ও লেজার সেন্সর সোলার ওয়েফার ও সেলের ভাঙা কিনারা ও সূক্ষ্ম ফাটল পরীক্ষা করে এবং ক্ষতিগ্রস্ত অংশ পুরোপুরি ভেঙে অন্য উপাদান নষ্ট করার আগেই বাদ দেয়। সোলার প্রোডাকশন লাইনে পজিশন চেক ও ফ্র্যাকচার কন্ট্রোলে ব্যবহৃত হয়।",
+    },
+    keySpec: { en: "Sub-pixel edge inspection · 4–20 mA / RS485 output", bn: "সাব-পিক্সেল কিনারা পরীক্ষা · 4–20 mA / RS485 আউটপুট" },
+    specs: [
+      spec("sensors", "VISOR Solar vision sensor; FT 10-RLH sub-miniature scanner; FT 50-RLA laser distance sensor"),
+      spec("detects", "Broken edges and fine breakouts, to sub-pixel accuracy; wafer position and slot occupation"),
+      spec("signalOut", "FT 50-RLA: 4–20 mA analog or RS485, programmable switching zones"),
+      spec("size", "FT 10-RLH housing 21 x 14 x 8 mm"),
+      spec("application", "Solar wafer and cell production lines"),
+    ],
+    highlights: {
+      en: ["Finds broken edges and fine breakouts", "Rejects damaged parts early", "Less material waste and fewer line stoppages", "Compact sensor housings"],
+      bn: ["ভাঙা কিনারা ও সূক্ষ্ম ফাটল শনাক্ত করে", "ক্ষতিগ্রস্ত অংশ আগেই বাদ দেয়", "কম অপচয় ও কম লাইন-বন্ধ", "কমপ্যাক্ট সেন্সর হাউজিং"],
+    },
+    warranty: perContract,
+    image: "/media/products/panel-breakage-sensors.webp",
+    source: "https://fortop.co.uk/knowledge/application-examples/sensopart-fracture-control-solar-industry/",
+  },
+  {
+    slug: "sun-tracking-solar",
+    category: "ai",
+    name: "Self-Rotating Solar Panels with Sun-Tracking Axis",
+    tagline: { en: "Panels that follow the sun across the day", bn: "সারাদিন সূর্যের সঙ্গে ঘুরে চলা প্যানেল" },
+    description: {
+      en: "A single-axis tracker rotates the panel rows to follow the sun, raising the energy captured from the same modules. The model listed here (WTT-2P) uses a multi-actuator drive and an intelligent AI algorithm, is designed for commercial and utility-scale plants, and tolerates sloping terrain.",
+      bn: "সিঙ্গেল-অ্যাক্সিস ট্র্যাকার প্যানেলের সারিকে ঘুরিয়ে সূর্যকে অনুসরণ করে, ফলে একই মডিউল থেকে বেশি শক্তি পাওয়া যায়। এখানে তালিকাভুক্ত মডেলে (WTT-2P) মাল্টি-অ্যাকচুয়েটর ড্রাইভ ও ইন্টেলিজেন্ট এআই অ্যালগরিদম আছে; বাণিজ্যিক ও ইউটিলিটি-স্কেল প্ল্যান্টের জন্য তৈরি এবং ঢালু জমিতেও চলে।",
+    },
+    keySpec: { en: "±60° tracking · ±1° accuracy · up to 72 kWp per row", bn: "±৬০° ট্র্যাকিং · ±১° নির্ভুলতা · প্রতি সারিতে ৭২ kWp পর্যন্ত" },
+    specs: [
+      spec("type", "One-portrait horizontal single-axis tracker (WTT-2P)"),
+      spec("capacity", "Up to 72 kWp per row (600 W modules)"),
+      spec("trackRange", "±60° (customisable)"),
+      spec("trackAcc", "±1°"),
+      spec("motor", "24 V DC motor"),
+      spec("opTemp", "-30 °C to +60 °C"),
+      spec("windSpeed", "60 m/s"),
+      spec("snowLoad", "1.6 kN/m²"),
+      spec("slope", "10–20% north-south"),
+      spec("application", "Commercial and utility-scale solar plants"),
+    ],
+    highlights: {
+      en: ["Intelligent AI tracking algorithm", "Supplier-stated generation gain of 15–30%", "Handles sloping terrain", "Simple installation and maintenance"],
+      bn: ["ইন্টেলিজেন্ট এআই ট্র্যাকিং অ্যালগরিদম", "সরবরাহকারীর দাবি অনুযায়ী উৎপাদন ১৫–৩০% বেশি", "ঢালু জমিতেও উপযোগী", "সহজ ইনস্টলেশন ও রক্ষণাবেক্ষণ"],
+    },
+    warranty: perContract,
+    image: "/media/products/sun-tracking-solar.webp",
+    imageCredit: { en: "Photo: Vinaykumar8687, CC BY-SA 4.0, via Wikimedia Commons", bn: "ছবি: Vinaykumar8687, CC BY-SA 4.0, Wikimedia Commons" },
+    source: "https://xmwintop.en.made-in-china.com/product/SZfGjDBTnhAM/China-Single-Axis-Solar-Tracker-Bracket-Kit.html",
+  },
+  {
+    slug: "underwater-solar",
+    category: "ai",
+    name: "Underwater & Floating Solar Panels",
+    tagline: { en: "Solar on water: no land, cooler panels, less evaporation", bn: "পানির ওপর সোলার: জমি লাগে না, প্যানেল ঠান্ডা থাকে, বাষ্পীভবন কম" },
+    description: {
+      en: "Floating PV places panels on lakes, reservoirs, ponds and near-coastal water, avoiding land acquisition and bringing generation closer to demand. Water cooling gives a higher energy yield, and over agricultural reservoirs the cover reduces evaporation and can power irrigation pumping. Fully submerged panels are a specialist, low-power option; their efficiency falls as water depth increases.",
+      bn: "ফ্লোটিং পিভিতে প্যানেল বসে হ্রদ, জলাধার, পুকুর বা উপকূলের কাছাকাছি পানিতে — জমি অধিগ্রহণ লাগে না, চাহিদার কাছাকাছি উৎপাদন সম্ভব। পানির শীতলকরণে উৎপাদন বাড়ে; কৃষি-জলাধারে প্যানেলের আচ্ছাদন বাষ্পীভবন কমায় এবং সেচের পাম্প চালাতে পারে। পুরোপুরি ডুবন্ত প্যানেল বিশেষ ও কম-শক্তির বিকল্প; পানির গভীরতা বাড়লে এর দক্ষতা কমে।",
+    },
+    keySpec: { en: "Floating PV on lakes, reservoirs and ponds", bn: "হ্রদ, জলাধার ও পুকুরে ভাসমান পিভি" },
+    specs: [
+      spec("type", "Floating PV on the water surface; submerged PV for specialist low-power uses"),
+      spec("components", "PV modules, floats, anchoring and mooring, cabling, inverters"),
+      spec("application", "Lakes, hydropower and agricultural reservoirs, industrial ponds, near-coastal water"),
+      spec("scope", "Site and water-body survey, design, supply, installation, commissioning"),
+    ],
+    highlights: {
+      en: ["No land acquisition", "Water cooling raises energy yield", "Reduces evaporation in agricultural reservoirs", "Can power irrigation pumping"],
+      bn: ["জমি অধিগ্রহণ লাগে না", "পানির শীতলকরণে উৎপাদন বাড়ে", "কৃষি-জলাধারে বাষ্পীভবন কমে", "সেচের পাম্প চালাতে পারে"],
+    },
+    warranty: perContract,
+    image: "/media/products/underwater-solar.webp",
+    // World Bank / ESMAP / SERIS "Where Sun Meets Water" (floating PV) + KFUPM experiment on submerged PV
+    // (PV efficiency decreases with water depth; rises as water temperature falls).
+    source: "https://www.worldbank.org/en/topic/energy/publication/where-sun-meets-water",
+  },
+  {
+    slug: "solar-tile",
+    category: "ai",
+    name: "Solar Tile (Metal / Tin Roof Integrated Solar)",
+    tagline: { en: "The roof itself generates the power", bn: "ছাদই নিজে বিদ্যুৎ তৈরি করে" },
+    description: {
+      en: "Solar tiles and metal-roof panels with PV cells built into the roofing surface, so the roof covering and the solar array are one layer instead of panels bolted on top. Suited to homes, shops and farm buildings with tin or metal roofs where a low-profile, tidy finish matters. Each roof is surveyed and specified individually.",
+      bn: "সোলার টাইল ও মেটাল-রুফ প্যানেলে পিভি সেল ছাদের উপরিতলেই বসানো থাকে, ফলে ওপরে প্যানেল বসানোর বদলে ছাদের আচ্ছাদন ও সোলার অ্যারে এক স্তরেই হয়। টিন বা মেটাল ছাদের বাসা, দোকান ও খামারঘরে, যেখানে পরিপাটি, কম উচ্চতার ফিনিশ গুরুত্বপূর্ণ, সেখানে উপযোগী। প্রতিটি ছাদ আলাদাভাবে জরিপ করে স্পেসিফাই করা হয়।",
+    },
+    keySpec: { en: "Roofing and PV in one layer · specified per roof", bn: "ছাদ ও পিভি এক স্তরে · ছাদ অনুযায়ী স্পেসিফিকেশন" },
+    specs: [
+      spec("type", "Roof-integrated PV tile or steel/metal roof panel with integrated solar cells"),
+      spec("material", "Steel or metal roofing base with integrated PV cells"),
+      spec("idealFor", "Homes, shops and farm buildings with tin or metal roofs"),
+      spec("scope", "Roof survey, layout design, supply, installation and grid or hybrid connection"),
+    ],
+    highlights: {
+      en: ["Roof and solar in one layer", "Low-profile, tidy look", "No separate mounting frame on top of the roof", "Sized to your roof and load"],
+      bn: ["ছাদ ও সোলার এক স্তরে", "কম উচ্চতার, পরিপাটি চেহারা", "ছাদের ওপর আলাদা মাউন্টিং ফ্রেম লাগে না", "আপনার ছাদ ও লোড অনুযায়ী সাইজ"],
+    },
+    warranty: perContract,
+    image: "/media/products/solar-tile.webp",
+    // No client URL; no manufacturer datasheet used, so no figures. Needs a datasheet from the chosen supplier.
+  },
+
+  {
+    slug: "self-cleaning-solar",
+    category: "commercial",
+    name: "Self-Cleaning Solar System",
+    tagline: { en: "Cleaner panels, less washing, steadier output", bn: "পরিষ্কার প্যানেল, কম ধোয়া, স্থির উৎপাদন" },
+    description: {
+      en: "Dust and dirt on panel glass cut output, especially in dry, dusty conditions. A self-cleaning system pairs a hydrophobic anti-soiling glass coating, which makes rain bead up and roll off with loose dust, with optional automated cleaning for sites that need more. In a Duke University experiment on coated glass slides, soiling fell by 31%, and by 50% when dew was suppressed.",
+      bn: "প্যানেলের কাচে ধুলো-ময়লা জমলে উৎপাদন কমে, বিশেষ করে শুকনো ও ধুলোময় পরিবেশে। সেল্ফ-ক্লিনিং সিস্টেমে হাইড্রোফোবিক অ্যান্টি-সয়লিং গ্লাস কোটিং থাকে, যাতে বৃষ্টির পানি ফোঁটা হয়ে ধুলোসহ গড়িয়ে পড়ে; আরও প্রয়োজনে স্বয়ংক্রিয় ক্লিনিং যোগ করা যায়। ডিউক বিশ্ববিদ্যালয়ের এক পরীক্ষায় কোটেড গ্লাস স্লাইডে ময়লা জমা ৩১% এবং শিশির আটকালে ৫০% কমেছে।",
+    },
+    keySpec: { en: "Hydrophobic anti-soiling coating · optional automated cleaning", bn: "হাইড্রোফোবিক অ্যান্টি-সয়লিং কোটিং · ঐচ্ছিক স্বয়ংক্রিয় ক্লিনিং" },
+    specs: [
+      spec("components", "Hydrophobic anti-soiling glass coating; optional robotic or automated cleaning"),
+      spec("idealFor", "Utility and commercial plants in dusty or low-rainfall areas, hard-to-reach rooftops"),
+      spec("scope", "Site soiling assessment, coating or cleaning-system selection, installation"),
+    ],
+    highlights: {
+      en: ["Rain carries loose dust away", "Less manual washing", "Steadier energy output", "Combines with robotic cleaning"],
+      bn: ["বৃষ্টিতে আলগা ধুলো ধুয়ে যায়", "হাতে ধোয়া কম", "স্থির বিদ্যুৎ উৎপাদন", "রোবটিক ক্লিনিংয়ের সঙ্গে যুক্ত করা যায়"],
+    },
+    warranty: perContract,
+    image: "/media/products/self-cleaning-solar.webp",
+    imageCredit: { en: "Photo: Oregon Department of Transportation, CC BY 2.0, via Wikimedia Commons", bn: "ছবি: Oregon Department of Transportation, CC BY 2.0, Wikimedia Commons" },
+    // Figures: Duke University (Bergin lab) study of hydrophobic coating on slides: 31 ± 15% soiling reduction,
+    // 50 ± 13% with dew suppression. Image requires credit (CC BY 2.0): Oregon Department of Transportation.
+    source: "https://bergin.pratt.duke.edu/publications/reduction-solar-pv-soiling-loss-using-hydrophobic-coating-and-without-dew-suppression",
   },
 ];
 
 /**
  * Items with no manufacturer brand are sold under the OSLEOS brand (client request,
- * Oct 2026). The water heater is left unbranded because the photo supplied for it
- * carries a third-party logo.
+ * Oct 2026). A few items stay unbranded because their photos carry a third-party
+ * logo (water heater, cleaning robot, breakage sensor).
  */
 export const OSLEOS_BRAND = "OSLEOS";
+const KEEP_UNBRANDED = new Set(["solar-water-heater", "robotic-panel-cleaning", "panel-breakage-sensors"]);
 export const products: Product[] = catalogue.map((p) =>
-  p.brand || p.slug === "solar-water-heater" ? p : { ...p, brand: OSLEOS_BRAND },
+  p.brand || KEEP_UNBRANDED.has(p.slug) ? p : { ...p, brand: OSLEOS_BRAND },
 );
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);

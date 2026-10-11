@@ -21,6 +21,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/media/:path*", headers: [{ key: "Cache-Control", value: publicAssetCache }] },
       { source: "/brand/:path*", headers: [{ key: "Cache-Control", value: publicAssetCache }] },
+      { source: "/datasheets/:path*", headers: [{ key: "Cache-Control", value: publicAssetCache }] },
     ];
   },
   async redirects() {
