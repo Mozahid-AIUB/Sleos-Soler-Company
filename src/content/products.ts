@@ -38,6 +38,8 @@ export type Product = {
   image: string;
   /** Attribution line for photos that need one (CC BY / CC BY-SA). Shown under the image on the product page. */
   imageCredit?: Localized;
+  /** CSS object-position for the cropped card/hero image, e.g. "50% 25%" to keep a logo in view. */
+  imagePosition?: string;
   featured?: boolean;
   /** Where the specs came from (manufacturer datasheet). Not rendered. */
   source?: string;
@@ -1870,6 +1872,7 @@ const catalogue: Product[] = [
     },
     warranty: perContract,
     image: "/media/products/solar-water-heater.webp",
+    imagePosition: "50% 25%",
   },
   {
     slug: "solar-farm",
@@ -2159,10 +2162,10 @@ const catalogue: Product[] = [
 /**
  * Items with no manufacturer brand are sold under the OSLEOS brand (client request,
  * Oct 2026). A few items stay unbranded because their photos carry a third-party
- * logo (water heater, cleaning robot, breakage sensor).
+ * logo (cleaning robot, breakage sensor).
  */
 export const OSLEOS_BRAND = "OSLEOS";
-const KEEP_UNBRANDED = new Set(["solar-water-heater", "robotic-panel-cleaning", "panel-breakage-sensors"]);
+const KEEP_UNBRANDED = new Set(["robotic-panel-cleaning", "panel-breakage-sensors"]);
 export const products: Product[] = catalogue.map((p) =>
   p.brand || KEEP_UNBRANDED.has(p.slug) ? p : { ...p, brand: OSLEOS_BRAND },
 );
