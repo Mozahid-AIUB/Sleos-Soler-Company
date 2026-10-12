@@ -25,7 +25,7 @@ const es: Dictionary = {
     utility: "Productos aprobados por SREDA y BSTI · Entrega e instalación en todo Bangladesh",
   },
   hero: {
-    eyebrow: "Soluciones integrales de energía solar para Bangladesh",
+    eyebrow: "Soluciones solares inteligentes integrales para Bangladesh",
     titleA: "Energía para hoy.",
     titleB: "Un futuro que preservar.",
     sub: "Diseñamos, suministramos e instalamos sistemas solares completos para hogares, fábricas, explotaciones agrícolas y edificios comerciales. Todo, desde paneles e inversores Tier-1 hasta baterías, protecciones y estabilizadores de voltaje.",

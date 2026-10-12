@@ -23,7 +23,7 @@ const en = {
     utility: "SREDA and BSTI approved products · Delivery and installation across Bangladesh",
   },
   hero: {
-    eyebrow: "Complete solar power solutions for Bangladesh",
+    eyebrow: "Complete Smart Solar Solutions for Bangladesh",
     titleA: "Powering Today.",
     titleB: "Preserving Tomorrow.",
     sub: "We design, supply and install complete solar systems for homes, factories, farms and commercial buildings. Everything from tier-1 panels and inverters to batteries, protection and voltage stabilizers.",
