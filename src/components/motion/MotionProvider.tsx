@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 const SELECTOR = ".reveal, .reveal-fade, .reveal-img, .reveal-line, .reveal-scale, .split:not(.split-now)";
@@ -20,14 +20,46 @@ const SELECTOR = ".reveal, .reveal-fade, .reveal-img, .reveal-line, .reveal-scal
  */
 export function MotionProvider() {
   const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
+  const history = useRef({ popped: false, first: true });
 
   // Smooth scroll (desktop pointers only; touch keeps native scrolling).
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const lenis = new Lenis({ autoRaf: true, lerp: 0.12, wheelMultiplier: 1, anchors: { offset: -90 } });
-    return () => lenis.destroy();
+    lenisRef.current = lenis;
+    return () => {
+      lenisRef.current = null;
+      lenis.destroy();
+    };
   }, []);
+
+  // A page opened by clicking a link must start at the top. Next only keeps or resets the scroll
+  // position by a heuristic, and Lenis keeps its own scroll target, so product pages could open
+  // half-way down. Back/forward (popstate) and #hash links are left alone.
+  useEffect(() => {
+    const onPop = () => {
+      history.current.popped = true;
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  useEffect(() => {
+    const h = history.current;
+    if (h.first) {
+      h.first = false;
+      return;
+    }
+    if (h.popped) {
+      h.popped = false;
+      return;
+    }
+    if (window.location.hash) return;
+    lenisRef.current?.scrollTo(0, { immediate: true, force: true });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
 
   // Reveal-on-scroll; re-scans after every client-side navigation.
   useEffect(() => {
