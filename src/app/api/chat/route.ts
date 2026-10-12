@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 // Claude Sonnet 5: fast, strong in Bangla, and the system prompt (~3k tokens)
 // is above its 1,024-token cache minimum, so repeat turns read it at 0.1x.
-const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5";
+const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5-5";
 const MAX_TOKENS = 700;
 const MAX_HISTORY = 10;
 const MAX_CHARS = 1000;
