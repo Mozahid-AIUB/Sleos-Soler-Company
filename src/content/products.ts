@@ -251,7 +251,7 @@ const catalogue: Product[] = [
       bn: ["সীমিত ছাদের জন্য ছোট ও হালকা", "৫,৪০০ Pa / ৪,০০০ Pa টেস্ট লোড", "N-টাইপ: কম ডিগ্রেডেশন", "প্রচলিত ইনভার্টার ও অপটিমাইজারের সাথে মানানসই"],
     },
     warranty: { en: "25-year product · 30-year power", bn: "২৫ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/p-panel-black.webp",
+    image: "/media/products/trina-vertex-s-plus-neg9r28.webp",
     source: "https://static.trinasolar.com/sites/default/files/Datasheet_Vertex%20S+_NEG9R.28_EN_2024_C_web.pdf",
   },
   {
@@ -280,7 +280,7 @@ const catalogue: Product[] = [
       bn: ["পেছন দিক থেকে ৩০% পর্যন্ত বাড়তি উৎপাদন (মাটির প্রতিফলন অনুযায়ী)", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন", "লবণাক্ত বাতাস, অ্যামোনিয়া ও আর্দ্রতা প্রতিরোধী", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-tilted.webp",
+    image: "/media/products/trina-vertex-n-neg19rc20.webp",
     featured: true,
     source: "https://static.trinasolar.com/sites/default/files/Datasheet_210R_NEG19RC.20_EN_2024A_web.pdf",
   },
@@ -310,7 +310,7 @@ const catalogue: Product[] = [
       bn: ["অল-ব্ল্যাক ফ্রেম ও ব্যাকশিট", "SMBB সেলে ভালো আলো শোষণ", "লবণাক্ত বাতাস ও অ্যামোনিয়া প্রতিরোধী", "৩০ বছরে বার্ষিক মাত্র ০.৪০% ডিগ্রেডেশন"],
     },
     warranty: { en: "25-year product · 30-year linear power", bn: "২৫ বছর প্রোডাক্ট · ৩০ বছর লিনিয়ার পাওয়ার" },
-    image: "/media/img/rooftop-installer.webp",
+    image: "/media/products/jinko-tiger-neo-54hl4r-b.webp",
     featured: true,
     source: "https://jinkosolarcdn.shwebspace.com/uploads/JKM420-440N-54HL4R-B-F1.3-EN.pdf",
   },
@@ -340,7 +340,7 @@ const catalogue: Product[] = [
       bn: ["দুই দিক থেকে উৎপাদনে খরচ কমে", "অ্যান্টি-PID গ্যারান্টি", "৫,৪০০ Pa সামনে / ২,৪০০ Pa পেছনে লোড", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-field.webp",
+    image: "/media/products/jinko-tiger-neo-72hl4-bdv.webp",
     source: "https://jinkosolarcdn.shwebspace.com/uploads/65d17719/JKM570-590N-72HL4-BDV-F8-EN.pdf",
   },
   {
@@ -369,7 +369,7 @@ const catalogue: Product[] = [
       bn: ["ব্যাক-কন্টাক্ট সেল, পরিষ্কার সামনের অংশ", "কমপ্যাক্ট ১৭২২ মিমি দৈর্ঘ্য", "২৫ মিমি শিলাবৃষ্টি পরীক্ষিত", "বছরে ০.৪০% ডিগ্রেডেশন"],
     },
     warranty: { en: "25-year power warranty", bn: "২৫ বছর পাওয়ার ওয়ারেন্টি" },
-    image: "/media/img/drill-panel.webp",
+    image: "/media/products/longi-hi-mo-6-lr5-54hth.webp",
     source: "https://www.solar4ever.com.au/Brochures/LonGi%20-%20LR5-54HTH-440M.pdf",
   },
   {
@@ -398,7 +398,7 @@ const catalogue: Product[] = [
       bn: ["গ্রাউন্ড-মাউন্ট প্ল্যান্টে উচ্চ বাইফেসিয়ালিটি", "প্রথম বছর ১%-এর কম ডিগ্রেডেশন", "২য় থেকে ৩০তম বছর বছরে ০.৪%", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-clouds.webp",
+    image: "/media/products/longi-hi-mo-7-lr5-72hgd.webp",
     source: "https://static.longi.com/L_Gi_LE_PM_T_PMD_059_F139_LR_5_72_HGD_560_590_M_V1_30_30_and_15_V19_3_EN_8fdcd1a7f4.pdf",
   },
   {
@@ -427,7 +427,7 @@ const catalogue: Product[] = [
       bn: ["অল-ব্ল্যাক, ডাবল-গ্লাস গঠন", "উঁচু মাউন্টে পেছন দিক থেকে বাড়তি উৎপাদন", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "১৫০০ ভোল্ট ডিসি সিস্টেম ভোল্টেজ"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/engineer-panel.webp",
+    image: "/media/products/ja-solar-deepblue-4-pro-jam54d41-lb.webp",
     source: "https://www.jasolar.eu/fileadmin/data/products/4.0/JAM54D41_LB.pdf",
   },
   {
@@ -456,7 +456,7 @@ const catalogue: Product[] = [
       bn: ["ট্র্যাকার-উপযোগী মাউন্টিং হোল", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "IP68 জংশন বক্স"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/panels-sky.webp",
+    image: "/media/products/ja-solar-deepblue-4-pro-jam72d40-mb.webp",
     source: "https://www.jasolar.eu/fileadmin/data/products/4.0/JAM72D40_MB.pdf",
   },
   {
@@ -485,7 +485,7 @@ const catalogue: Product[] = [
       bn: ["৬,০০০ Pa বাতাসের লোডে রেটেড", "অ্যান্টি-LeTID ও অ্যান্টি-PID", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন", "অল-ব্ল্যাক চেহারা"],
     },
     warranty: { en: "Up to 25-year product · 30-year power", bn: "২৫ বছর পর্যন্ত প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/crew-roof.webp",
+    image: "/media/products/canadian-solar-tophiku6-cs6-1-54tm.webp",
     source: "https://static.csisolar.com/wp-content/uploads/sites/3/2024/01/25141819/CS-Datasheet-TOPHiKu6-All-Black_CS6.1-54TM-H_v1.1C25_F23_P1_NA-US-445-470W.pdf",
   },
   {
@@ -514,7 +514,7 @@ const catalogue: Product[] = [
       bn: ["৮৫% পর্যন্ত বাইফেসিয়ালিটি", "৩৫ মিমি শিলাবৃষ্টি পরীক্ষিত", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং", "প্রথম বছর ১%, পরে বছরে ০.৪% ডিগ্রেডেশন"],
     },
     warranty: { en: "12-year product · 30-year power", bn: "১২ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/utility-aerial.webp",
+    image: "/media/products/canadian-solar-topbihiku6-cs6-2-66tb.webp",
     source: "https://natec.com/wp-content/uploads/2024/07/CS-Datasheet-TOPBiHiKu6_CS6.2-66TB_v1.3_F67_EN_600-630W.pdf",
   },
   {
@@ -543,7 +543,7 @@ const catalogue: Product[] = [
       bn: ["জিরো-বাসবার টাইলিং-ফিল্ম সংযোগ", "অল-ব্ল্যাক, ছাদের সাথে মানিয়ে যায়", "২ বর্গমিটারের কম, বহন ও ইনস্টল সহজ", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "25-year product · 30-year power", bn: "২৫ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/installer-carry.webp",
+    image: "/media/products/astronergy-astro-n7s-chsm54rns.webp",
     source: "https://www.astronergy.com/wp-content/uploads/2024/03/440460ASTRO-N7s_CHSM54RNsDGBLHF-BH_1762%C3%971134%C3%9730_EN_20240601.pdf",
   },
   {
@@ -572,7 +572,7 @@ const catalogue: Product[] = [
       bn: ["SMBB ডিজাইনে কম লস", "বাইফেসিয়াল ডুয়াল-গ্লাস গঠন", "১৫০০ ভোল্ট ডিসি সিস্টেম ভোল্টেজ", "৫,৪০০ Pa / ২,৪০০ Pa লোড রেটিং"],
     },
     warranty: { en: "15-year product · 30-year power", bn: "১৫ বছর প্রোডাক্ট · ৩০ বছর পাওয়ার" },
-    image: "/media/img/p-panel-blue.webp",
+    image: "/media/products/astronergy-astro-n5-chsm72n.webp",
     source: "https://www.astronergy.com/wp-content/uploads/2023/08/580600ASTRO-N5_CHSM72NDGF-BH_2278x1134x30_EN_20240601-1.pdf",
   },
 
@@ -1079,7 +1079,7 @@ const catalogue: Product[] = [
     },
     features: huaweiFeatures,
     warranty: { en: "10 years (subject to Huawei warranty terms)", bn: "১০ বছর (হুয়াওয়ের ওয়ারেন্টি শর্ত সাপেক্ষে)" },
-    image: "/media/products/battery-lifepo4.webp",
+    image: "/media/products/huawei-luna2000-5-15-s0.webp",
     source: "https://solar.huawei.com/en/products/luna2000-5-10-15-s0/specs/",
   },
   /* ========================== CHARGE CONTROLLERS ======================== */
@@ -1199,7 +1199,7 @@ const catalogue: Product[] = [
       bn: ["আউটপুট ওয়েভফর্ম ডিস্টরশন ≤ ১%", "কমপ্যাক্ট ও হালকা", "কম পাওয়ার লস", "ওভার/আন্ডার-ভোল্টেজ কাট-অফ"],
     },
     warranty: perProject,
-    image: "/media/products/avr.webp",
+    image: "/media/products/chint-tnd1-svc-stabilizer.webp",
     source: "https://www.chintglobal.com/global/en/products/low-voltage/iec/secondary-power-distribution/tns1.html",
   },
   {
@@ -1225,7 +1225,7 @@ const catalogue: Product[] = [
       bn: ["খুব বিস্তৃত ইনপুট রেঞ্জ", "নিখুঁত আউটপুট নিয়ন্ত্রণ", "সম্পূর্ণ প্রোটেকশন", "দেয়ালে বা মেঝেতে বসানো যায়"],
     },
     warranty: perProject,
-    image: "/media/products/avr.webp",
+    image: "/media/products/zhengxi-svc-servo-stabilizer.webp",
     source: "https://www.zx-ele.com/servo-voltage-stabilizers/",
   },
   {
@@ -1250,7 +1250,7 @@ const catalogue: Product[] = [
       bn: ["বড় ক্যাপাসিটি, উচ্চ দক্ষতা", "ওয়েভফর্মে কোনো বিকৃতি নেই", "তাৎক্ষণিক ওভারলোড সামলায়", "ম্যানুয়াল / অটো সুইচ-ওভার"],
     },
     warranty: perProject,
-    image: "/media/products/stabilizer.webp",
+    image: "/media/products/delixi-sbw-three-phase-stabilizer.webp",
     source: "https://www.delixielc.com/power-management/voltage-stabilizer/3-phase-voltage-stabilizer.html",
   },
   {
@@ -1276,7 +1276,7 @@ const catalogue: Product[] = [
       bn: ["সার্ভো নিয়ন্ত্রিত, মসৃণ রেগুলেশন", "মিটার ডিসপ্লে", "নিঃশব্দ অপারেশন (≤ ৫০ dB)", "৫০ / ৬০ হার্জ"],
     },
     warranty: perProject,
-    image: "/media/products/avr.webp",
+    image: "/media/products/sako-svc-5000va-stabilizer.webp",
     source: "https://sakobd.com/product/sako-svc-5000va-voltage-stabilizer/",
   },
   {
@@ -1303,7 +1303,7 @@ const catalogue: Product[] = [
       bn: ["শিল্প লোডের জন্য উচ্চ নির্ভুলতা", "৯৫%-এর বেশি দক্ষতা", "ওভারলোড সুরক্ষা", "ঐচ্ছিক অটো বাইপাস"],
     },
     warranty: perProject,
-    image: "/media/products/stabilizer.webp",
+    image: "/media/products/sako-sbw-150kva-stabilizer.webp",
     source: "https://sakoregulator.com/product/sako-sbw-150kva-avr/",
   },
   {
@@ -1330,7 +1330,7 @@ const catalogue: Product[] = [
       bn: ["খুব বিস্তৃত ১০০–২৬০ ভোল্ট ইনপুট", "ডিজিটাল ভোল্টেজ ও লোড ডিসপ্লে", "১ সেকেন্ডের কম রেসপন্স", "সম্পূর্ণ প্রোটেকশন"],
     },
     warranty: perProject,
-    image: "/media/products/avr.webp",
+    image: "/media/products/cnc-svc-n-wall-mounted-stabilizer.webp",
     source: "https://www.cncele.com/svc-n-single-phase-wall-mounted-voltage-stabilizer-product/",
   },
   {
@@ -1357,7 +1357,7 @@ const catalogue: Product[] = [
       bn: ["প্রতিটি ফেজ আলাদাভাবে নিয়ন্ত্রিত", "ওয়েভফর্মে কোনো বিকৃতি নেই", "রেসপন্স ≤ ১ সেকেন্ড", "থ্রি-ফেজ ফোর-ওয়্যার বা থ্রি-ওয়্যার"],
     },
     warranty: perProject,
-    image: "/media/products/stabilizer.webp",
+    image: "/media/products/cnc-svc-three-phase-stabilizer.webp",
     source: "https://www.cncele.com/svc-three-phase-high-accuracy-automatic-ac-voltage-stabilizer-product/",
   },
   {
@@ -1384,7 +1384,7 @@ const catalogue: Product[] = [
       bn: ["ভালো আউটপুট ওয়েভফর্ম", "প্রতি সেকেন্ডে ১০ ভোল্টের বেশি গতিতে নিয়ন্ত্রণ", "উচ্চ লোড সহনশীলতা", "ত্রুটিতে স্বয়ংক্রিয় আউটপুট বন্ধ"],
     },
     warranty: perProject,
-    image: "/media/products/avr.webp",
+    image: "/media/products/tengen-tnd-single-phase-stabilizer.webp",
     source: "https://www.tengenglobal.com/public/uploads/uxupload/handbook/Voltage%20stabilizer%20TND%20TNS%20Catalog.pdf",
   },
   {
@@ -1411,7 +1411,7 @@ const catalogue: Product[] = [
       bn: ["বিস্তৃত থ্রি-ফেজ ইনপুট রেঞ্জ", "মসৃণ, ধাপহীন নিয়ন্ত্রণ", "ত্রুটিতে স্বয়ংক্রিয় আউটপুট বন্ধ", "লোড অনুযায়ী মার্জিন রেখে সাইজিং"],
     },
     warranty: perProject,
-    image: "/media/products/stabilizer.webp",
+    image: "/media/products/tengen-tns-three-phase-stabilizer.webp",
     source: "https://www.tengenglobal.com/public/uploads/uxupload/handbook/Voltage%20stabilizer%20TND%20TNS%20Catalog.pdf",
   },
 
@@ -1440,7 +1440,7 @@ const catalogue: Product[] = [
     },
     features: huaweiFeatures,
     warranty: perProject,
-    image: "/media/products/combiner-box.webp",
+    image: "/media/products/huawei-sun2000-450w-p2.webp",
     source: "https://solar.huawei.com/en/products/sun2000-450w-p2-600w-p/specs/",
   },
   {
@@ -1465,7 +1465,7 @@ const catalogue: Product[] = [
       bn: ["পিভি সিস্টেমের জন্য তৈরি", "DIN-রেল মডুলার ডিজাইন", "আইসোলেশন ও শর্ট-সার্কিট সুরক্ষা", "অন্যান্য ডিসি সিস্টেমেও চলে"],
     },
     warranty: perProject,
-    image: "/media/products/mcb.webp",
+    image: "/media/products/cnc-ycb8-63pv-dc-mcb.webp",
     source: "https://www.cncele.com/dc-mcb-for-solar-ycb8-63pv-product/",
   },
   {
@@ -1491,7 +1491,7 @@ const catalogue: Product[] = [
       bn: ["ইনভার্টারের এসি আউটপুট সুরক্ষা", "বিভিন্ন ডিসচার্জ রেটিং", "DIN-রেলে বসানো", "CHINT ব্রেকারের সাথে মানানসই"],
     },
     warranty: perProject,
-    image: "/media/products/spd.webp",
+    image: "/media/products/chint-nu6-ii-spd.webp",
     source: "https://www.chint.cz/engdetail.php?id=43",
   },
   {
@@ -1517,7 +1517,7 @@ const catalogue: Product[] = [
       bn: ["বিভিন্ন ট্রিপ কার্ভ", "DIN-রেলে বসানো", "বিস্তৃত কারেন্ট রেঞ্জ", "বাসা, দোকান ও প্যানেলের জন্য"],
     },
     warranty: perProject,
-    image: "/media/products/distribution-board.webp",
+    image: "/media/products/tengen-tgb1n-63-mcb.webp",
     source: "https://www.tengenglobal.com/proModMin/32.html",
   },
   {
