@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import type { CategoryId } from "@/content/products";
+import { CATEGORY_EVENT } from "@/components/product/CategoryLink";
 
 type Tab = { id: CategoryId | "all"; label: string; count: number; /** Optional lead-in shown above the cards while this tab is active. */ intro?: string };
 type Card = { category: CategoryId; brand?: string; node: ReactNode; key: string };
@@ -30,9 +31,22 @@ export function ProductGrid({
         setBrand(null);
       }
     };
+    const fromEvent = (e: Event) => {
+      const id = (e as CustomEvent<string>).detail;
+      if (tabs.some((t) => t.id === id)) {
+        setActive(id as CategoryId);
+        setBrand(null);
+      }
+    };
     fromHash();
     window.addEventListener("hashchange", fromHash);
-    return () => window.removeEventListener("hashchange", fromHash);
+    window.addEventListener("popstate", fromHash);
+    window.addEventListener(CATEGORY_EVENT, fromEvent);
+    return () => {
+      window.removeEventListener("hashchange", fromHash);
+      window.removeEventListener("popstate", fromHash);
+      window.removeEventListener(CATEGORY_EVENT, fromEvent);
+    };
   }, [tabs]);
 
   const inCategory = cards.filter((c) => active === "all" || c.category === active);

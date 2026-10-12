@@ -8,6 +8,7 @@ import type { Dictionary } from "@/i18n/dictionaries/en";
 import { locales, type Locale } from "@/i18n/config";
 import { site, whatsappLink } from "@/content/site";
 import { Logo } from "@/components/ui/Logo";
+import { CategoryLink } from "@/components/product/CategoryLink";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 
@@ -127,8 +128,9 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
             <div className={`invisible absolute left-1/2 top-full w-[760px] -translate-x-1/2 translate-y-2 opacity-0 transition-all duration-200 group-focus-within/mega:visible group-focus-within/mega:translate-y-0 group-focus-within/mega:opacity-100 group-hover/mega:visible group-hover/mega:translate-y-0 group-hover/mega:opacity-100 ${megaClosed ? "pointer-events-none !invisible !opacity-0" : ""}`}>
               <div className="grid grid-cols-3 gap-2 rounded-lg border border-cream-200 bg-white p-3 text-ink-900 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.25)]">
                 {categories.map((c, i) => (
-                  <Link
+                  <CategoryLink
                     key={c.id}
+                    categoryId={c.id}
                     href={`/${lang}/products#${c.id}`}
                     onClick={(e) => {
                       setMegaClosed(true);
@@ -144,7 +146,7 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
                       <span className="block text-[14.5px] font-semibold transition-colors group-hover/item:text-forest-900">{c.name}</span>
                       <span className="mt-0.5 block text-[12.5px] leading-snug text-ink-400">{c.blurb}</span>
                     </span>
-                  </Link>
+                  </CategoryLink>
                 ))}
               </div>
             </div>
@@ -203,9 +205,9 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
           </Link>
           <div className={`grid grid-cols-2 gap-x-4 border-b border-cream-200 py-3 ${menuRow(menuOpen, 1).className}`} style={menuRow(menuOpen, 1).style}>
             {categories.map((c) => (
-              <Link key={c.id} href={`/${lang}/products#${c.id}`} className="py-2 text-[15px] text-ink-600">
+              <CategoryLink key={c.id} categoryId={c.id} href={`/${lang}/products#${c.id}`} className="py-2 text-[15px] text-ink-600">
                 {c.name}
-              </Link>
+              </CategoryLink>
             ))}
           </div>
           {links.map((l, i) => (

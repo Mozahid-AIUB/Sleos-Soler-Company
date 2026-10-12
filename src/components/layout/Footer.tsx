@@ -9,6 +9,7 @@ import { categories } from "@/content/products";
 import { Logo } from "@/components/ui/Logo";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SocialLinks } from "@/components/layout/SocialLinks";
+import { CategoryLink } from "@/components/product/CategoryLink";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import sredaLogo from "../../../public/brand/sreda-logo.webp";
 import bstiLogo from "../../../public/brand/bsti-logo.webp";
@@ -63,9 +64,9 @@ export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
             <ul className="mt-5 space-y-3">
               {categories.map((c) => (
                 <li key={c.id}>
-                  <Link href={`/${lang}/products#${c.id}`} className={linkClass}>
+                  <CategoryLink categoryId={c.id} href={`/${lang}/products#${c.id}`} className={linkClass}>
                     {pick(c.name, lang)}
-                  </Link>
+                  </CategoryLink>
                 </li>
               ))}
             </ul>

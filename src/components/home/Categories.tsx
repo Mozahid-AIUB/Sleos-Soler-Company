@@ -7,6 +7,7 @@ import type { Locale } from "@/i18n/config";
 import { categories } from "@/content/products";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/ui/Icon";
+import { CategoryLink } from "@/components/product/CategoryLink";
 
 export function Categories({ lang, t }: { lang: Locale; t: Dictionary["categories"] }) {
   const homeCategories = categories;
@@ -31,13 +32,22 @@ export function Categories({ lang, t }: { lang: Locale; t: Dictionary["categorie
             const col = i < 2 ? i : (i - 2) % 3;
             // On the 2-column tablet grid an odd last tile spans the full row instead of sitting alone.
             const lastOdd = i === homeCategories.length - 1 && homeCategories.length % 2 === 1;
+            // Two feature tiles, then three per row on desktop; widen the leftover tiles of the last row so there is no gap.
+            const tail = (homeCategories.length - 2) % 3;
+            const span =
+              i < 2
+                ? "lg:col-span-3 lg:min-h-[380px]"
+                : tail === 1 && i === homeCategories.length - 1
+                  ? "lg:col-span-6"
+                  : tail === 2 && i >= homeCategories.length - 2
+                    ? "lg:col-span-3"
+                    : "lg:col-span-2";
             return (
-              <Link
+              <CategoryLink
                 key={c.id}
+                categoryId={c.id}
                 href={`/${lang}/products#${c.id}`}
-                className={`lift group relative isolate flex min-h-[300px] flex-col justify-end overflow-hidden rounded-lg bg-forest-950 p-7 text-white ${
-                  i < 2 ? "lg:col-span-3 lg:min-h-[380px]" : "lg:col-span-2"
-                } ${lastOdd ? "sm:max-lg:col-span-2" : ""}`}
+                className={`lift group relative isolate flex min-h-[300px] flex-col justify-end overflow-hidden rounded-lg bg-forest-950 p-7 text-white ${span} ${lastOdd ? "sm:max-lg:col-span-2" : ""}`}
               >
                 <div
                   className="reveal-img absolute inset-0 -z-10 [clip-path:inset(0)]"
@@ -59,7 +69,7 @@ export function Categories({ lang, t }: { lang: Locale; t: Dictionary["categorie
                   </div>
                   <Icon name="arrowRight" size={20} className="shrink-0 text-white/70 transition duration-300 group-hover:translate-x-1 group-hover:text-gold-400" />
                 </div>
-              </Link>
+              </CategoryLink>
             );
           })}
         </div>
