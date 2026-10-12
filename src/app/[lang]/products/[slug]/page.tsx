@@ -13,7 +13,7 @@ import { pageAlternates } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ProductImage } from "@/components/product/ProductImage";
 import { BrandMark } from "@/components/product/BrandMark";
-import { ComboDetails, ComboPrice } from "@/components/product/ComboDetails";
+import { Applications, ComboDetails, ComboPrice } from "@/components/product/ComboDetails";
 import { ProductCard, quoteHref } from "@/components/product/ProductCard";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SplitText } from "@/components/motion/SplitText";
@@ -154,6 +154,8 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                   </li>
                 ))}
               </ul>
+
+              <Applications product={product} lang={lang} />
 
               {product.features && (
                 <div className="reveal mt-8 rounded-lg border border-gold-400/50 bg-white p-5" style={at(4)}>

@@ -67,6 +67,24 @@ export function ComboDetails({ product, lang }: { product: Product; lang: Locale
   );
 }
 
+/** "Ideal applications" list for products that define one. */
+export function Applications({ product, lang }: { product: Product; lang: Locale }) {
+  if (!product.applications) return null;
+  return (
+    <div className="mt-8">
+      <h2 className={h2}>{pick(comboText.applications, lang)}</h2>
+      <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
+        {pick(product.applications, lang).map((t) => (
+          <li key={t} className="flex items-start gap-2.5 text-[14.5px] leading-snug text-ink-600">
+            <span aria-hidden="true" className="mt-[8px] h-1.5 w-1.5 shrink-0 rounded-full bg-gold-500" />
+            {t}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 /** Offer price with the regular price struck through (BDT). */
 export function ComboPrice({ product, lang, note = false }: { product: Product; lang: Locale; note?: boolean }) {
   const p = product.combo?.price;

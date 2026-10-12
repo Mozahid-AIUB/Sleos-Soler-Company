@@ -39,6 +39,8 @@ export type Product = {
   image: string;
   /** Attribution line for photos that need one (CC BY / CC BY-SA). Shown under the image on the product page. */
   imageCredit?: Localized;
+  /** Optional "Ideal applications" list shown on the product page. */
+  applications?: Localized<string[]>;
   /** CSS object-position for the cropped card/hero image, e.g. "50% 25%" to keep a logo in view. */
   imagePosition?: string;
   /** Solar Combo Package details: bundle contents, suitability, price in BDT. */
@@ -128,7 +130,7 @@ export const categories: { id: CategoryId; name: Localized; blurb: Localized; im
       en: "Ready-made panel, inverter and battery bundles for homes",
       bn: "বাসার জন্য প্যানেল, ইনভার্টার ও ব্যাটারির তৈরি প্যাকেজ",
     },
-    image: "/media/products/combo-1.webp",
+    image: "/media/products/combo-icon.webp",
   },
 ];
 
@@ -2181,6 +2183,69 @@ const catalogue: Product[] = [
     // 50 ± 13% with dew suppression. Image requires credit (CC BY 2.0): Oregon Department of Transportation.
     source: "https://bergin.pratt.duke.edu/publications/reduction-solar-pv-soiling-loss-using-hydrophobic-coating-and-without-dew-suppression",
   },
+  {
+    slug: "wind-solar-hybrid-system",
+    category: "commercial",
+    name: "Wind–Solar Hybrid Power Generation System",
+    tagline: { en: "Harnessing the power of the sun and wind", bn: "সূর্য ও বাতাসের শক্তি একসাথে কাজে লাগানো" },
+    description: {
+      en: "What happens when sunlight is insufficient for solar panels or wind speeds are too low for wind turbines? A Wind–Solar Hybrid Power Generation System offers an effective solution by combining solar photovoltaic (PV) panels and wind turbines to harness two renewable energy sources in one integrated system. Since solar and wind resources can complement each other under varying weather conditions, this hybrid system helps improve energy availability and reduce dependence on a single power source. By integrating intelligent power management, battery storage, and backup solutions where required, it can deliver a more reliable and sustainable electricity supply.",
+      bn: "সূর্যের আলো যখন সোলার প্যানেলের জন্য যথেষ্ট নয়, বা বাতাসের গতি উইন্ড টারবাইনের জন্য খুব কম, তখন কী হবে? উইন্ড–সোলার হাইব্রিড পাওয়ার জেনারেশন সিস্টেম সোলার ফটোভোল্টাইক (পিভি) প্যানেল ও উইন্ড টারবাইন একসাথে যুক্ত করে দুটি নবায়নযোগ্য উৎসের শক্তি একটি সমন্বিত সিস্টেমে কাজে লাগায়। বিভিন্ন আবহাওয়ায় সোলার ও বাতাস একে অপরের পরিপূরক হতে পারে, ফলে এই হাইব্রিড সিস্টেম বিদ্যুতের প্রাপ্যতা বাড়ায় এবং একক উৎসের ওপর নির্ভরতা কমায়। ইন্টেলিজেন্ট পাওয়ার ম্যানেজমেন্ট, ব্যাটারি স্টোরেজ এবং প্রয়োজনে ব্যাকআপ সমাধান যুক্ত করে এটি আরও নির্ভরযোগ্য ও টেকসই বিদ্যুৎ সরবরাহ দিতে পারে।",
+    },
+    keySpec: { en: "Solar PV + wind turbine · battery storage · intelligent management", bn: "সোলার পিভি + উইন্ড টারবাইন · ব্যাটারি স্টোরেজ · ইন্টেলিজেন্ট ম্যানেজমেন্ট" },
+    specs: [
+      spec("components", "Solar PV panels, wind turbines, intelligent power management, battery storage, backup where required"),
+      spec("type", "Wind–solar hybrid, off-grid capable"),
+      spec("capacity", "Designed to the energy demand, system capacity and site conditions"),
+      spec("idealFor", "Remote communities, factories, farms, telecom towers, coastal areas and islands, commercial buildings"),
+    ],
+    highlights: {
+      en: [
+        "Complementary energy generation: combines solar and wind power to maximise the use of available renewable energy",
+        "Improved power reliability: reduces reliance on a single energy source when sunlight or wind availability fluctuates",
+        "Battery storage integration: stores excess electricity for periods of low solar and wind generation",
+        "Reduced electricity costs: helps reduce dependence on grid electricity and conventional fuel-powered generators",
+        "Clean and sustainable energy: generates electricity from renewable resources, helping reduce carbon emissions and environmental impact",
+        "Flexible system configuration: can be designed to meet different energy demands, system capacities and site conditions",
+        "Off-grid capability: a practical power solution where conventional grid electricity is unavailable or unreliable",
+        "Intelligent energy management: coordinates solar generation, wind generation, battery charging and connected loads",
+        "Scalable design: can be configured for small installations or larger commercial and industrial applications",
+      ],
+      bn: [
+        "পরিপূরক শক্তি উৎপাদন: সোলার ও বাতাসের শক্তি মিলিয়ে উপলব্ধ নবায়নযোগ্য শক্তির সর্বোচ্চ ব্যবহার",
+        "বিদ্যুতের নির্ভরযোগ্যতা বৃদ্ধি: রোদ বা বাতাসের প্রাপ্যতা ওঠানামা করলেও একক উৎসের ওপর নির্ভরতা কমে",
+        "ব্যাটারি স্টোরেজ সংযোজন: সোলার ও বাতাসের উৎপাদন কম থাকার সময়ের জন্য বাড়তি বিদ্যুৎ জমা রাখে",
+        "বিদ্যুৎ খরচ কম: গ্রিড বিদ্যুৎ ও প্রচলিত জ্বালানিচালিত জেনারেটরের ওপর নির্ভরতা কমাতে সাহায্য করে",
+        "পরিচ্ছন্ন ও টেকসই শক্তি: নবায়নযোগ্য উৎস থেকে বিদ্যুৎ তৈরি করে কার্বন নিঃসরণ ও পরিবেশের ক্ষতি কমায়",
+        "নমনীয় সিস্টেম কনফিগারেশন: বিভিন্ন বিদ্যুৎ চাহিদা, সিস্টেম ক্ষমতা ও সাইটের অবস্থা অনুযায়ী ডিজাইন করা যায়",
+        "অফ-গ্রিড সক্ষমতা: যেখানে গ্রিড বিদ্যুৎ নেই বা নির্ভরযোগ্য নয়, সেখানে বাস্তবসম্মত সমাধান",
+        "ইন্টেলিজেন্ট এনার্জি ম্যানেজমেন্ট: সোলার উৎপাদন, বাতাসের উৎপাদন, ব্যাটারি চার্জিং ও সংযুক্ত লোড সমন্বয় করে",
+        "স্কেলযোগ্য ডিজাইন: ছোট স্থাপনা থেকে বড় বাণিজ্যিক ও শিল্প ব্যবহার পর্যন্ত কনফিগার করা যায়",
+      ],
+    },
+    applications: {
+      en: [
+        "Remote and off-grid communities",
+        "Factories and industrial facilities",
+        "Agricultural farms and irrigation systems",
+        "Telecommunications towers and remote monitoring stations",
+        "Coastal areas, islands and isolated locations",
+        "Commercial buildings and rural enterprises",
+        "Facilities requiring a dependable renewable energy supply",
+      ],
+      bn: [
+        "দূরবর্তী ও অফ-গ্রিড জনপদ",
+        "কারখানা ও শিল্প স্থাপনা",
+        "কৃষি খামার ও সেচ ব্যবস্থা",
+        "টেলিযোগাযোগ টাওয়ার ও দূরবর্তী পর্যবেক্ষণ কেন্দ্র",
+        "উপকূলীয় এলাকা, দ্বীপ ও বিচ্ছিন্ন স্থান",
+        "বাণিজ্যিক ভবন ও গ্রামীণ উদ্যোগ",
+        "নির্ভরযোগ্য নবায়নযোগ্য বিদ্যুৎ সরবরাহ দরকার এমন স্থাপনা",
+      ],
+    },
+    warranty: perContract,
+    image: "/media/products/wind-solar-hybrid.webp",
+  },
   /* ============================ SOLAR COMBO PACKAGES ============================ */
   {
     slug: "combo-1-24kw-hybrid-solar",
@@ -2361,6 +2426,7 @@ export const products: Product[] = catalogue.map((p) =>
 export const comboText = {
   price: { en: "Package price", bn: "প্যাকেজের দাম" },
   save: { en: "Save", bn: "সাশ্রয়" },
+  applications: { en: "Ideal applications", bn: "উপযোগী ক্ষেত্র" },
   priceNote: { en: "Final price is confirmed in your written quotation.", bn: "চূড়ান্ত দাম আপনার লিখিত কোটেশনে নিশ্চিত করা হবে।" },
   suitableFor: { en: "Applicable for", bn: "যাদের জন্য" },
   includes: { en: "Package includes", bn: "প্যাকেজে যা যা আছে" },
