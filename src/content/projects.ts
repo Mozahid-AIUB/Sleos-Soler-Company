@@ -1,10 +1,10 @@
 import type { Localized } from "@/i18n/config";
 
 /**
- * Case studies — SAMPLE / illustrative placeholders. Photos come from the
- * client's brochure (public/media/projects, cropped from brochure pp. 3–34);
- * names, capacities and years are illustrative. Replace with the client's
- * real executed projects before launch.
+ * Case studies. The first seven are the client's real executed projects (portfolio PDF,
+ * Oct 2026; no commissioning year was given, so `year` is left out). The rest are SAMPLE /
+ * illustrative placeholders (`sample: true`): photos from the client's brochure, with
+ * illustrative names, capacities and years. Remove them once enough real projects exist.
  */
 export type Project = {
   slug: string;
@@ -12,13 +12,106 @@ export type Project = {
   type: Localized;
   location: Localized;
   capacity: string;
-  year: string;
+  /** Commissioning year; omitted when unknown. */
+  year?: string;
   summary: Localized;
   image: string;
   sample: boolean;
 };
 
 export const projects: Project[] = [
+  /* ---- Real executed projects (client portfolio PDF, Oct 2026) ---- */
+  {
+    slug: "expo-accessories-gazipur",
+    title: { en: "Expo Accessories, Gazipur", bn: "এক্সপো অ্যাক্সেসরিজ, গাজীপুর" },
+    type: { en: "Industrial · On-grid", bn: "শিল্প · অন-গ্রিড" },
+    location: { en: "Gazipur", bn: "গাজীপুর" },
+    capacity: "501 kWp",
+    summary: {
+      en: "A 501 kWp on-grid solar installation at Expo Accessories in Gazipur.",
+      bn: "গাজীপুরে এক্সপো অ্যাক্সেসরিজে ৫০১ কিলোওয়াট-পিক অন-গ্রিড সোলার স্থাপনা।",
+    },
+    image: "/media/projects/expo-accessories-gazipur.webp",
+    sample: false,
+  },
+  {
+    slug: "madipac-united-group",
+    title: { en: "Madipac, United Group", bn: "মাদিপ্যাক, ইউনাইটেড গ্রুপ" },
+    type: { en: "Industrial · On-grid", bn: "শিল্প · অন-গ্রিড" },
+    location: { en: "Madipac, United Group, 100 Ft", bn: "মাদিপ্যাক, ইউনাইটেড গ্রুপ, ১০০ ফুট" },
+    capacity: "40 kW",
+    summary: {
+      en: "A 40 kW ground-mounted on-grid solar system at Madipac, United Group.",
+      bn: "ইউনাইটেড গ্রুপের মাদিপ্যাকে ৪০ কিলোওয়াট গ্রাউন্ড-মাউন্টেড অন-গ্রিড সোলার সিস্টেম।",
+    },
+    image: "/media/projects/madipac-united-group.webp",
+    sample: false,
+  },
+  {
+    slug: "tallon-zipper-dhamrai",
+    title: { en: "Tallon Zipper, Dhamrai", bn: "ট্যালন জিপার, ধামরাই" },
+    type: { en: "Industrial · On-grid", bn: "শিল্প · অন-গ্রিড" },
+    location: { en: "Dhamrai, Dhaka", bn: "ধামরাই, ঢাকা" },
+    capacity: "20 kW",
+    summary: {
+      en: "A 20 kW on-grid rooftop system on a metal roof at Tallon Zipper, Dhamrai.",
+      bn: "ধামরাইয়ে ট্যালন জিপারের মেটাল ছাদে ২০ কিলোওয়াট অন-গ্রিড রুফটপ সিস্টেম।",
+    },
+    image: "/media/projects/tallon-zipper-dhamrai.webp",
+    sample: false,
+  },
+  {
+    slug: "harvest-agro-dhamrai",
+    title: { en: "Harvest Agro, Dhamrai", bn: "হার্ভেস্ট এগ্রো, ধামরাই" },
+    type: { en: "Agro industry · On-grid", bn: "কৃষিভিত্তিক শিল্প · অন-গ্রিড" },
+    location: { en: "Dautia, Kalampur, Dhamrai, Dhaka", bn: "দাউতিয়া, কলামপুর, ধামরাই, ঢাকা" },
+    capacity: "15 kW",
+    summary: {
+      en: "A 15 kW on-grid solar system at Harvest Agro, Dautia, Kalampur, Dhamrai.",
+      bn: "ধামরাইয়ের কলামপুরের দাউতিয়ায় হার্ভেস্ট এগ্রোতে ১৫ কিলোওয়াট অন-গ্রিড সোলার সিস্টেম।",
+    },
+    image: "/media/projects/harvest-agro-dhamrai.webp",
+    sample: false,
+  },
+  {
+    slug: "brtc-sarkar-bari-gazipur",
+    title: { en: "Sarkar Bari, BRTC East Side", bn: "সরকার বাড়ি, বিআরটিসি পূর্ব পাশ" },
+    type: { en: "Residential · Off-grid hybrid", bn: "আবাসিক · অফ-গ্রিড হাইব্রিড" },
+    location: { en: "Gazipur", bn: "গাজীপুর" },
+    capacity: "2 kW + 2 hr backup",
+    summary: {
+      en: "A 2 kW off-grid hybrid solar system with 2 hours of backup, east side of BRTC, Gazipur.",
+      bn: "গাজীপুরে বিআরটিসির পূর্ব পাশে ২ কিলোওয়াট অফ-গ্রিড হাইব্রিড সোলার সিস্টেম, ২ ঘণ্টা ব্যাকআপসহ।",
+    },
+    image: "/media/projects/brtc-sarkar-bari-gazipur.webp",
+    sample: false,
+  },
+  {
+    slug: "sharif-industrial-narayanganj",
+    title: { en: "Sharif Industrial Company Ltd", bn: "শরীফ ইন্ডাস্ট্রিয়াল কোম্পানি লিমিটেড" },
+    type: { en: "Industrial · On-grid", bn: "শিল্প · অন-গ্রিড" },
+    location: { en: "Narayanganj", bn: "নারায়ণগঞ্জ" },
+    capacity: "80 kW",
+    summary: {
+      en: "An 80 kW on-grid rooftop solar system at Sharif Industrial Company Ltd, Narayanganj.",
+      bn: "নারায়ণগঞ্জে শরীফ ইন্ডাস্ট্রিয়াল কোম্পানি লিমিটেডে ৮০ কিলোওয়াট অন-গ্রিড রুফটপ সোলার সিস্টেম।",
+    },
+    image: "/media/projects/sharif-industrial-narayanganj.webp",
+    sample: false,
+  },
+  {
+    slug: "noor-autos-uttara",
+    title: { en: "Noor Autos, Uttara", bn: "নূর অটোস, উত্তরা" },
+    type: { en: "Commercial · Off-grid hybrid", bn: "বাণিজ্যিক · অফ-গ্রিড হাইব্রিড" },
+    location: { en: "Uttara, Dhaka", bn: "উত্তরা, ঢাকা" },
+    capacity: "3.57 kWp",
+    summary: {
+      en: "A 3.57 kWp off-grid hybrid solar system on a metal roof at Noor Autos, Uttara.",
+      bn: "উত্তরায় নূর অটোসের মেটাল ছাদে ৩.৫৭ কিলোওয়াট-পিক অফ-গ্রিড হাইব্রিড সোলার সিস্টেম।",
+    },
+    image: "/media/projects/noor-autos-uttara.webp",
+    sample: false,
+  },
   {
     slug: "gazipur-garments-rooftop",
     title: { en: "Garments Factory Rooftop", bn: "গার্মেন্টস কারখানার ছাদ" },

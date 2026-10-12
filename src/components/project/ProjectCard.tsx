@@ -60,10 +60,12 @@ export function ProjectCard({
               {pick(project.location, lang)}
             </dd>
           </div>
-          <div>
-            <dt className="text-white/50">{t.year}</dt>
-            <dd className="mt-0.5 text-[18px] font-bold">{localizeDigits(project.year, lang)}</dd>
-          </div>
+          {project.year && (
+            <div>
+              <dt className="text-white/50">{t.year}</dt>
+              <dd className="mt-0.5 text-[18px] font-bold">{localizeDigits(project.year, lang)}</dd>
+            </div>
+          )}
         </dl>
       </div>
     </article>
