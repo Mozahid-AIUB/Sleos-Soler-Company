@@ -2360,6 +2360,7 @@ export const products: Product[] = catalogue.map((p) =>
 /** Headings for the combo-package block on the product page (en + bn; other languages fall back to English). */
 export const comboText = {
   price: { en: "Package price", bn: "প্যাকেজের দাম" },
+  save: { en: "Save", bn: "সাশ্রয়" },
   priceNote: { en: "Final price is confirmed in your written quotation.", bn: "চূড়ান্ত দাম আপনার লিখিত কোটেশনে নিশ্চিত করা হবে।" },
   suitableFor: { en: "Applicable for", bn: "যাদের জন্য" },
   includes: { en: "Package includes", bn: "প্যাকেজে যা যা আছে" },

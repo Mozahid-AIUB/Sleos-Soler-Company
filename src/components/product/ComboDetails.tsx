@@ -75,7 +75,14 @@ export function ComboPrice({ product, lang, note = false }: { product: Product; 
     <div>
       <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="text-[clamp(26px,3vw,34px)] font-extrabold tracking-tight text-forest-900">{formatPrice(p.offer, lang)}</span>
-        {p.regular && <span className="text-[18px] font-semibold text-ink-400 line-through">{formatPrice(p.regular, lang)}</span>}
+        {p.regular && p.regular > p.offer && (
+          <>
+            <span className="text-[18px] font-semibold text-ink-400 line-through">{formatPrice(p.regular, lang)}</span>
+            <span className="rounded-full bg-gold-400/25 px-2.5 py-0.5 text-[13px] font-bold text-forest-900">
+              {pick(comboText.save, lang)} {formatPrice(p.regular - p.offer, lang)}
+            </span>
+          </>
+        )}
       </p>
       {note && <p className="mt-1 text-[13px] text-ink-400">{pick(comboText.priceNote, lang)}</p>}
     </div>
