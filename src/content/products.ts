@@ -604,7 +604,7 @@ const catalogue: Product[] = [
       bn: ["১০০% আনব্যালান্সড ব্যাকআপ লোড সাপোর্ট", "৫টি পর্যন্ত ইউনিট প্যারালালে", "প্রাকৃতিক কুলিং, মাত্র ৩০ dB(A)", "iSolarCloud মনিটরিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.webp",
+    image: "/media/products/sungrow-sh10rt.webp",
     source: "https://info-support.sungrowpower.com/application/pdf/2023/04/10/DS_20230403_SH5.0RT%20SH10RT_Datasheet_V15_EN%EF%BC%88AU%EF%BC%89.pdf",
   },
   {
@@ -633,7 +633,7 @@ const catalogue: Product[] = [
       bn: ["বাইফেসিয়াল মডিউলের সাথে মানানসই", "স্মার্ট I-V কার্ভ ডায়াগনসিস", "রাতে রিঅ্যাকটিভ পাওয়ার সাপোর্ট", "অ্যালুমিনিয়াম বা কপার এসি ক্যাবল"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/sungrow-sg110cx.webp",
     source: "https://www.vpsolar.com/download/catalog/Inverter/sungrow/SG110CX/Datasheet/Datasheet-Sungrow-SG110CX_EN.pdf",
   },
   {
@@ -662,7 +662,7 @@ const catalogue: Product[] = [
     },
     features: huaweiFeatures,
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/huawei-sun2000-10ktl-m1.webp",
     featured: true,
     source: "https://solar.huawei.com/download?p=%2F-%2Fmedia%2FSolar%2Fdatasheet%2FSUN2000-3_4_5_6_8_10KTL-M1_High_Current_Version.pdf",
   },
@@ -693,7 +693,7 @@ const catalogue: Product[] = [
     },
     features: huaweiFeatures,
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/huawei-sun2000-100ktl-m2.webp",
     source: "https://solar.huawei.com/admin/asset/v1/pro/view/c5056ea20b95424fad3c62f0a5e64a84.pdf",
   },
   {
@@ -722,7 +722,7 @@ const catalogue: Product[] = [
       bn: ["৬টি পর্যন্ত ইউনিট প্যারালালে", "অটো কন্ট্রোলসহ জেনারেটর ইনপুট", "ব্যাটারি ছাড়াও শুধু সোলারে চলে", "৭-ইঞ্চি LCD, Wi-Fi + ব্লুটুথ"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.webp",
+    image: "/media/products/solis-s6-eh1p6k-l-plus.webp",
     source: "https://www.solisinverters.com/dataFile/402880ed936308610193ae4709df1171",
   },
   {
@@ -750,7 +750,7 @@ const catalogue: Product[] = [
       bn: ["স্মার্ট I-V কার্ভ ডায়াগনসিস", "অ্যান্টি-PID ফাংশন", "টাইপ II ডিসি/এসি সার্জ প্রোটেকশন", "রিডান্ড্যান্ট ফ্যান কুলিং"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/solis-100k-5g.webp",
     source: "https://www.bangasolar.com/assets/datasheet/solis/Datasheet_Solis_100K-5G.pdf",
   },
   {
@@ -780,7 +780,7 @@ const catalogue: Product[] = [
       bn: ["UPS-লেভেলের ব্যাকআপ সুইচিং", "AI-চালিত AFCI", "বাইরের লোডের জন্য ড্রাই কন্টাক্ট", "বিল্ট-ইন রিমোট শাটডাউন"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.webp",
+    image: "/media/products/goodwe-gw10k-et-20.webp",
     source: "https://en.goodwe.com/Ftp/EN/Downloads/Datasheet/GW_ET-G2_Datasheet-EN.pdf",
   },
   {
@@ -808,7 +808,7 @@ const catalogue: Product[] = [
       bn: ["স্ট্রিং-লেভেল কারেন্ট মনিটরিং", "উচ্চ-কারেন্টের বাইফেসিয়াল মডিউলের উপযোগী", "বিল্ট-ইন ডিসি সুইচ", "২৪০ মিমি² পর্যন্ত OT/DT টার্মিনাল"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/goodwe-gw100k-gt.webp",
     source: "https://en.goodwe.com/Public/Uploads/uploadfile/files/20250609/GW_GT_Datasheet-EN.pdf",
   },
   {
@@ -837,7 +837,7 @@ const catalogue: Product[] = [
       bn: ["৬টি পর্যন্ত ইউনিট প্যারালালে", "১০ মিলিসেকেন্ড ট্রান্সফার টাইম", "ধুলো-প্রতিরোধী ফিল্টার", "ট্রান্সফার সুইচসহ দুটি এসি ইনপুট"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.webp",
+    image: "/media/products/growatt-spf-6000-es-plus.webp",
     source: "https://sikosolar.com/wp-content/uploads/2023/02/SPF-6000-ES-Plus-datasheet.pdf",
   },
   {
@@ -865,7 +865,7 @@ const catalogue: Product[] = [
       bn: ["ফিউজ-ফ্রি ডিজাইন", "স্মার্ট I/V স্ক্যান ও ডায়াগনসিস", "এসি ও ডিসি টাইপ II SPD", "AFCI ও অ্যান্টি-PID ঐচ্ছিক"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/growatt-max-100ktl3-x-lv.webp",
     source: "https://shop.erene.de/media/89/bf/bd/1701854681/data-sheet-MAX-100-125KTL3-X-LV-ENG.pdf",
   },
   {
@@ -894,7 +894,7 @@ const catalogue: Product[] = [
       bn: ["১২,০০০ VA সার্জ পাওয়ার", "স্মার্ট লোড কন্ট্রোলের জন্য ডুয়াল আউটপুট", "Wi-Fi / RS-485 / CAN", "১০–২০ মিলিসেকেন্ড ট্রান্সফার টাইম"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-hybrid.webp",
+    image: "/media/products/crown-xavier-6kw.webp",
     source: "https://crownmicroglobal.com/wp-content/uploads/2024/04/Xavier-4-6KW.pdf",
   },
   {
@@ -922,7 +922,7 @@ const catalogue: Product[] = [
       bn: ["ডিসি টাইপ II / এসি টাইপ III SPD", "স্ট্রিং ফল্ট শনাক্তকরণ", "RS485 / Wi-Fi / 4G মনিটরিং", "ট্রান্সফরমার-লেস, ফ্যান কুলিং"],
     },
     warranty: { en: "10-year warranty (manufacturer T&C)", bn: "১০ বছর ওয়ারেন্টি (প্রস্তুতকারকের শর্তে)" },
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/crown-volmore-vmgi-20kw.webp",
     source: "https://crownmicroglobal.com/wp-content/uploads/2026/07/Crown-Catalogue-Web-2026.pdf",
   },
   {
@@ -950,7 +950,7 @@ const catalogue: Product[] = [
       bn: ["প্রতি ফেজে ১০০% আনব্যালান্সড আউটপুট", "১০টি পর্যন্ত ইউনিট প্যারালালে", "জেনারেটর থেকে চার্জিং সাপোর্ট", "ছয়টি চার্জ/ডিসচার্জ টাইম স্লট"],
     },
     warranty: { en: "5-year manufacturer warranty", bn: "৫ বছর প্রস্তুতকারকের ওয়ারেন্টি" },
-    image: "/media/products/inverter-hybrid.webp",
+    image: "/media/products/deye-sun-10k-sg04lp3-eu.webp",
     featured: true,
     source: "https://www.deyeinverter.com/deyeinverter/2025/05/16/datasheet_sun-5-12k-sg04lp3.pdf",
   },
@@ -980,7 +980,7 @@ const catalogue: Product[] = [
       bn: ["জিরো-এক্সপোর্ট অ্যাপ্লিকেশন", "টাইপ II ডিসি/এসি SPD", "অ্যান্টি-PID (ঐচ্ছিক)", "২০ বছরের বেশি ডিজাইন লাইফ"],
     },
     warranty: perProject,
-    image: "/media/products/inverter-string.webp",
+    image: "/media/products/deye-sun-50k-g03.webp",
     source: "https://www.deyeinverter.com/deyeinverter/2021/03/22/%E3%80%90b%E3%80%91threephasesun-30-33-35-40-45-50k-g03-1.pdf",
   },
 
