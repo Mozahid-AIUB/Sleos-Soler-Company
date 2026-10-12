@@ -43,6 +43,8 @@ export type Product = {
   applications?: Localized<string[]>;
   /** CSS object-position for the cropped card/hero image, e.g. "50% 25%" to keep a logo in view. */
   imagePosition?: string;
+  /** "contain" shows the whole picture (for composites with text) instead of cropping it to the frame. */
+  imageFit?: "contain";
   /** Solar Combo Package details: bundle contents, suitability, price in BDT. */
   combo?: {
     price?: { regular?: number; offer: number };
@@ -2287,6 +2289,7 @@ const catalogue: Product[] = [
       bn: "প্যানেল: ১২ বছর প্রোডাক্ট, ৩০ বছর পাওয়ার · ইনভার্টার: ২ বছর · ব্যাটারি: ৫ বছর",
     },
     image: "/media/products/combo-1.webp",
+    imageFit: "contain",
     combo: {
       price: { regular: 120000, offer: 115000 },
       suitableFor: { en: ["Budget Solar", "Home Solar", "Residential Solar"], bn: ["বাজেট সোলার", "হোম সোলার", "আবাসিক সোলার"] },
@@ -2337,6 +2340,7 @@ const catalogue: Product[] = [
       bn: ["৬.২ কিলোওয়াট জিংকো টাইগার নিও সোলার প্যানেল", "৬ কিলোওয়াট স্মার্ট হাইব্রিড ইনভার্টার (Deye SUN-6K-SG সিরিজ)", "প্রায় ৫.১২ kWh LiFePO₄ লিথিয়াম স্টোরেজ", "প্রিমিয়াম ব্র্যান্ডের কম্পোনেন্ট"],
     },
     image: "/media/products/combo-2.webp",
+    imageFit: "contain",
     combo: {
       price: { offer: 650000 },
       includes: {
@@ -2366,6 +2370,7 @@ const catalogue: Product[] = [
       bn: ["৬.২ কিলোওয়াট ট্রিনা সোলার প্যানেল", "৬ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার (Crown Micro)", "প্রায় ৫.১২ kWh লিথিয়াম স্টোরেজ", "আরও ২টি ব্যাটারি যোগ করে ক্ষমতা বাড়ানো যায় (দাম আলাদা)"],
     },
     image: "/media/products/combo-3.webp",
+    imageFit: "contain",
     combo: {
       price: { offer: 399000 },
       includes: {
@@ -2397,6 +2402,7 @@ const catalogue: Product[] = [
       bn: ["২.৪৮ কিলোওয়াট ট্রিনা বাইফেসিয়াল সোলার প্যানেল", "৩ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার (Growatt SPF 3500 ES)", "প্রায় ৫.১২ kWh লিথিয়াম স্টোরেজ", "ফ্যান, বাতি, ফ্রিজ, টিভি, কম্পিউটার ও সিসিটিভি চালায়"],
     },
     image: "/media/products/combo-4.webp",
+    imageFit: "contain",
     combo: {
       price: { offer: 299000 },
       includes: {

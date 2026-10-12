@@ -16,7 +16,7 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
   return (
     <article className="group flex w-full flex-col overflow-hidden lift rounded-lg border border-cream-200 bg-white hover:border-ink-400/40">
       <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-cream-100" aria-label={product.name}>
-        <ProductImage src={product.image} alt={product.brand ? `${product.brand} ${product.name}` : product.name} position={product.imagePosition} />
+        <ProductImage src={product.image} alt={product.brand ? `${product.brand} ${product.name}` : product.name} position={product.imagePosition} fit={product.imageFit} />
       </Link>
       <div className="flex flex-1 flex-col p-5">
         <p className="flex flex-wrap items-center gap-x-2 text-[12.5px] font-medium text-ink-400">
