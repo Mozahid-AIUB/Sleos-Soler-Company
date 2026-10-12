@@ -642,7 +642,7 @@ const en = {
       team: [
         {
           name: "Engr. Banzir Hazra",
-          role: "Head of Engineering",
+          role: "Product Research Engineer",
           credentials: "BEng Architectural Engineering · MSc Renewable Energy Engineering, Heriot-Watt University",
           bio: [
             "Engr. Banzir Hazra leads the engineering vision at OSLEOS, driving the development of innovative and sustainable solar energy solutions. With a strong academic foundation in Architectural Engineering and Renewable Energy Engineering from Heriot-Watt University, she brings a multidisciplinary approach to designing efficient, reliable and future-ready energy systems.",
@@ -651,7 +651,7 @@ const en = {
         },
         {
           name: "Engr. Lutfar Rahman",
-          role: "Consultant Engineer – Solar PV & Energy Storage",
+          role: "Chief Engineer",
           credentials: "B.Sc. Electrical & Electronic Engineering, Jatiya Kabi Kazi Nazrul Islam University",
           bio: [
             "Engr. Lutfar Rahman serves as the Chief Project Engineer at OSLEOS, specialising in industrial and commercial Solar PV and Battery Energy Storage System (BESS) projects. With extensive hands-on experience in renewable energy engineering, he specialises in MW-scale Solar PV system design, industrial site assessments, system sizing, energy yield analysis, BESS sizing, SLD development, BOQ preparation, technical proposals, project execution and commissioning.",
@@ -662,7 +662,7 @@ const en = {
         },
         {
           name: "Engr. Safuan Chowdhury",
-          role: "Chief Engineer",
+          role: "Consultant Engineer – Solar PV & Energy Storage",
           credentials: "BEng Electrical and Electronic Engineering, University of Greater Manchester",
           bio: [
             "Engr. Safuan Chowdhury leads the engineering operations at OSLEOS, bringing expertise in Electrical and Electronic Engineering to the development of advanced solar energy solutions. With a strong foundation in electrical systems and engineering principles, he plays a vital role in ensuring the technical excellence, efficiency and reliability of OSLEOS' renewable energy projects.",

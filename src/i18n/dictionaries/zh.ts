@@ -644,7 +644,7 @@ const zh: Dictionary = {
       team: [
         {
           name: "Engr. Banzir Hazra",
-          role: "工程总监",
+          role: "产品研究工程师",
           credentials: "建筑工程学士 · 可再生能源工程硕士，Heriot-Watt University（赫瑞-瓦特大学）",
           bio: [
             "Engr. Banzir Hazra 主导 OSLEOS 的工程发展方向，推动创新、可持续的太阳能解决方案的开发。她在 Heriot-Watt University 获得建筑工程与可再生能源工程学位，学术基础扎实，以跨学科的方法设计高效、可靠、面向未来的能源系统。",
@@ -653,7 +653,7 @@ const zh: Dictionary = {
         },
         {
           name: "Engr. Safuan Chowdhury",
-          role: "总工程师",
+          role: "咨询工程师 – 光伏与储能",
           credentials: "电气与电子工程学士，University of Greater Manchester（大曼彻斯特大学）",
           bio: [
             "Engr. Safuan Chowdhury 负责 OSLEOS 的工程运营，将其在电气与电子工程领域的专业知识运用于先进太阳能解决方案的开发。他在电气系统和工程原理方面基础深厚，在确保 OSLEOS 可再生能源项目的技术卓越性、效率与可靠性方面发挥着重要作用。",

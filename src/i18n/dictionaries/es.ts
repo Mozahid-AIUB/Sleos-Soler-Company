@@ -644,7 +644,7 @@ const es: Dictionary = {
       team: [
         {
           name: "Engr. Banzir Hazra",
-          role: "Directora de Ingeniería",
+          role: "Ingeniera de Investigación de Producto",
           credentials: "Grado en Ingeniería Arquitectónica · Máster en Ingeniería de Energías Renovables, Heriot-Watt University",
           bio: [
             "Engr. Banzir Hazra dirige la visión de ingeniería de OSLEOS e impulsa el desarrollo de soluciones de energía solar innovadoras y sostenibles. Con una sólida formación académica en Ingeniería Arquitectónica e Ingeniería de Energías Renovables por la Heriot-Watt University, aporta un enfoque multidisciplinar al diseño de sistemas energéticos eficientes, fiables y preparados para el futuro.",
@@ -653,7 +653,7 @@ const es: Dictionary = {
         },
         {
           name: "Engr. Safuan Chowdhury",
-          role: "Ingeniero Jefe",
+          role: "Ingeniero Consultor – Energía Solar FV y Almacenamiento de Energía",
           credentials: "Grado en Ingeniería Eléctrica y Electrónica, University of Greater Manchester",
           bio: [
             "Engr. Safuan Chowdhury dirige las operaciones de ingeniería de OSLEOS y aplica su experiencia en Ingeniería Eléctrica y Electrónica al desarrollo de soluciones avanzadas de energía solar. Con una sólida base en sistemas eléctricos y principios de ingeniería, desempeña un papel fundamental para garantizar la excelencia técnica, la eficiencia y la fiabilidad de los proyectos de energías renovables de OSLEOS.",
