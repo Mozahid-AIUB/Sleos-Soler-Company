@@ -18,7 +18,8 @@ export type CategoryId =
   | "protection"
   | "mounting"
   | "commercial"
-  | "ai";
+  | "ai"
+  | "combo";
 
 export type Product = {
   slug: string;
@@ -40,6 +41,18 @@ export type Product = {
   imageCredit?: Localized;
   /** CSS object-position for the cropped card/hero image, e.g. "50% 25%" to keep a logo in view. */
   imagePosition?: string;
+  /** Solar Combo Package details: bundle contents, suitability, price in BDT. */
+  combo?: {
+    price?: { regular?: number; offer: number };
+    suitableFor?: Localized<string[]>;
+    includes: Localized<string[]>;
+    idealFor?: Localized<string[]>;
+    benefits?: Localized<string[]>;
+    /** Transportation note; defaults to "subject to discussion". */
+    transport?: Localized;
+    /** Customisation note; defaults to the standard line. */
+    customise?: Localized;
+  };
   featured?: boolean;
   /** Where the specs came from (manufacturer datasheet). Not rendered. */
   source?: string;
@@ -107,6 +120,15 @@ export const categories: { id: CategoryId; name: Localized; blurb: Localized; im
       bn: "সোলার নয়েজ ব্যারিয়ার, রঙিন পিভি গ্লাস, রোবটিক ক্লিনিং, ট্র্যাকার ও আরও অনেক কিছু",
     },
     image: "/media/products/solar-noise-barrier.webp",
+  },
+  {
+    id: "combo",
+    name: { en: "Solar Combo Package", bn: "সোলার কম্বো প্যাকেজ" },
+    blurb: {
+      en: "Ready-made panel, inverter and battery bundles for homes",
+      bn: "বাসার জন্য প্যানেল, ইনভার্টার ও ব্যাটারির তৈরি প্যাকেজ",
+    },
+    image: "/media/products/combo-1.webp",
   },
 ];
 
@@ -179,6 +201,8 @@ const L = {
   windSpeed: { en: "Max. wind speed", bn: "সর্বোচ্চ বাতাসের গতি" },
   snowLoad: { en: "Max. snow load", bn: "সর্বোচ্চ তুষার লোড" },
   slope: { en: "Terrain slope tolerance", bn: "জমির ঢাল সহনীয়তা" },
+  panels: { en: "Solar panels", bn: "সোলার প্যানেল" },
+  inverter: { en: "Hybrid inverter", bn: "হাইব্রিড ইনভার্টার" },
 } satisfies Record<string, Localized>;
 
 type Label = keyof typeof L;
@@ -2157,6 +2181,169 @@ const catalogue: Product[] = [
     // 50 ± 13% with dew suppression. Image requires credit (CC BY 2.0): Oregon Department of Transportation.
     source: "https://bergin.pratt.duke.edu/publications/reduction-solar-pv-soiling-loss-using-hydrophobic-coating-and-without-dew-suppression",
   },
+  /* ============================ SOLAR COMBO PACKAGES ============================ */
+  {
+    slug: "combo-1-24kw-hybrid-solar",
+    category: "combo",
+    name: "1.24kW OSLEOS Hybrid Solar Setup",
+    tagline: { en: "Compact, affordable backup power for small homes", bn: "ছোট বাসার জন্য কমপ্যাক্ট ও সাশ্রয়ী ব্যাকআপ বিদ্যুৎ" },
+    description: {
+      en: "A compact and affordable solar power solution designed for small homes and essential appliances. The 1.24kW OSLEOS Solar Setup provides reliable backup power for daily household needs while reducing dependency on grid electricity.",
+      bn: "ছোট বাসা ও জরুরি যন্ত্রপাতির জন্য কমপ্যাক্ট ও সাশ্রয়ী সোলার পাওয়ার সমাধান। ১.২৪ কিলোওয়াট OSLEOS সোলার সেটআপ দৈনন্দিন ঘরোয়া প্রয়োজনে নির্ভরযোগ্য ব্যাকআপ দেয় এবং গ্রিড বিদ্যুতের ওপর নির্ভরতা কমায়।",
+    },
+    keySpec: { en: "1.24 kW · 12V hybrid · 1.28 kWh lithium", bn: "১.২৪ কিলোওয়াট · ১২ভি হাইব্রিড · ১.২৮ kWh লিথিয়াম" },
+    specs: [
+      spec("capacity", "1.24 kW solar (2 × 620W)"),
+      spec("panels", "2 × Jinko 620W high-efficiency panels"),
+      spec("inverter", "SAKO E-SUN 1.2kVA 12V hybrid inverter"),
+      spec("battery", "SAKO 12V 100Ah LiFePO₄ lithium, about 1.28 kWh"),
+      spec("application", "Budget Solar | Home Solar | Residential Solar"),
+    ],
+    highlights: {
+      en: [
+        "High-efficiency Jinko solar panels for better energy generation",
+        "Hybrid inverter support for solar and backup power management",
+        "Lithium battery technology for longer lifespan and better performance",
+        "Compact design suitable for residential applications",
+        "Low maintenance and easy operation",
+        "Expandable system capacity for future upgrades",
+      ],
+      bn: [
+        "ভালো উৎপাদনের জন্য উচ্চদক্ষতার জিংকো সোলার প্যানেল",
+        "সোলার ও ব্যাকআপ পাওয়ার ব্যবস্থাপনার জন্য হাইব্রিড ইনভার্টার",
+        "দীর্ঘ আয়ু ও ভালো পারফরম্যান্সের জন্য লিথিয়াম ব্যাটারি",
+        "আবাসিক ব্যবহারের উপযোগী কমপ্যাক্ট ডিজাইন",
+        "কম রক্ষণাবেক্ষণ ও সহজ পরিচালনা",
+        "ভবিষ্যতে সিস্টেম ক্ষমতা বাড়ানোর সুযোগ",
+      ],
+    },
+    warranty: {
+      en: "Panels: 12-year product, 30-year power · Inverter: 2 years · Battery: 5 years",
+      bn: "প্যানেল: ১২ বছর প্রোডাক্ট, ৩০ বছর পাওয়ার · ইনভার্টার: ২ বছর · ব্যাটারি: ৫ বছর",
+    },
+    image: "/media/products/combo-1.webp",
+    combo: {
+      price: { regular: 120000, offer: 115000 },
+      suitableFor: { en: ["Budget Solar", "Home Solar", "Residential Solar"], bn: ["বাজেট সোলার", "হোম সোলার", "আবাসিক সোলার"] },
+      includes: {
+        en: [
+          "2 × Jinko 620W high-efficiency solar panels (product warranty 12 years, power warranty 30 years)",
+          "1 × 12V 1.2kW hybrid inverter: SAKO E-SUN 1.2kVA (warranty 2 years)",
+          "1 × 12V 100Ah lithium battery: SAKO LiFePO₄, about 1.28kWh (warranty 5 years)",
+          "Complete installation accessories (optional)",
+          "Professional installation support (where applicable)",
+        ],
+        bn: [
+          "২ × জিংকো ৬২০ ওয়াট উচ্চদক্ষতার সোলার প্যানেল (প্রোডাক্ট ওয়ারেন্টি ১২ বছর, পাওয়ার ওয়ারেন্টি ৩০ বছর)",
+          "১ × ১২ভি ১.২ কিলোওয়াট হাইব্রিড ইনভার্টার: SAKO E-SUN 1.2kVA (ওয়ারেন্টি ২ বছর)",
+          "১ × ১২ভি ১০০Ah লিথিয়াম ব্যাটারি: SAKO LiFePO₄, প্রায় ১.২৮ kWh (ওয়ারেন্টি ৫ বছর)",
+          "ইনস্টলেশনের সম্পূর্ণ সরঞ্জাম (ঐচ্ছিক)",
+          "পেশাদার ইনস্টলেশন সহায়তা (যেখানে প্রযোজ্য)",
+        ],
+      },
+      idealFor: {
+        en: ["LED lights", "Ceiling fans", "Wi-Fi router", "LED TV", "Laptop/desktop computer", "CCTV system", "Refrigerator", "Small household appliances (within system capacity)"],
+        bn: ["এলইডি বাতি", "সিলিং ফ্যান", "ওয়াই-ফাই রাউটার", "এলইডি টিভি", "ল্যাপটপ/ডেস্কটপ কম্পিউটার", "সিসিটিভি সিস্টেম", "রেফ্রিজারেটর", "ছোট ঘরোয়া যন্ত্রপাতি (সিস্টেমের ক্ষমতার মধ্যে)"],
+      },
+      benefits: {
+        en: ["Reduce monthly electricity bills", "Reliable backup during power interruptions", "Clean and renewable energy solution", "Lower operating and maintenance costs", "Suitable for homes, small offices and essential loads"],
+        bn: ["মাসিক বিদ্যুৎ বিল কমে", "বিদ্যুৎ বিভ্রাটে নির্ভরযোগ্য ব্যাকআপ", "পরিচ্ছন্ন ও নবায়নযোগ্য জ্বালানি সমাধান", "পরিচালন ও রক্ষণাবেক্ষণ খরচ কম", "বাসা, ছোট অফিস ও জরুরি লোডের উপযোগী"],
+      },
+    },
+  },
+  {
+    slug: "combo-6-2kw-smart-hybrid-luxury",
+    category: "combo",
+    name: "6.2kW OSLEOS Smart Hybrid Luxury Solar Setup",
+    tagline: { en: "Premium 6.2kW smart hybrid system with 5.12kWh storage", bn: "৫.১২ kWh স্টোরেজসহ প্রিমিয়াম ৬.২ কিলোওয়াট স্মার্ট হাইব্রিড সিস্টেম" },
+    description: {
+      en: "A premium hybrid solar package built around ten Jinko Tiger Neo 620W panels, a 6kW smart hybrid inverter and a 48V 100Ah LiFePO₄ lithium battery of about 5.12kWh, for properties that need higher capacity and longer backup.",
+      bn: "দশটি জিংকো টাইগার নিও ৬২০ ওয়াট প্যানেল, ৬ কিলোওয়াট স্মার্ট হাইব্রিড ইনভার্টার ও প্রায় ৫.১২ kWh-এর ৪৮ভি ১০০Ah LiFePO₄ লিথিয়াম ব্যাটারি নিয়ে প্রিমিয়াম হাইব্রিড সোলার প্যাকেজ, যেসব স্থাপনায় বেশি ক্ষমতা ও দীর্ঘ ব্যাকআপ দরকার।",
+    },
+    keySpec: { en: "6.2 kW · 6kW smart hybrid · 5.12 kWh lithium", bn: "৬.২ কিলোওয়াট · ৬ কিলোওয়াট স্মার্ট হাইব্রিড · ৫.১২ kWh লিথিয়াম" },
+    specs: [
+      spec("capacity", "6.2 kW solar (10 × 620W)"),
+      spec("panels", "10 × Jinko Tiger Neo 620W"),
+      spec("inverter", "6kW smart hybrid inverter: Deye SUN-6K-SG series"),
+      spec("battery", "48V 100Ah LiFePO₄ lithium, about 5.12 kWh"),
+    ],
+    highlights: {
+      en: ["6.2kW of Jinko Tiger Neo solar panels", "6kW smart hybrid inverter (Deye SUN-6K-SG series)", "About 5.12kWh of LiFePO₄ lithium storage", "Premium brand components"],
+      bn: ["৬.২ কিলোওয়াট জিংকো টাইগার নিও সোলার প্যানেল", "৬ কিলোওয়াট স্মার্ট হাইব্রিড ইনভার্টার (Deye SUN-6K-SG সিরিজ)", "প্রায় ৫.১২ kWh LiFePO₄ লিথিয়াম স্টোরেজ", "প্রিমিয়াম ব্র্যান্ডের কম্পোনেন্ট"],
+    },
+    image: "/media/products/combo-2.webp",
+    combo: {
+      price: { offer: 650000 },
+      includes: {
+        en: ["10 × Jinko Tiger Neo 620W high-efficiency solar panels", "1 × 6kW smart hybrid inverter (Deye SUN-6K-SG series)", "1 × 48V 100Ah LiFePO₄ lithium battery (about 5.12kWh)"],
+        bn: ["১০ × জিংকো টাইগার নিও ৬২০ ওয়াট উচ্চদক্ষতার সোলার প্যানেল", "১ × ৬ কিলোওয়াট স্মার্ট হাইব্রিড ইনভার্টার (Deye SUN-6K-SG সিরিজ)", "১ × ৪৮ভি ১০০Ah LiFePO₄ লিথিয়াম ব্যাটারি (প্রায় ৫.১২ kWh)"],
+      },
+    },
+  },
+  {
+    slug: "combo-6-2kw-smart-hybrid-basic",
+    category: "combo",
+    name: "6.2kW OSLEOS Smart Hybrid Basic Solar Setup",
+    tagline: { en: "6.2kW smart hybrid system, expandable storage", bn: "৬.২ কিলোওয়াট স্মার্ট হাইব্রিড সিস্টেম, বাড়ানো যায় এমন স্টোরেজ" },
+    description: {
+      en: "A 6.2kW hybrid solar package with ten Trina Solar 620W panels, a 6kW 48V hybrid inverter and a 51.2V 100Ah lithium battery of about 5.12kWh. Storage can be increased by adding two more batteries.",
+      bn: "দশটি ট্রিনা সোলার ৬২০ ওয়াট প্যানেল, ৬ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার ও প্রায় ৫.১২ kWh-এর ৫১.২ভি ১০০Ah লিথিয়াম ব্যাটারিসহ ৬.২ কিলোওয়াট হাইব্রিড সোলার প্যাকেজ। আরও দুটি ব্যাটারি যোগ করে স্টোরেজ বাড়ানো যায়।",
+    },
+    keySpec: { en: "6.2 kW · 6kW hybrid · 5.12 kWh lithium", bn: "৬.২ কিলোওয়াট · ৬ কিলোওয়াট হাইব্রিড · ৫.১২ kWh লিথিয়াম" },
+    specs: [
+      spec("capacity", "6.2 kW solar (10 × 620W)"),
+      spec("panels", "10 × Trina Solar 620W"),
+      spec("inverter", "6kW 48V hybrid inverter: Crown Micro (Axpert / Elego / VMGI 6kW 48V)"),
+      spec("battery", "LVTOPSUN 51.2V 100Ah rack/wall-mount lithium, about 5.12 kWh"),
+    ],
+    highlights: {
+      en: ["6.2kW of Trina Solar panels", "6kW 48V hybrid inverter (Crown Micro)", "About 5.12kWh of lithium storage", "Add 2 more batteries to increase capacity (price varies)"],
+      bn: ["৬.২ কিলোওয়াট ট্রিনা সোলার প্যানেল", "৬ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার (Crown Micro)", "প্রায় ৫.১২ kWh লিথিয়াম স্টোরেজ", "আরও ২টি ব্যাটারি যোগ করে ক্ষমতা বাড়ানো যায় (দাম আলাদা)"],
+    },
+    image: "/media/products/combo-3.webp",
+    combo: {
+      price: { offer: 399000 },
+      includes: {
+        en: ["10 × Trina Solar 620W solar panels", "1 × 6kW 48V hybrid inverter: Crown Micro (Axpert / Elego / VMGI 6kW 48V)", "1 × LVTOPSUN 51.2V 100Ah rackmount or wallmount lithium battery (about 5.12kWh)"],
+        bn: ["১০ × ট্রিনা সোলার ৬২০ ওয়াট সোলার প্যানেল", "১ × ৬ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার: Crown Micro (Axpert / Elego / VMGI 6kW 48V)", "১ × LVTOPSUN ৫১.২ভি ১০০Ah র‍্যাকমাউন্ট বা ওয়ালমাউন্ট লিথিয়াম ব্যাটারি (প্রায় ৫.১২ kWh)"],
+      },
+      customise: { en: "You can add 2 batteries to increase the capacity (price will vary).", bn: "ক্ষমতা বাড়াতে ২টি ব্যাটারি যোগ করা যায় (দাম আলাদা হবে)।" },
+    },
+  },
+  {
+    slug: "combo-2-48kw-home-hybrid",
+    category: "combo",
+    name: "2.48kW OSLEOS Home Hybrid Solar Setup",
+    tagline: { en: "Hybrid solar for medium family homes", bn: "মাঝারি পরিবারের বাসার জন্য হাইব্রিড সোলার" },
+    description: {
+      en: "A 2.48kW home hybrid package with four Trina Vertex N 620W bifacial panels, a 3kW 48V hybrid inverter and a 51.2V 100Ah lithium battery of about 5.12kWh, sized for medium family homes.",
+      bn: "চারটি ট্রিনা ভার্টেক্স N ৬২০ ওয়াট বাইফেসিয়াল প্যানেল, ৩ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার ও প্রায় ৫.১২ kWh-এর ৫১.২ভি ১০০Ah লিথিয়াম ব্যাটারিসহ ২.৪৮ কিলোওয়াট হোম হাইব্রিড প্যাকেজ, মাঝারি পরিবারের বাসার জন্য।",
+    },
+    keySpec: { en: "2.48 kW · 3kW hybrid · 5.12 kWh lithium", bn: "২.৪৮ কিলোওয়াট · ৩ কিলোওয়াট হাইব্রিড · ৫.১২ kWh লিথিয়াম" },
+    specs: [
+      spec("capacity", "2.48 kW solar (4 × 620W)"),
+      spec("panels", "4 × Trina Vertex N 620W bifacial"),
+      spec("inverter", "3kW 48V hybrid inverter: Growatt SPF 3500 ES (3.5kW, 48V off-grid hybrid)"),
+      spec("battery", "LVTOPSUN 51.2V 100Ah rack/wall-mount lithium, about 5.12 kWh"),
+      spec("idealFor", "Medium family homes"),
+    ],
+    highlights: {
+      en: ["2.48kW of Trina bifacial solar panels", "3kW 48V hybrid inverter (Growatt SPF 3500 ES)", "About 5.12kWh of lithium storage", "Runs fans, lights, fridge, TV, computer and CCTV"],
+      bn: ["২.৪৮ কিলোওয়াট ট্রিনা বাইফেসিয়াল সোলার প্যানেল", "৩ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার (Growatt SPF 3500 ES)", "প্রায় ৫.১২ kWh লিথিয়াম স্টোরেজ", "ফ্যান, বাতি, ফ্রিজ, টিভি, কম্পিউটার ও সিসিটিভি চালায়"],
+    },
+    image: "/media/products/combo-4.webp",
+    combo: {
+      price: { offer: 299000 },
+      includes: {
+        en: ["4 × Trina Vertex N 620W bifacial solar panels", "1 × 3kW 48V hybrid inverter: Growatt SPF 3500 ES 3.5kW 48V off-grid hybrid", "1 × LVTOPSUN 51.2V 100Ah rackmount or wallmount lithium battery (about 5.12kWh)"],
+        bn: ["৪ × ট্রিনা ভার্টেক্স N ৬২০ ওয়াট বাইফেসিয়াল সোলার প্যানেল", "১ × ৩ কিলোওয়াট ৪৮ভি হাইব্রিড ইনভার্টার: Growatt SPF 3500 ES ৩.৫ কিলোওয়াট ৪৮ভি অফ-গ্রিড হাইব্রিড", "১ × LVTOPSUN ৫১.২ভি ১০০Ah র‍্যাকমাউন্ট বা ওয়ালমাউন্ট লিথিয়াম ব্যাটারি (প্রায় ৫.১২ kWh)"],
+      },
+      idealFor: {
+        en: ["Medium family homes", "6–10 fans", "15–20 LED lights", "Refrigerator", "TV", "Computer", "CCTV", "1 ton inverter AC (limited backup)"],
+        bn: ["মাঝারি পরিবারের বাসা", "৬–১০টি ফ্যান", "১৫–২০টি এলইডি বাতি", "রেফ্রিজারেটর", "টিভি", "কম্পিউটার", "সিসিটিভি", "১ টনের ইনভার্টার এসি (সীমিত ব্যাকআপ)"],
+      },
+    },
+  },
 ];
 
 /**
@@ -2169,6 +2356,19 @@ const KEEP_UNBRANDED = new Set(["robotic-panel-cleaning", "panel-breakage-sensor
 export const products: Product[] = catalogue.map((p) =>
   p.brand || KEEP_UNBRANDED.has(p.slug) ? p : { ...p, brand: OSLEOS_BRAND },
 );
+
+/** Headings for the combo-package block on the product page (en + bn; other languages fall back to English). */
+export const comboText = {
+  price: { en: "Package price", bn: "প্যাকেজের দাম" },
+  priceNote: { en: "Final price is confirmed in your written quotation.", bn: "চূড়ান্ত দাম আপনার লিখিত কোটেশনে নিশ্চিত করা হবে।" },
+  suitableFor: { en: "Applicable for", bn: "যাদের জন্য" },
+  includes: { en: "Package includes", bn: "প্যাকেজে যা যা আছে" },
+  idealFor: { en: "Ideal for", bn: "যেসবের জন্য উপযোগী" },
+  benefits: { en: "Benefits", bn: "সুবিধা" },
+  transportLabel: { en: "Transportation", bn: "পরিবহন" },
+  transport: { en: "Transportation cost: subject to discussion.", bn: "পরিবহন খরচ: আলোচনা সাপেক্ষে।" },
+  customise: { en: "You can also customise the package according to your needs.", bn: "আপনার প্রয়োজন অনুযায়ী প্যাকেজ কাস্টমাইজ করা যাবে।" },
+} satisfies Record<string, Localized>;
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
 export const featuredProducts = () => products.filter((p) => p.featured).slice(0, 4);

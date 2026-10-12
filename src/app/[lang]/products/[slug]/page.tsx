@@ -13,6 +13,7 @@ import { pageAlternates } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ProductImage } from "@/components/product/ProductImage";
 import { BrandMark } from "@/components/product/BrandMark";
+import { ComboDetails, ComboPrice } from "@/components/product/ComboDetails";
 import { ProductCard, quoteHref } from "@/components/product/ProductCard";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SplitText } from "@/components/motion/SplitText";
@@ -76,6 +77,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
         image: `${site.url}${product.image}`,
         url,
         brand: { "@type": "Brand", name: product.brand ?? site.name },
+        ...(product.combo?.price ? { offers: { "@type": "Offer", url, priceCurrency: "BDT", price: product.combo.price.offer } } : {}),
         category: category ? pick(category.name, lang) : undefined,
         manufacturer: product.brand ? { "@type": "Organization", name: product.brand } : { "@type": "Organization", name: site.name },
       },
@@ -130,13 +132,16 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
                 {pick(product.tagline, lang)}
               </p>
 
-              <div className="reveal mt-7 flex flex-wrap items-baseline gap-x-4 gap-y-1 border-y border-cream-200 py-6" style={at(2)}>
+              <div className="reveal mt-7 grid gap-4 border-y border-cream-200 py-6" style={at(2)}>
                 <span className="text-[clamp(22px,2.4vw,28px)] font-extrabold tracking-tight">{pick(product.keySpec, lang)}</span>
+                <ComboPrice product={product} lang={lang} note />
               </div>
 
               <p className="reveal mt-7 leading-relaxed text-ink-600" style={at(3)}>
                 {pick(product.description, lang)}
               </p>
+
+              <ComboDetails product={product} lang={lang} />
 
               <h2 className="reveal mt-8 text-[15px] font-bold" style={at(3)}>
                 {tp.highlights}

@@ -6,6 +6,7 @@ import { categories, type Product } from "@/content/products";
 import { ProductImage } from "@/components/product/ProductImage";
 import { Icon } from "@/components/ui/Icon";
 import { BrandMark } from "@/components/product/BrandMark";
+import { ComboPrice } from "@/components/product/ComboDetails";
 
 export const quoteHref = (lang: Locale, slug: string) => `/${lang}/quote?product=${encodeURIComponent(slug)}`;
 
@@ -30,7 +31,10 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
             {product.name}
           </Link>
         </h3>
-        <p className="mt-1 pb-5 text-[14px] text-ink-600">{pick(product.keySpec, lang)}</p>
+        <p className="mt-1 text-[14px] text-ink-600">{pick(product.keySpec, lang)}</p>
+        <div className={product.combo?.price ? "mt-3 pb-5" : "pb-5"}>
+          <ComboPrice product={product} lang={lang} />
+        </div>
         <div className="mt-auto grid gap-2">
           <Link href={quoteHref(lang, product.slug)} className="btn btn-dark w-full !min-h-11 !text-[14px]">
             {t.requestQuote}
