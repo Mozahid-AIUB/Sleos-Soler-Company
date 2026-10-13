@@ -58,7 +58,7 @@ export function compatConfig(id: "groq" | "gemini", env: NodeJS.ProcessEnv = pro
 }
 
 const classify = (status: number): "auth" | "rate" | "error" =>
-  status === 401 || status === 403 ? "auth" : status === 429 ? "rate" : "error";
+  status === 401 || status === 403 ? "auth" : status === 429 || status === 413 ? "rate" : "error";
 
 /** Parses an OpenAI-style SSE stream into plain text deltas. */
 async function* textDeltas(body: ReadableStream<Uint8Array>): AsyncGenerator<string> {
@@ -123,7 +123,8 @@ export async function streamCompat(
     return { ok: false, reason: "error" };
   }
   if (!res.ok || !res.body) {
-    console.error(`[chat] ${cfg.id} HTTP ${res.status}`);
+    const detail = await res.text().catch(() => "");
+    console.error(`[chat] ${cfg.id} HTTP ${res.status} ${detail.slice(0, 400)}`);
     return { ok: false, reason: classify(res.status) };
   }
 

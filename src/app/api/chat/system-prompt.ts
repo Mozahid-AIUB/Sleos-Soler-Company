@@ -100,6 +100,21 @@ How to answer:
 
 let cached: string | null = null;
 
+let cachedLean: string | null = null;
+
+/**
+ * Short prompt for providers with small per-minute token limits (Groq / Gemini free tiers):
+ * rules, contact details and the start of the overview. The product catalogue is left out; the
+ * route sends the pages that match the question as context instead.
+ */
+export function getLeanSystemPrompt(): string {
+  if (cachedLean) return cachedLean;
+  const cut = assistantKnowledge.slice(0, 2200);
+  const overview = cut.slice(0, Math.max(cut.lastIndexOf("\n"), 1200));
+  cachedLean = [RULES, "# OSLEOS overview", overview, "# Contact details", contactSection()].join("\n\n");
+  return cachedLean;
+}
+
 /** Stable system prompt text (identical bytes on every request -> prompt cache hits). */
 export function getSystemPrompt(): string {
   if (cached) return cached;

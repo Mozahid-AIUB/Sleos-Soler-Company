@@ -1,7 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { hasLocale, localeNames, type Locale } from "@/i18n/config";
 import { search } from "@/lib/rag/search";
-import { getSystemPrompt } from "./system-prompt";
+import { getLeanSystemPrompt, getSystemPrompt } from "./system-prompt";
 import { allowGlobal, allowIp, clientIp } from "./rate-limit";
 import { compatConfig, configuredProviders, streamCompat, type ChatMessage, type ProviderResult } from "@/lib/ai-providers";
 
@@ -79,11 +79,16 @@ export async function POST(req: Request) {
   if (parsed === "bad_request") return json(400, "bad_request");
   if (parsed === "too_long") return json(413, "too_long");
 
-  const messages = withRetrievedContext(parsed.messages, parsed.lang);
+  const messages = withRetrievedContext(parsed.messages, parsed.lang, 6);
+  // Smaller context for providers with tight per-minute token limits.
+  const leanMessages = withRetrievedContext(parsed.messages, parsed.lang, 3);
 
-  const chat: ChatMessage[] = messages.flatMap((m) =>
-    m.role === "user" || m.role === "assistant" ? [{ role: m.role, content: typeof m.content === "string" ? m.content : "" }] : [],
-  );
+  const toChat = (list: Anthropic.MessageParam[]): ChatMessage[] =>
+    list.flatMap((m) =>
+      m.role === "user" || m.role === "assistant" ? [{ role: m.role, content: typeof m.content === "string" ? m.content : "" }] : [],
+    );
+  const chat = toChat(messages);
+  const leanChat = toChat(leanMessages);
   const langLine = `Site language: ${localeNames[parsed.lang]} (${parsed.lang}).`;
   const failures: ProviderResult[] = [];
 
@@ -91,7 +96,7 @@ export async function POST(req: Request) {
     const result =
       id === "anthropic"
         ? await tryAnthropic(chat, langLine, req.signal)
-        : await streamCompat(compatConfig(id), `${getSystemPrompt()}\n\n${langLine}`, chat, MAX_TOKENS, req.signal);
+        : await streamCompat(compatConfig(id), `${getLeanSystemPrompt()}\n\n${langLine}`, leanChat, MAX_TOKENS, req.signal);
     if (result.ok) {
       return new Response(result.body, {
         headers: {
@@ -184,11 +189,11 @@ async function tryAnthropic(messages: ChatMessage[], langLine: string, signal: A
  * previous one for follow-ups) and prepend it to the final user turn, so the
  * model answers from the website itself and can cite page links.
  */
-function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Locale): Anthropic.MessageParam[] {
+function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Locale, k: number): Anthropic.MessageParam[] {
   const userTexts = messages.filter((m) => m.role === "user").map((m) => (typeof m.content === "string" ? m.content : ""));
   const question = userTexts.at(-1) ?? "";
   // The search index holds English and Bangla chunks; other languages search the English ones.
-  const { hits } = search(question, { lang: lang === "bn" ? "bn" : "en", k: 6, context: userTexts.at(-2) });
+  const { hits } = search(question, { lang: lang === "bn" ? "bn" : "en", k, context: userTexts.at(-2) });
   const context = hits.length
     ? hits.map((h, i) => `[${i + 1}] ${h.title} — ${h.url}\n${h.text}`).join("\n\n")
     : "(no matching website content)";
