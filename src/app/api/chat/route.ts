@@ -3,6 +3,7 @@ import { hasLocale, localeNames, type Locale } from "@/i18n/config";
 import { search } from "@/lib/rag/search";
 import { getSystemPrompt } from "./system-prompt";
 import { allowGlobal, allowIp, clientIp } from "./rate-limit";
+import { compatConfig, configuredProviders, streamCompat, type ChatMessage, type ProviderResult } from "@/lib/ai-providers";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -13,7 +14,8 @@ export const dynamic = "force-dynamic";
  * -> 4xx/5xx JSON { error: "bad_request" | "too_long" | "rate_limited" | "ai_unavailable" | "ai_error" }
  */
 
-// Claude Sonnet 5: fast, strong in Bangla, and the system prompt (~3k tokens)
+// Providers are tried in order (Groq, Gemini, Claude by default; see src/lib/ai-providers.ts) and the
+// first one that answers wins. Claude: fast, strong in Bangla, and the system prompt (~3k tokens)
 // is above its 1,024-token cache minimum, so repeat turns read it at 0.1x.
 const MODEL = process.env.ANTHROPIC_MODEL || "claude-sonnet-5-5";
 const MAX_TOKENS = 700;
@@ -49,7 +51,8 @@ function parseMessages(body: unknown): { messages: Anthropic.MessageParam[]; lan
 }
 
 export async function POST(req: Request) {
-  if (!process.env.ANTHROPIC_API_KEY) return json(503, "ai_unavailable");
+  const providers = configuredProviders();
+  if (!providers.length) return json(503, "ai_unavailable");
 
   const length = Number(req.headers.get("content-length") ?? 0);
   if (length > MAX_BODY_BYTES) return json(413, "too_long");
@@ -78,6 +81,38 @@ export async function POST(req: Request) {
 
   const messages = withRetrievedContext(parsed.messages, parsed.lang);
 
+  const chat: ChatMessage[] = messages.flatMap((m) =>
+    m.role === "user" || m.role === "assistant" ? [{ role: m.role, content: typeof m.content === "string" ? m.content : "" }] : [],
+  );
+  const langLine = `Site language: ${localeNames[parsed.lang]} (${parsed.lang}).`;
+  const failures: ProviderResult[] = [];
+
+  for (const id of providers) {
+    const result =
+      id === "anthropic"
+        ? await tryAnthropic(chat, langLine, req.signal)
+        : await streamCompat(compatConfig(id), `${getSystemPrompt()}\n\n${langLine}`, chat, MAX_TOKENS, req.signal);
+    if (result.ok) {
+      return new Response(result.body, {
+        headers: {
+          "Content-Type": "text/plain; charset=utf-8",
+          "Cache-Control": "no-store",
+          "X-Accel-Buffering": "no",
+        },
+      });
+    }
+    failures.push(result);
+    if (req.signal.aborted) break;
+  }
+
+  // Every provider failed: report the most useful reason.
+  if (failures.some((f) => !f.ok && f.reason === "rate")) return json(429, "rate_limited", { "Retry-After": "20" });
+  if (failures.length && failures.every((f) => !f.ok && f.reason === "auth")) return json(503, "ai_unavailable");
+  return json(502, "ai_error");
+}
+
+/** Claude path: streams the reply as plain text, or reports why it could not start. */
+async function tryAnthropic(messages: ChatMessage[], langLine: string, signal: AbortSignal): Promise<ProviderResult> {
   const stream = getClient().messages.stream(
     {
       model: MODEL,
@@ -87,11 +122,11 @@ export async function POST(req: Request) {
       system: [
         // Large, byte-stable block first and cached; the tiny per-request hint after it.
         { type: "text", text: getSystemPrompt(), cache_control: { type: "ephemeral" } },
-        { type: "text", text: `Site language: ${localeNames[parsed.lang]} (${parsed.lang}).` },
+        { type: "text", text: langLine },
       ],
       messages,
     },
-    { signal: req.signal },
+    { signal },
   );
 
   // Wait for the first event so API failures (bad key, overload) become a
@@ -103,19 +138,19 @@ export async function POST(req: Request) {
   } catch (error) {
     if (error instanceof Anthropic.AuthenticationError || error instanceof Anthropic.PermissionDeniedError) {
       console.error("[chat] Anthropic auth error - check ANTHROPIC_API_KEY");
-      return json(503, "ai_unavailable");
+      return { ok: false, reason: "auth" };
     }
-    if (error instanceof Anthropic.RateLimitError) return json(429, "rate_limited", { "Retry-After": "20" });
+    if (error instanceof Anthropic.RateLimitError) return { ok: false, reason: "rate" };
     if (error instanceof Anthropic.APIError) {
       console.error(`[chat] Anthropic API error ${error.status}:`, error.message);
     } else {
       console.error("[chat] request failed:", error);
     }
-    return json(502, "ai_error");
+    return { ok: false, reason: "error" };
   }
 
   const encoder = new TextEncoder();
-  const body$ = new ReadableStream<Uint8Array>({
+  const body = new ReadableStream<Uint8Array>({
     async start(controller) {
       const emit = (event: Anthropic.MessageStreamEvent) => {
         if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
@@ -132,7 +167,7 @@ export async function POST(req: Request) {
           );
         }
       } catch (error) {
-        if (!req.signal.aborted) console.error("[chat] stream interrupted:", error);
+        if (!signal.aborted) console.error("[chat] stream interrupted:", error);
       } finally {
         controller.close();
       }
@@ -141,14 +176,7 @@ export async function POST(req: Request) {
       stream.abort();
     },
   });
-
-  return new Response(body$, {
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      "Cache-Control": "no-store",
-      "X-Accel-Buffering": "no",
-    },
-  });
+  return { ok: true, body };
 }
 
 /**
