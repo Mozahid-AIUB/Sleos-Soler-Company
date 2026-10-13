@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
  *   GET /api/chat/search?q=hybrid+inverter&lang=en[&k=6][&full=1]
  * Returns the chunks the assistant would receive as context. 404 in production.
  */
-export function GET(req: Request) {
+export async function GET(req: Request) {
   if (process.env.NODE_ENV === "production") return new Response("Not found", { status: 404 });
 
   const params = new URL(req.url).searchParams;
@@ -18,8 +18,8 @@ export function GET(req: Request) {
   const k = Math.min(20, Math.max(1, Number(params.get("k")) || 6));
   const full = params.get("full") === "1";
 
-  const corpus = getCorpus();
-  const { lang: detected, hits } = search(q, { lang, k });
+  const corpus = await getCorpus();
+  const { lang: detected, hits } = await search(q, { lang, k });
   return Response.json(
     {
       q,

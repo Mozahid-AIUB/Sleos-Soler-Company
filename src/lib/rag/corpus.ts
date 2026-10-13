@@ -2,7 +2,7 @@ import "server-only";
 import en from "@/i18n/dictionaries/en";
 import bn from "@/i18n/dictionaries/bn";
 import * as siteModule from "@/content/site";
-import * as catalogModule from "@/content/products";
+import { getCatalog } from "@/lib/catalog";
 import * as projectsModule from "@/content/projects";
 import * as testimonialsModule from "@/content/testimonials";
 import { assistantKnowledge } from "@/content/assistant-knowledge";
@@ -137,7 +137,7 @@ class Builder {
 /* Dictionaries (page copy)                                            */
 /* ------------------------------------------------------------------ */
 
-function dictionaryChunks(b: Builder, lang: Lang, d: unknown) {
+function dictionaryChunks(b: Builder, lang: Lang, d: unknown, catalogBrands: string[]) {
   const L = `/${lang}`;
   const s = (p: string) => loc(at(d, p), lang);
   const t = (...paths: string[]) => paths.map(s).find(Boolean) ?? "";
@@ -178,10 +178,9 @@ function dictionaryChunks(b: Builder, lang: Lang, d: unknown) {
   b.add(lang, "process", t("process.title"), `${L}/solutions`, pick(d, "process.body", "process.steps"));
 
   // Partners
-  const catalogBrands = (catalogModule as Loose).brands;
   b.add(lang, "partners", t("partners.title"), `${L}/about`, [
     ...pick(d, "partners.body", "partners.brandsNote"),
-    Array.isArray(catalogBrands) && catalogBrands.length ? `${s("featured.title") || "Brands"}: ${catalogBrands.map((x) => loc(x, lang)).join(", ")}` : "",
+    catalogBrands.length ? `${s("featured.title") || "Brands"}: ${catalogBrands.join(", ")}` : "",
   ]);
 
   // Projects page header
@@ -329,10 +328,9 @@ function contactChunk(b: Builder, lang: Lang, d: unknown) {
 /* products.ts                                                         */
 /* ------------------------------------------------------------------ */
 
-function productChunks(b: Builder, lang: Lang, d: unknown) {
-  const mod = catalogModule as Loose;
-  const categories = Array.isArray(mod.categories) ? mod.categories.filter(isObj) : [];
-  const products = Array.isArray(mod.products) ? mod.products.filter(isObj) : [];
+function productChunks(b: Builder, lang: Lang, d: unknown, data: Catalog) {
+  const categories = data.categories as unknown as Loose[];
+  const products = data.products as unknown as Loose[];
   const catName = new Map<string, string>();
   for (const c of categories) {
     const id = loc(c.id, lang);
@@ -440,11 +438,24 @@ function knowledgeChunks(b: Builder) {
 
 /* ------------------------------------------------------------------ */
 
-let corpus: Chunk[] | null = null;
+type Catalog = Awaited<ReturnType<typeof getCatalog>>;
 
-/** All chunks, built on first use and memoised for the life of the server process. */
-export function getCorpus(): Chunk[] {
-  if (corpus) return corpus;
+/** The catalogue lives in the CMS, so the index is rebuilt every few minutes to pick up admin edits. */
+const CORPUS_TTL_MS = 5 * 60 * 1000;
+let corpus: { at: number; chunks: Chunk[] } | null = null;
+let building: Promise<Chunk[]> | null = null;
+
+/** All chunks, built on first use and rebuilt at most every few minutes. Same array instance until rebuilt. */
+export async function getCorpus(): Promise<Chunk[]> {
+  if (corpus && Date.now() - corpus.at < CORPUS_TTL_MS) return corpus.chunks;
+  building ??= buildCorpus().finally(() => {
+    building = null;
+  });
+  return building;
+}
+
+async function buildCorpus(): Promise<Chunk[]> {
+  const catalog = await getCatalog();
   const b = new Builder();
   const dicts: Record<Lang, unknown> = { en, bn };
   for (const lang of LANGS) {
@@ -456,9 +467,9 @@ export function getCorpus(): Chunk[] {
         console.error(`[rag] skipped ${name} (${lang}):`, error);
       }
     };
-    guard("dictionary", () => dictionaryChunks(b, lang, d));
+    guard("dictionary", () => dictionaryChunks(b, lang, d, catalog.brands));
     guard("contact", () => contactChunk(b, lang, d));
-    guard("products", () => productChunks(b, lang, d));
+    guard("products", () => productChunks(b, lang, d, catalog));
     guard("projects", () => projectChunks(b, lang, d));
     guard("testimonials", () => testimonialChunks(b, lang, d));
   }
@@ -467,6 +478,7 @@ export function getCorpus(): Chunk[] {
   } catch (error) {
     console.error("[rag] skipped assistant knowledge:", error);
   }
-  corpus = b.chunks.filter((c) => c.text.length > 0);
-  return corpus;
+  const chunks = b.chunks.filter((c) => c.text.length > 0);
+  corpus = { at: Date.now(), chunks };
+  return chunks;
 }

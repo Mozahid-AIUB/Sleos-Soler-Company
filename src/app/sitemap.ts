@@ -1,12 +1,16 @@
 import type { MetadataRoute } from "next";
 import { locales, localeTags } from "@/i18n/config";
-import { products } from "@/content/products";
+import { getAllProducts } from "@/lib/catalog";
 import { site } from "@/content/site";
 
 /** Indexable pages, without the language prefix. Utility pages (links, cart, checkout) are left out. */
 const pages = ["", "/products", "/solutions", "/projects", "/incentive", "/about", "/sustainability", "/support", "/contact", "/quote", "/privacy", "/legal", "/legal-contacts", "/security"];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// New or unpublished products reach the sitemap within 5 minutes.
+export const revalidate = 300;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const products = await getAllProducts();
   const paths = [...pages, ...products.map((p) => `/products/${p.slug}`)];
   return paths.flatMap((path) =>
     locales.map((lang) => ({

@@ -2,13 +2,14 @@ import type { CSSProperties } from "react";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { featuredProducts } from "@/content/products";
+import { getFeaturedProducts } from "@/lib/catalog";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductCard } from "@/components/product/ProductCard";
 import { Icon } from "@/components/ui/Icon";
 
-export function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
+export async function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
   const f = t.featured;
+  const featured = await getFeaturedProducts();
   const perks = [
     { icon: "shield" as const, text: t.product.cod },
     { icon: "wrench" as const, text: t.product.delivery },
@@ -29,7 +30,7 @@ export function FeaturedProducts({ lang, t }: { lang: Locale; t: Dictionary }) {
           }
         />
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {featuredProducts().map((p, i) => (
+          {featured.map((p, i) => (
             <div key={p.slug} className="reveal flex" style={{ "--i": i % 4 } as CSSProperties}>
               <ProductCard product={p} lang={lang} t={t.product} />
             </div>

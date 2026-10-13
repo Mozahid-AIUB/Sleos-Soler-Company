@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withPayload } from "@payloadcms/next/withPayload";
 
 // Long browser/CDN caching for files in /public. Their names don't change per
 // deploy, so allow stale copies to be served while revalidating in background.
@@ -33,4 +34,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withPayload(nextConfig);

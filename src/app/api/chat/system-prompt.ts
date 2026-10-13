@@ -1,13 +1,12 @@
 import "server-only";
 import * as siteModule from "@/content/site";
-import * as catalog from "@/content/products";
+import { getCatalog } from "@/lib/catalog";
 import { assistantKnowledge } from "@/content/assistant-knowledge";
 
 /*
- * Builds the assistant's system prompt once per server process. Live data is
- * read from site.ts / products.ts so answers stay in sync with the website.
- * Both files are edited by hand, so everything is read defensively: unknown
- * shapes are skipped rather than crashing the route.
+ * Builds the assistant's system prompt (cached per server process). Live data is
+ * read from site.ts and the product catalogue (CMS) so answers stay in sync with the website.
+ * Everything is read defensively: unknown shapes are skipped rather than crashing the route.
  */
 
 type Loose = Record<string, unknown>;
@@ -52,10 +51,10 @@ function contactSection(): string {
   return lines.join("\n");
 }
 
-function catalogSection(): string {
-  const mod = catalog as Loose;
-  const cats = Array.isArray(mod.categories) ? mod.categories.filter(isObj) : [];
-  const products = Array.isArray(mod.products) ? mod.products.filter(isObj) : [];
+async function catalogSection(): Promise<string> {
+  const catalog = await getCatalog();
+  const cats = catalog.categories as unknown as Loose[];
+  const products = catalog.products as unknown as Loose[];
   if (!products.length) return "(Catalogue is being updated - point users to /{lang}/products.)";
 
   const catName = new Map<string, string>();
@@ -98,7 +97,9 @@ How to answer:
 - For safety issues (fire, sparks, electric shock, damaged equipment) tell the user to switch off the system if safe to do so, keep away, and contact our team or a qualified electrician immediately.
 `.trim();
 
-let cached: string | null = null;
+/** Full prompt is rebuilt every few minutes so catalogue edits in the admin reach the assistant. */
+const PROMPT_TTL_MS = 5 * 60 * 1000;
+let cached: { at: number; text: string } | null = null;
 
 let cachedLean: string | null = null;
 
@@ -116,16 +117,17 @@ export function getLeanSystemPrompt(): string {
 }
 
 /** Stable system prompt text (identical bytes on every request -> prompt cache hits). */
-export function getSystemPrompt(): string {
-  if (cached) return cached;
-  cached = [
+export async function getSystemPrompt(): Promise<string> {
+  if (cached && Date.now() - cached.at < PROMPT_TTL_MS) return cached.text;
+  const text = [
     RULES,
     "# OSLEOS knowledge base",
     assistantKnowledge,
     "# Contact details",
     contactSection(),
     "# Current product catalogue on the website (names only; every product is quote-only)",
-    catalogSection(),
+    await catalogSection(),
   ].join("\n\n");
-  return cached;
+  cached = { at: Date.now(), text };
+  return text;
 }

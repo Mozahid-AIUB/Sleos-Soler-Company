@@ -19,7 +19,7 @@ const CONTACT = /(phone|number|call|contact|address|office|location|where|map|em
 const HOURS = /(open|close|hours?|timing|schedule|সময়|খোলা|বন্ধ|ঘণ্টা|ঘন্টা)/i;
 const PRICE = /(price|cost|rate|how\s+much|quote|quotation|estimate|দাম|মূল্য|খরচ|কত\s*টাকা|কত|কোটেশন)/i;
 
-export function fallbackAnswer(question: string, lang: Locale): string {
+export async function fallbackAnswer(question: string, lang: Locale): Promise<string> {
   const bn = lang === "bn" || BN.test(question);
   // Path prefix for links: Bangla when the question is Bangla, else the site language.
   const l = bn ? "bn" : lang;
@@ -56,7 +56,7 @@ export function fallbackAnswer(question: string, lang: Locale): string {
     );
   }
 
-  const { hits } = search(q, { lang: bn ? "bn" : "en", k: 3 });
+  const { hits } = await search(q, { lang: bn ? "bn" : "en", k: 3 });
   if (hits.length) {
     const lines = hits.map((h) => {
       const first = h.text.replace(/\s+/g, " ").trim().slice(0, 160);

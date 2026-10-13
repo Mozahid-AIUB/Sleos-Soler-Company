@@ -5,7 +5,7 @@ import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
 import { site, whatsappLink } from "@/content/site";
-import { categories } from "@/content/products";
+import { getCategories } from "@/lib/catalog";
 import { Logo } from "@/components/ui/Logo";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { SocialLinks } from "@/components/layout/SocialLinks";
@@ -14,8 +14,9 @@ import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import sredaLogo from "../../../public/brand/sreda-logo.webp";
 import bstiLogo from "../../../public/brand/bsti-logo.webp";
 
-export function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
+export async function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
   const f = t.footer;
+  const categories = await getCategories();
   // Colour shift plus a hairline underline drawn from the left on hover/focus.
   const linkClass =
     "text-ink-600 bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-[position:0_100%] bg-[length:0%_1px] transition-[color,background-size] duration-[450ms] ease-out-expo hover:text-forest-900 hover:bg-[length:100%_1px] focus-visible:bg-[length:100%_1px]";

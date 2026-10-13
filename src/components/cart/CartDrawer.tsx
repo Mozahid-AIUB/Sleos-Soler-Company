@@ -4,10 +4,17 @@ import Link from "next/link";
 import { useEffect } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { formatNumber, formatPrice, type Locale } from "@/i18n/config";
-import { getProduct } from "@/content/products";
+import type { Product } from "@/content/products";
 import { cart, useCart } from "@/lib/cart-store";
 import { Icon } from "@/components/ui/Icon";
 import { ProductImage } from "@/components/product/ProductImage";
+
+/**
+ * The catalogue is quote-only and this legacy cart is no longer mounted. The
+ * catalogue now lives in the CMS (server-only), so there is nothing to look up
+ * in the browser: the cart stays empty.
+ */
+const getProduct = (slug: string): Product | undefined => void slug;
 
 export function useCartTotals() {
   const { lines } = useCart();

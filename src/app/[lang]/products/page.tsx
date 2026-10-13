@@ -4,7 +4,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { aiIntro, categories, products } from "@/content/products";
+import { aiIntro } from "@/content/products";
+import { getAllProducts, getCategories } from "@/lib/catalog";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProductCard } from "@/components/product/ProductCard";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -23,6 +24,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
   const p = t.pages.products;
+  const [categories, products] = await Promise.all([getCategories(), getAllProducts()]);
 
   const tabs = [
     { id: "all" as const, label: t.product.all, count: products.length },

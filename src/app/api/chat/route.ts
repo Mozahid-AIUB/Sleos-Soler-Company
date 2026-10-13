@@ -79,9 +79,9 @@ export async function POST(req: Request) {
   if (parsed === "bad_request") return json(400, "bad_request");
   if (parsed === "too_long") return json(413, "too_long");
 
-  const messages = withRetrievedContext(parsed.messages, parsed.lang, 6);
+  const messages = await withRetrievedContext(parsed.messages, parsed.lang, 6);
   // Smaller context for providers with tight per-minute token limits.
-  const leanMessages = withRetrievedContext(parsed.messages, parsed.lang, 3);
+  const leanMessages = await withRetrievedContext(parsed.messages, parsed.lang, 3);
 
   const toChat = (list: Anthropic.MessageParam[]): ChatMessage[] =>
     list.flatMap((m) =>
@@ -113,7 +113,7 @@ export async function POST(req: Request) {
   // No provider could answer (none configured, rate-limited or down): answer from the site data
   // instead of showing an error, so the visitor always gets something useful.
   const lastUser = [...parsed.messages].reverse().find((m) => m.role === "user");
-  return new Response(fallbackAnswer(typeof lastUser?.content === "string" ? lastUser.content : "", parsed.lang), {
+  return new Response(await fallbackAnswer(typeof lastUser?.content === "string" ? lastUser.content : "", parsed.lang), {
     headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store", "X-Chat-Fallback": "1" },
   });
 }
@@ -128,7 +128,7 @@ async function tryAnthropic(messages: ChatMessage[], langLine: string, signal: A
       thinking: { type: "disabled" },
       system: [
         // Large, byte-stable block first and cached; the tiny per-request hint after it.
-        { type: "text", text: getSystemPrompt(), cache_control: { type: "ephemeral" } },
+        { type: "text", text: await getSystemPrompt(), cache_control: { type: "ephemeral" } },
         { type: "text", text: langLine },
       ],
       messages,
@@ -191,11 +191,11 @@ async function tryAnthropic(messages: ChatMessage[], langLine: string, signal: A
  * previous one for follow-ups) and prepend it to the final user turn, so the
  * model answers from the website itself and can cite page links.
  */
-function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Locale, k: number): Anthropic.MessageParam[] {
+async function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Locale, k: number): Promise<Anthropic.MessageParam[]> {
   const userTexts = messages.filter((m) => m.role === "user").map((m) => (typeof m.content === "string" ? m.content : ""));
   const question = userTexts.at(-1) ?? "";
   // The search index holds English and Bangla chunks; other languages search the English ones.
-  const { hits } = search(question, { lang: lang === "bn" ? "bn" : "en", k, context: userTexts.at(-2) });
+  const { hits } = await search(question, { lang: lang === "bn" ? "bn" : "en", k, context: userTexts.at(-2) });
   const context = hits.length
     ? hits.map((h, i) => `[${i + 1}] ${h.title} — ${h.url}\n${h.text}`).join("\n\n")
     : "(no matching website content)";

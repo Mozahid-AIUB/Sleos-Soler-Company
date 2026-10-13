@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, localizeDigits } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { site, whatsappLink } from "@/content/site";
-import { products } from "@/content/products";
+import { getAllProducts } from "@/lib/catalog";
 import { PageHero } from "@/components/ui/PageHero";
 import { QuoteSheet } from "@/components/forms/QuoteSheet";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
@@ -25,7 +25,7 @@ export default async function QuotePage({ params }: PageProps<"/[lang]/quote">) 
   const t = await getDictionary(lang);
   const q = t.quote;
   // slug → name, so a "Request a Quote" link can pre-fill the product without shipping the catalogue.
-  const productNames = Object.fromEntries(products.map((p) => [p.slug, p.name]));
+  const productNames = Object.fromEntries((await getAllProducts()).map((p) => [p.slug, p.name]));
 
   return (
     <>

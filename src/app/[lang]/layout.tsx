@@ -5,7 +5,7 @@ import localFont from "next/font/local";
 import { hasLocale, locales, localeTags, ogLocales } from "@/i18n/config";
 import { pageAlternates } from "@/lib/seo";
 import { pick } from "@/i18n/content";
-import { categories } from "@/content/products";
+import { getCategories } from "@/lib/catalog";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { site } from "@/content/site";
 import { Header } from "@/components/layout/Header";
@@ -53,6 +53,10 @@ const taka = localFont({
 });
 
 export const generateStaticParams = () => locales.map((lang) => ({ lang }));
+
+// Safety net: every page under /[lang] is regenerated at most every 5 minutes (catalogue data comes from the CMS).
+// Saving in the admin also calls revalidatePath, so edits normally show up at once.
+export const revalidate = 300;
 
 export const viewport: Viewport = {
   themeColor: "#06130e",
@@ -112,7 +116,7 @@ const orgSchema = {
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const t = await getDictionary(lang);
+  const [t, categories] = await Promise.all([getDictionary(lang), getCategories()]);
 
   return (
     <html lang={localeTags[lang]} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable} ${taka.variable}`}>

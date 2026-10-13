@@ -70,11 +70,71 @@ Site-এ কোনো cookie/login নেই, তাই পুরো site edge-�
 > Deploy-এর পর সাথে সাথে update দেখাতে Cloudflare → **Caching → Purge Everything**
 > (চাইলে watcher-এ auto-purge যোগ করা যাবে — Cloudflare API token + Zone ID লাগবে)।
 
+## CMS (Payload) — PostgreSQL, env, media volume
+
+Admin panel `https://domain/admin` — একই Next app-এর ভেতরে চলে (আলাদা container লাগে না)। লাগে: একটা PostgreSQL আর
+uploaded ছবির জন্য একটা persistent volume। আগের auto deploy watcher আগের মতোই কাজ করে (push → CI পাস → Coolify build);
+শুধু নিচের সেটআপ একবার করতে হবে।
+
+### ১. PostgreSQL বানান (একবার)
+1. Coolify → একই Project/Environment-এ **New Resource → Database → PostgreSQL**
+2. **Public access / "Make it publicly available" বন্ধ রাখুন** — শুধু Coolify-র internal network-এ থাকবে, internet-এ port খুলবে না
+3. Start দিন। Database-এর পাতায় **Internal URL** (`postgres://user:password@<service-name>:5432/db`) পাবেন — এটাই `DATABASE_URI`
+4. OSLEOS app আর Postgres একই destination/network-এ আছে কিনা দেখুন, নইলে internal hostname resolve হবে না
+
+### ২. OSLEOS app-এর Environment Variables
+| Variable | মান |
+|---|---|
+| `DATABASE_URI` | ধাপ ১-এর Internal URL |
+| `PAYLOAD_SECRET` | `openssl rand -hex 32` দিয়ে বানানো ৬৪ অক্ষরের মান — একবার বানিয়ে আর বদলাবেন না |
+| `NEXT_PUBLIC_SERVER_URL` | `https://osleos.com` (শেষে `/` নেই) |
+
+- `NEXT_PUBLIC_SERVER_URL` **Build Variable**-ও করুন (browser-এ build-এর সময় বসে)। `DATABASE_URI`/`PAYLOAD_SECRET` runtime-এই লাগে।
+- Dockerfile-এ build-এর জন্য placeholder মান দেওয়া আছে, তাই এই দুটো build-এ না দিলেও `next build` ভাঙে না। Placeholder image-এর final stage-এ যায় না।
+- **Build-এ DB লাগবে কিনা:** যে পাতা build-এর সময় CMS থেকে data পড়ে (static generation), সেই build-এ DB reachable থাকতে হয়।
+  নিরাপদ পথ: CMS-নির্ভর পাতাগুলো dynamic/revalidate করা (build-এ DB query না চালানো) — তাহলে build DB ছাড়াই পাস করে।
+  যদি build-এ DB দরকারই হয়, `DATABASE_URI` Build Variable-ও করুন এবং নিশ্চিত করুন build সেই network থেকে DB-তে পৌঁছাতে পারে;
+  না পারলে build log-এ connection error আসবে।
+- Key কখনো git-এ নয় — শুধু Coolify-তে। নমুনা: `.env.example`
+
+### ৩. Media volume (uploaded ছবি)
+Coolify → OSLEOS → **Persistent Storage**-এ নতুন volume যোগ করুন, container path `/app/media`। না করলে প্রতি redeploy-এ upload করা ছবি মুছে যাবে।
+- Image-এ `/app/media` `nextjs` user (uid 1001)-এর নামে বানানো; named volume হলে সরাসরি লেখা যাবে।
+- Host folder (bind mount) দিলে সেটা root-owned হতে পারে — তখন VPS-এ `chown -R 1001:1001 <host-folder>` করুন, নইলে upload-এ permission error আসবে।
+- `public/media/` (code-এর সাথে আসা ছবি) আর `/app/media` (CMS upload) আলাদা — গুলিয়ে ফেলবেন না।
+
+### ৪. প্রথম চালু — owner account
+Deploy শেষে `https://domain/admin` খুলুন — database খালি থাকলে Payload **Create first user** ফর্ম দেখায়।
+ইমেইল + শক্ত পাসওয়ার্ড দিয়ে owner account বানান। প্রথম user-ই admin; এরপর অন্য user Admin → Users থেকে যোগ করুন।
+এটা দেরি না করে করুন — account না বানানো পর্যন্ত যে কেউ ফর্মটা পেতে পারে।
+
+### ৫. Backup
+**Database** — Coolify-র PostgreSQL পাতায় **Backups → Scheduled Backup** চালু করুন (দৈনিক, retention সহ; সম্ভব হলে S3-compatible storage-এ, VPS-এর বাইরে)। হাতে নিতে:
+```bash
+docker exec <postgres-container> pg_dump -U <user> -Fc <db> > /root/backups/osleos-$(date +%F).dump
+```
+সাপ্তাহিক cron (VPS root crontab) উদাহরণ: `0 3 * * 0  docker exec <postgres-container> pg_dump -U <user> -Fc <db> > /root/backups/osleos-$(date +\%F).dump`
+(পুরনোগুলো `find /root/backups -mtime +30 -delete` দিয়ে মুছুন।)
+
+**Media volume** — volume-এর data VPS-এ Docker volume হিসেবে থাকে; নিয়মিত tar করে বাইরে কপি করুন:
+```bash
+docker run --rm -v <volume-name>:/media -v /root/backups:/out alpine tar czf /out/osleos-media-$(date +%F).tgz -C /media .
+```
+(`<volume-name>` দেখতে: `docker volume ls | grep osleos`।) DB আর media **একই সময়ের** backup রাখুন — একটা ছাড়া অন্যটা অর্ধেক।
+
+### ৬. Restore
+1. নতুন/খালি PostgreSQL বানিয়ে `DATABASE_URI` ঠিক করুন
+2. `cat osleos-YYYY-MM-DD.dump | docker exec -i <postgres-container> pg_restore -U <user> -d <db> --clean --if-exists --no-owner`
+3. Media: `docker run --rm -v <volume-name>:/media -v /root/backups:/in alpine tar xzf /in/osleos-media-YYYY-MM-DD.tgz -C /media` তারপর `chown -R 1001:1001` ঐ volume-এ
+4. OSLEOS **Redeploy** করুন, `/admin`-এ ঢুকে পরীক্ষা করুন
+- একই `PAYLOAD_SECRET` রাখুন, নইলে সবাই logout হয়ে আবার login করতে হবে।
+- Server হারালেও `.env` মান (secret) আলাদা জায়গায় (password manager) রাখা থাকলে restore সহজ।
+
 ## Local-এ Docker দিয়ে চালানো (ঐচ্ছিক)
 
 ```bash
 docker build -t osleos .
-docker run -p 3000:3000 osleos   # http://localhost:3000
+docker run -p 3000:3000 -e DATABASE_URI=... -e PAYLOAD_SECRET=... -v osleos-media:/app/media osleos   # http://localhost:3000
 ```
 
 ## সমস্যা হলে

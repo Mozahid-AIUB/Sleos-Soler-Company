@@ -7,7 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { categories, getProduct, products } from "@/content/products";
+import { getAllProducts, getCategories, getProductBySlug } from "@/lib/catalog";
 import { site, whatsappLink } from "@/content/site";
 import { pageAlternates } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -20,11 +20,14 @@ import { SplitText } from "@/components/motion/SplitText";
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
 
-export const generateStaticParams = () => locales.flatMap((lang) => products.map((p) => ({ lang, slug: p.slug })));
+export const generateStaticParams = async () => {
+  const products = await getAllProducts();
+  return locales.flatMap((lang) => products.map((p) => ({ lang, slug: p.slug })));
+};
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/products/[slug]">): Promise<Metadata> {
   const { lang, slug } = await params;
-  const product = getProduct(slug);
+  const product = await getProductBySlug(slug);
   if (!hasLocale(lang) || !product) return {};
   // The title template already ends with "· OSLEOS", so own-brand items skip the brand prefix.
   const title = product.brand && product.brand !== site.name ? `${product.brand} ${product.name}` : product.name;
@@ -39,10 +42,11 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products/[
 
 export default async function ProductPage({ params }: PageProps<"/[lang]/products/[slug]">) {
   const { lang, slug } = await params;
-  const product = getProduct(slug);
+  const product = await getProductBySlug(slug);
   if (!hasLocale(lang) || !product) notFound();
   const t = await getDictionary(lang);
   const tp = t.product;
+  const [categories, products] = await Promise.all([getCategories(), getAllProducts()]);
   const category = categories.find((c) => c.id === product.category);
   const fullName = product.brand ? `${product.brand} ${product.name}` : product.name;
   const sameCategory = products.filter((p) => p.slug !== product.slug && p.category === product.category);
@@ -65,8 +69,10 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
 
   const url = `${site.url}/${lang}/products/${product.slug}`;
   // Datasheets are plain files: drop <slug>.pdf into public/datasheets and the button turns into a download.
-  const datasheetFile = `/datasheets/${product.slug}.pdf`;
-  const hasDatasheet = existsSync(path.join(process.cwd(), "public", datasheetFile));
+  // An uploaded datasheet (admin) wins over the file in public/datasheets.
+  const publicDatasheet = `/datasheets/${product.slug}.pdf`;
+  const datasheetFile = product.datasheet ?? publicDatasheet;
+  const hasDatasheet = Boolean(product.datasheet) || existsSync(path.join(process.cwd(), "public", publicDatasheet));
   const schema = {
     "@context": "https://schema.org",
     "@graph": [

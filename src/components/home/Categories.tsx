@@ -4,13 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { categories } from "@/content/products";
+import { getCategories } from "@/lib/catalog";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Icon } from "@/components/ui/Icon";
 import { CategoryLink } from "@/components/product/CategoryLink";
 
-export function Categories({ lang, t }: { lang: Locale; t: Dictionary["categories"] }) {
-  const homeCategories = categories;
+export async function Categories({ lang, t }: { lang: Locale; t: Dictionary["categories"] }) {
+  const homeCategories = await getCategories();
   return (
     <section className="section-y relative overflow-hidden bg-cream-50">
       <div className="container-x relative">

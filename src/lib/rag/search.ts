@@ -78,13 +78,15 @@ export function detectLang(text: string): Lang | null {
 }
 
 type Doc = { chunk: Chunk; tf: Map<string, number>; len: number; title: string[] };
-type Index = { docs: Doc[]; df: Map<string, number>; avgLen: number };
+type Index = { src: Chunk[]; docs: Doc[]; df: Map<string, number>; avgLen: number };
 
 let index: Index | null = null;
 
-function getIndex(): Index {
-  if (index) return index;
-  const docs: Doc[] = getCorpus().map((chunk) => {
+async function getIndex(): Promise<Index> {
+  const chunks = await getCorpus();
+  // getCorpus returns the same array until it is rebuilt, so identity tells whether the index is current.
+  if (index && index.src === chunks) return index;
+  const docs: Doc[] = chunks.map((chunk) => {
     const title = tokenize(chunk.title);
     // Title words count twice in the body so short sections with a telling title still rank.
     const tokens = [...title, ...tokenize(chunk.text)];
@@ -95,7 +97,7 @@ function getIndex(): Index {
   const df = new Map<string, number>();
   for (const d of docs) for (const t of d.tf.keys()) df.set(t, (df.get(t) ?? 0) + 1);
   const avgLen = docs.reduce((n, d) => n + d.len, 0) / Math.max(1, docs.length);
-  index = { docs, df, avgLen };
+  index = { src: chunks, docs, df, avgLen };
   return index;
 }
 
@@ -109,8 +111,8 @@ export type SearchOptions = {
 };
 
 /** Top-k chunks for a query, best first. Near-zero matches are dropped. */
-export function search(query: string, opts: SearchOptions = {}): { lang: Lang; hits: Hit[] } {
-  const { docs, df, avgLen } = getIndex();
+export async function search(query: string, opts: SearchOptions = {}): Promise<{ lang: Lang; hits: Hit[] }> {
+  const { docs, df, avgLen } = await getIndex();
   const lang = detectLang(query) ?? (opts.context ? detectLang(opts.context) : null) ?? opts.lang ?? "en";
   const k = opts.k ?? 6;
 

@@ -2,7 +2,8 @@ import { pick } from "@/i18n/content";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { categories, type Product } from "@/content/products";
+import type { Product } from "@/content/products";
+import { getCategories } from "@/lib/catalog";
 import { ProductImage } from "@/components/product/ProductImage";
 import { Icon } from "@/components/ui/Icon";
 import { BrandMark } from "@/components/product/BrandMark";
@@ -10,7 +11,7 @@ import { ComboPrice } from "@/components/product/ComboDetails";
 
 export const quoteHref = (lang: Locale, slug: string) => `/${lang}/quote?product=${encodeURIComponent(slug)}`;
 
-export function ProductCard({
+export async function ProductCard({
   product,
   lang,
   t,
@@ -23,7 +24,7 @@ export function ProductCard({
   deferBody?: boolean;
 }) {
   const href = `/${lang}/products/${product.slug}`;
-  const category = categories.find((c) => c.id === product.category);
+  const category = (await getCategories()).find((c) => c.id === product.category);
   return (
     <article className="group flex w-full flex-col overflow-hidden lift rounded-lg border border-cream-200 bg-white hover:border-ink-400/40">
       <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-cream-100" aria-label={product.name}>
