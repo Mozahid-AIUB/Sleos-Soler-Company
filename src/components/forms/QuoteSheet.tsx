@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { localeTags, localizeDigits, type Locale } from "@/i18n/config";
 import { useSite } from "@/components/layout/SiteProvider";
-import { sendToWhatsApp } from "@/lib/whatsapp";
+import { whatsAppUrl } from "@/lib/whatsapp";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { Logo } from "@/components/ui/Logo";
 
@@ -487,9 +487,13 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
   const [photos, setPhotos] = useState<Picked[]>([]);
   const [bills, setBills] = useState<Picked[]>([]);
   const [sent, setSent] = useState<Sent | null>(null);
+  // The form is saved for the admin first; WhatsApp is then a button the visitor taps.
+  // (Opening WhatsApp straight away sent this tab to the background, where browsers pause the
+  // drawing below, so on phones the form often never arrived.)
+  const [saving, setSaving] = useState<"saving" | "saved" | "failed">("saving");
   const pending = useRef<FormData | null>(null);
 
-  // After sending: draw the printable copy as a picture (Bangla included, exactly as on screen)
+  // After "Send form": draw the printable copy as a picture (Bangla included, exactly as on screen)
   // and upload it with the photos and bills; the server turns them into one PDF for the admin.
   useEffect(() => {
     const body = pending.current;
@@ -516,7 +520,8 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
           sheet.classList.remove("qs-print--capture");
         }
       }
-      await fetch("/api/measurement-form", { method: "POST", body }).catch(() => {});
+      const res = await fetch("/api/measurement-form", { method: "POST", body }).catch(() => null);
+      setSaving(res?.ok ? "saved" : "failed");
     })();
   }, [sent]);
   // "1." and, for the PDF's sub-items, "39(i)." with locale digits (Bangla).
@@ -655,10 +660,9 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
             { title: title(8, t.sections.notes), rows: [[f.notes, v("notes")]] },
           ];
           const rows = groups.flatMap((g) => g.rows).filter((r): r is [string, string] => r[1] !== null);
-          const url = sendToWhatsApp(`${t.title} — OSLEOS website`, rows);
-          // Also send a copy, with the files, to the admin panel (Measurement forms): it goes
-          // out once the printable copy below is on the page (see the effect after `sent`).
-          // WhatsApp has already opened, so a failed upload loses nothing.
+          // Saved for the admin panel (Measurement forms) once the printable copy below is on the
+          // page (see the effect after `sent`); the same answers are ready for WhatsApp as well.
+          const url = whatsAppUrl(`${t.title} — OSLEOS website`, rows);
           const body = new FormData();
           body.append("website", v("website"));
           body.append(
@@ -677,6 +681,7 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
           photos.forEach((p) => body.append("photos", p.file));
           bills.forEach((p) => body.append("bills", p.file));
           pending.current = body;
+          setSaving("saving");
           const date = new Date().toLocaleDateString(localeTags[lang], { day: "numeric", month: "long", year: "numeric" });
           setSent({ url, groups, date });
           window.scrollTo({ top: (form.parentElement?.getBoundingClientRect().top ?? 0) + window.scrollY - 120 });
@@ -828,7 +833,6 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
 
         <div className="grid gap-3 border-t border-cream-200 pt-8">
           <button type="submit" className="btn btn-gold !min-h-[56px] w-full sm:w-auto sm:justify-self-start sm:!px-8">
-            <WhatsappIcon size={19} />
             {t.submit}
             <Icon name="arrowRight" size={18} />
           </button>
@@ -836,29 +840,39 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
       </form>
 
       {sent && (
-        <div role="status" className="py-6 sm:py-10">
-          <span className="flex h-12 w-12 items-center justify-center rounded-full bg-forest-900 text-gold-400">
-            <Icon name="check" size={24} strokeWidth={2.2} />
-          </span>
-          <h2 className="mt-6 text-[clamp(24px,2.6vw,32px)] font-bold leading-tight text-ink-900">{t.doneTitle}</h2>
-          <p className="lead mt-4 max-w-xl text-ink-600">{t.doneBody}</p>
-          {photos.length + bills.length > 0 && <ShareFiles files={[...photos, ...bills].map((x) => x.file)} t={t.upload} />}
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href={sent.url} target="_blank" rel="noopener noreferrer" className="btn btn-gold">
-              <WhatsappIcon size={18} />
-              {t.again}
-            </a>
-            <button type="button" onClick={printPdf} className="btn btn-dark">
-              <Icon name="download" size={18} />
-              {t.pdf.button}
-            </button>
-            <button type="button" onClick={() => setSent(null)} className="btn btn-outline">
-              {t.edit}
-            </button>
-          </div>
-          <p className="mt-3 max-w-xl text-[13.5px] leading-relaxed text-ink-400">
-            <span className="font-semibold text-ink-600">{t.pdf.title}.</span> {t.pdf.body}
-          </p>
+        <div role="status" aria-live="polite" className="py-6 sm:py-10">
+          {saving === "saving" ? (
+            <div className="flex items-center gap-4">
+              <span aria-hidden="true" className="h-10 w-10 animate-spin rounded-full border-[3px] border-cream-200 border-t-gold-500" />
+              <p className="text-[18px] font-semibold text-ink-900">{t.sending}</p>
+            </div>
+          ) : (
+            <>
+              <span className={`flex h-12 w-12 items-center justify-center rounded-full ${saving === "saved" ? "bg-forest-900 text-gold-400" : "bg-gold-500 text-forest-950"}`}>
+                <Icon name={saving === "saved" ? "check" : "arrowRight"} size={24} strokeWidth={2.2} />
+              </span>
+              <h2 className="mt-6 text-[clamp(24px,2.6vw,32px)] font-bold leading-tight text-ink-900">{saving === "saved" ? t.doneTitle : t.failTitle}</h2>
+              <p className="lead mt-4 max-w-xl text-ink-600">{saving === "saved" ? t.doneBody : t.failBody}</p>
+              {/* Files only need sending by hand when the website could not keep them. */}
+              {saving === "failed" && photos.length + bills.length > 0 && <ShareFiles files={[...photos, ...bills].map((x) => x.file)} t={t.upload} />}
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href={sent.url} target="_blank" rel="noopener noreferrer" className={saving === "saved" ? "btn btn-outline" : "btn btn-gold"}>
+                  <WhatsappIcon size={18} />
+                  {saving === "saved" ? t.again : t.submitWhatsapp}
+                </a>
+                <button type="button" onClick={printPdf} className="btn btn-dark">
+                  <Icon name="download" size={18} />
+                  {t.pdf.button}
+                </button>
+                <button type="button" onClick={() => setSent(null)} className="btn btn-outline">
+                  {t.edit}
+                </button>
+              </div>
+              <p className="mt-3 max-w-xl text-[13.5px] leading-relaxed text-ink-400">
+                <span className="font-semibold text-ink-600">{t.pdf.title}.</span> {t.pdf.body}
+              </p>
+            </>
+          )}
           <PrintSheet t={t} lang={lang} sent={sent} />
         </div>
       )}
