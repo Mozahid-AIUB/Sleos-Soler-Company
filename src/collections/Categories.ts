@@ -6,7 +6,7 @@ import { revalidateOnChange, revalidateOnDelete } from "./revalidate";
 export const Categories: CollectionConfig = {
   slug: "categories",
   labels: { singular: "Category", plural: "Categories" },
-  admin: { useAsTitle: "name", defaultColumns: ["slug", "name", "order"], group: "Website content", description: "The fixed list of website categories. You can rename a category or change its picture. Adding or removing categories is done by the owner only." },
+  admin: { useAsTitle: "name", defaultColumns: ["slug", "name", "order"], group: "Website content", components: { views: { list: { Component: "/components/admin/CategoriesView#CategoriesView" } } }, description: "The fixed list of website categories. You can rename a category or change its picture. Adding or removing categories is done by the owner only." },
   defaultSort: "order",
   // The category list is fixed (it drives the website menu): staff can rename and change pictures, only the owner can add or remove categories.
   access: { read: () => true, create: isOwner, update: isStaff, delete: isOwner },

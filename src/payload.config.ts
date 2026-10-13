@@ -26,7 +26,7 @@ export default buildConfig({
     meta: { titleSuffix: " · OSLEOS Admin", icons: [{ rel: "icon", url: "/icon.png" }] },
     // One light theme: the dark default was low-contrast and hard to read.
     theme: "light",
-    components: { beforeDashboard: ["/components/admin/Dashboard#Dashboard"], graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
+    components: { beforeNavLinks: ["/components/admin/SiteMenu#SiteMenu"], beforeDashboard: ["/components/admin/Dashboard#Dashboard"], graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
     importMap: { baseDir: path.resolve(dirname) },
   },
   collections: [Users, Media, Categories, Products, TeamMembers, Projects, Testimonials],

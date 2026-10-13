@@ -1,6 +1,7 @@
 import type { CollectionConfig, Field } from "payload";
 import { isStaff, publishedOrStaff } from "./access";
 import { requiredText, requiredTextarea } from "./validate";
+import { autoSlug } from "./slug";
 import { revalidateOnChange, revalidateOnDelete } from "./revalidate";
 
 /** A list of short lines, each in English and Bangla (highlights, applications, bundle contents…). */
@@ -19,13 +20,14 @@ export const Products: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["image", "name", "category", "brand", "featured", "_status"],
     description: "Add, edit or remove products. Status Draft = hidden from the website; Published = visible. Edit English first, then switch the Locale (top right) to add the Bangla text.",
-    listSearchableFields: ["name", "brand", "slug"],
+    listSearchableFields: ["name", "brand"],
+    pagination: { defaultLimit: 30, limits: [30, 60, 100] },
     group: "Website content",
   },
   // Draft → Publish: only published products show on the website.
   versions: { drafts: { autosave: false }, maxPerDoc: 20 },
   access: { read: publishedOrStaff, create: isStaff, update: isStaff, delete: isStaff },
-  hooks: { afterChange: [revalidateOnChange], afterDelete: [revalidateOnDelete] },
+  hooks: { beforeValidate: [autoSlug("name", "products")], afterChange: [revalidateOnChange], afterDelete: [revalidateOnDelete] },
   fields: [
     {
       type: "tabs",
@@ -38,24 +40,28 @@ export const Products: CollectionConfig = {
               type: "relationship",
               relationTo: "categories",
               required: true,
-              label: "Category (where it shows on the website)",
+              label: "Category",
               admin: {
-                description: "Choose from the list. The product will appear under this category in the website menu and Products page.",
+                description: "Step 1 · Choose where this product shows on the website.",
                 allowCreate: false,
                 allowEdit: false,
                 sortOptions: "order",
+                components: { Field: "/components/admin/CategoryField#CategoryField" },
               },
             },
-            { name: "name", type: "text", required: true, admin: { description: "Model name as the manufacturer markets it." } },
-            { name: "slug", type: "text", required: true, unique: true, index: true, admin: { description: "Used in the page link, e.g. jinko-tiger-neo. Letters, numbers and dashes." } },
-            { name: "brand", type: "text", admin: { description: "Leave empty for items OSLEOS specifies per project." } },
-            { name: "tagline", type: "text", localized: true, validate: requiredText },
-            { name: "description", type: "textarea", localized: true, validate: requiredTextarea },
-            { name: "keySpec", type: "text", localized: true, validate: requiredText, admin: { description: "One short line shown on the product card, e.g. 620 W · N-type." } },
-            { name: "image", type: "upload", relationTo: "media", required: true },
-            { name: "imageCredit", type: "text", localized: true, admin: { description: "Only for photos that need an attribution line." } },
-            { name: "datasheet", type: "upload", relationTo: "media", admin: { description: "Datasheet PDF for download." } },
-            { name: "warranty", type: "text", localized: true },
+            {
+              name: "image",
+              type: "upload",
+              relationTo: "media",
+              required: true,
+              label: "Photo",
+              admin: { description: "Step 2 · Drag a picture into the box, or press Create New and choose one. It is made smaller automatically, so any size is fine." },
+            },
+            { name: "name", type: "text", required: true, label: "Name", admin: { description: "Step 3 · e.g. Tiger Neo N-type 54HL4R-B" } },
+            { name: "brand", type: "text", label: "Brand", admin: { description: "Optional · e.g. Jinko Solar. Leave empty for OSLEOS products." } },
+            { name: "tagline", type: "text", localized: true, validate: requiredText, label: "Short line under the name", admin: { description: "e.g. Dual-glass N-type module for rooftops" } },
+            { name: "description", type: "textarea", localized: true, validate: requiredTextarea, label: "Description", admin: { description: "A few sentences about the product." } },
+            { name: "keySpec", type: "text", localized: true, validate: requiredText, label: "Key spec (one short line)", admin: { description: "Shown on the product card, e.g. 620 W · N-type." } },
           ],
         },
         {
@@ -73,6 +79,14 @@ export const Products: CollectionConfig = {
             lines("highlights", "Highlights"),
             lines("features", "Smart features", "Shown as its own block on the product page (optional)."),
             lines("applications", "Ideal applications", "Optional."),
+          ],
+        },
+        {
+          label: "Extras (optional)",
+          fields: [
+            { name: "datasheet", type: "upload", relationTo: "media", label: "Datasheet PDF", admin: { description: "Customers can download it from the product page." } },
+            { name: "warranty", type: "text", localized: true, label: "Warranty", admin: { description: "e.g. 12 years product, 30 years performance." } },
+            { name: "imageCredit", type: "text", localized: true, label: "Photo credit", admin: { description: "Only for photos that need an attribution line." } },
           ],
         },
         {
@@ -106,6 +120,7 @@ export const Products: CollectionConfig = {
         {
           label: "Advanced (usually leave empty)",
           fields: [
+            { name: "slug", type: "text", unique: true, index: true, label: "Page link", admin: { description: "Created automatically from the product name. Leave as it is." } },
             { name: "imagePosition", type: "text", admin: { description: "Crop focus for the card picture, e.g. 50% 25%. Usually empty." } },
             {
               name: "imageFit",

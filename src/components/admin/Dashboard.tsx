@@ -80,8 +80,8 @@ export async function Dashboard({ payload }: ServerProps) {
         <>
           <h3 className="osl-dash__sub">Products by category · ক্যাটাগরি অনুযায়ী প্রোডাক্ট</h3>
           <p className="osl-dash__hint">
-            Every product belongs to one category. Press Add product, then choose the category from the list at the top of the form.
-            <small>ফর্মের উপরের তালিকা থেকে ক্যাটাগরি বেছে নিন, ওয়েবসাইটে সেই ক্যাটাগরিতেই দেখাবে।</small>
+            Every product belongs to one category. Press Add product on a category card and that category is already chosen for you.
+            <small>ক্যাটাগরির কার্ড থেকে Add product চাপলে ক্যাটাগরি আগে থেকেই বাছা থাকবে।</small>
           </p>
           <div className="osl-dash__cats">
             {cats.map((c, i) => (
@@ -92,7 +92,7 @@ export async function Dashboard({ payload }: ServerProps) {
                 </span>
                 <div className="osl-dash__catlinks">
                   <Link href={`/admin/collections/products?where[or][0][and][0][category][equals]=${c.id}`}>View</Link>
-                  <Link href={`/admin/collections/products/create`} className="osl-dash__catadd">
+                  <Link href={`/admin/collections/products/create?category=${c.id}`} className="osl-dash__catadd">
                     + Add product
                   </Link>
                 </div>

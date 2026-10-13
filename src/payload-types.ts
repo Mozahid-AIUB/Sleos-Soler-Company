@@ -215,37 +215,33 @@ export interface Category {
 export interface Product {
   id: number;
   /**
-   * Choose from the list. The product will appear under this category in the website menu and Products page.
+   * Step 1 · Choose where this product shows on the website.
    */
   category: number | Category;
   /**
-   * Model name as the manufacturer markets it.
+   * Step 2 · Drag a picture into the box, or press Create New and choose one. It is made smaller automatically, so any size is fine.
+   */
+  image: number | Media;
+  /**
+   * Step 3 · e.g. Tiger Neo N-type 54HL4R-B
    */
   name: string;
   /**
-   * Used in the page link, e.g. jinko-tiger-neo. Letters, numbers and dashes.
-   */
-  slug: string;
-  /**
-   * Leave empty for items OSLEOS specifies per project.
+   * Optional · e.g. Jinko Solar. Leave empty for OSLEOS products.
    */
   brand?: string | null;
+  /**
+   * e.g. Dual-glass N-type module for rooftops
+   */
   tagline?: string | null;
+  /**
+   * A few sentences about the product.
+   */
   description?: string | null;
   /**
-   * One short line shown on the product card, e.g. 620 W · N-type.
+   * Shown on the product card, e.g. 620 W · N-type.
    */
   keySpec?: string | null;
-  image: number | Media;
-  /**
-   * Only for photos that need an attribution line.
-   */
-  imageCredit?: string | null;
-  /**
-   * Datasheet PDF for download.
-   */
-  datasheet?: (number | null) | Media;
-  warranty?: string | null;
   specs?:
     | {
         label?: string | null;
@@ -277,6 +273,18 @@ export interface Product {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Customers can download it from the product page.
+   */
+  datasheet?: (number | null) | Media;
+  /**
+   * e.g. 12 years product, 30 years performance.
+   */
+  warranty?: string | null;
+  /**
+   * Only for photos that need an attribution line.
+   */
+  imageCredit?: string | null;
   isCombo?: boolean | null;
   combo?: {
     offerPrice?: number | null;
@@ -322,6 +330,10 @@ export interface Product {
      */
     customise?: string | null;
   };
+  /**
+   * Created automatically from the product name. Leave as it is.
+   */
+  slug?: string | null;
   /**
    * Crop focus for the card picture, e.g. 50% 25%. Usually empty.
    */
@@ -388,10 +400,6 @@ export interface Project {
    */
   title?: string | null;
   /**
-   * Short id for the link: letters, numbers and dashes, e.g. expo-accessories-gazipur.
-   */
-  slug: string;
-  /**
    * e.g. Industrial · On-grid.
    */
   type?: string | null;
@@ -406,6 +414,10 @@ export interface Project {
   year?: string | null;
   summary?: string | null;
   image: number | Media;
+  /**
+   * Created automatically from the title. Leave as it is.
+   */
+  slug?: string | null;
   /**
    * Tick only for illustrative entries. Real projects must stay unticked.
    */
@@ -622,16 +634,12 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface ProductsSelect<T extends boolean = true> {
   category?: T;
+  image?: T;
   name?: T;
-  slug?: T;
   brand?: T;
   tagline?: T;
   description?: T;
   keySpec?: T;
-  image?: T;
-  imageCredit?: T;
-  datasheet?: T;
-  warranty?: T;
   specs?:
     | T
     | {
@@ -657,6 +665,9 @@ export interface ProductsSelect<T extends boolean = true> {
         text?: T;
         id?: T;
       };
+  datasheet?: T;
+  warranty?: T;
+  imageCredit?: T;
   isCombo?: T;
   combo?:
     | T
@@ -692,6 +703,7 @@ export interface ProductsSelect<T extends boolean = true> {
         transport?: T;
         customise?: T;
       };
+  slug?: T;
   imagePosition?: T;
   imageFit?: T;
   source?: T;
@@ -721,13 +733,13 @@ export interface TeamMembersSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   type?: T;
   location?: T;
   capacity?: T;
   year?: T;
   summary?: T;
   image?: T;
+  slug?: T;
   sample?: T;
   order?: T;
   updatedAt?: T;
