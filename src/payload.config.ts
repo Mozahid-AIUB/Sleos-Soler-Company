@@ -33,8 +33,15 @@ export default buildConfig({
     components: { beforeNavLinks: ["/components/admin/SiteMenu#SiteMenu"], beforeDashboard: ["/components/admin/Dashboard#Dashboard"], graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
     importMap: { baseDir: path.resolve(dirname) },
   },
-  collections: [Users, Media, Categories, Products, TeamMembers, Projects, Testimonials, MeasurementForms, LeadFiles],
-  globals: [SolutionsPage, Contact],
+  // Simpler for a non-technical editor: no "API" tab (a developer tool with a language picker) and
+  // no tick boxes for editing or deleting many items at once; each item is opened, changed or deleted on its own.
+  collections: [Users, Media, Categories, Products, TeamMembers, Projects, Testimonials, MeasurementForms, LeadFiles].map((c) => ({
+    ...c,
+    disableBulkEdit: true,
+    disableBulkDelete: true,
+    admin: { ...c.admin, hideAPIURL: true },
+  })),
+  globals: [SolutionsPage, Contact].map((g) => ({ ...g, admin: { ...g.admin, hideAPIURL: true } })),
   // First start after an update: fill Contact and Solutions with the texts the website shows today.
   onInit: seedGlobals,
   editor: lexicalEditor(),

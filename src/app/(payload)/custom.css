@@ -1080,3 +1080,16 @@ html[data-theme="light"] {
 .doc-controls__controls .btn--withPopup > .btn {
   border-radius: var(--style-radius-s, 4px);
 }
+
+/* No tick boxes in list tables: items are opened, changed or deleted one at a time
+   (bulk edit/delete are switched off in payload.config.ts). */
+th#heading-_select,
+td.cell-_select,
+.list-selection {
+  display: none !important;
+}
+
+/* Account page: no "Payload Settings" (interface language, reset preferences). */
+.payload-settings {
+  display: none !important;
+}
