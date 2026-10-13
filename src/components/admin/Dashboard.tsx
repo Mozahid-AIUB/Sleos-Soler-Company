@@ -1,128 +1,149 @@
+/* eslint-disable @next/next/no-img-element -- admin-only thumbnails */
 import Link from "next/link";
-import type { CSSProperties } from "react";
 import type { ServerProps } from "payload";
+import { AdminIcon } from "./icons";
+import { addProductTo, productsOf, thumbOf } from "./links";
 
 /*
- * First screen after login: big colourful "add something" cards, a card per
- * website category (so it is obvious which category a product belongs to),
- * and a three-step guide, in plain English with a short Bangla line.
+ * First screen after login. The same five sections as the website menu, then
+ * the product categories laid out like the website's Products drop-down, then
+ * a short how-to, in plain English.
  */
 
-type Collection = "products" | "team-members" | "projects" | "testimonials" | "media";
-type Action = { title: string; bn: string; href: string; collection: Collection; list: string; color: string };
+type Section = {
+  label: string;
+  icon: string;
+  open: string;
+  add?: { href: string; label: string };
+  count?: "products" | "projects" | "team-members" | "testimonials";
+  noun?: string;
+  note?: string;
+};
 
-const actions: Action[] = [
-  { title: "Add a product", bn: "নতুন প্রোডাক্ট যোগ করুন", href: "/admin/collections/products/create", collection: "products", list: "/admin/collections/products", color: "#b7791f" },
-  { title: "Add a team member", bn: "টিম মেম্বার যোগ করুন", href: "/admin/collections/team-members/create", collection: "team-members", list: "/admin/collections/team-members", color: "#0f766e" },
-  { title: "Add a project", bn: "নতুন প্রজেক্ট যোগ করুন", href: "/admin/collections/projects/create", collection: "projects", list: "/admin/collections/projects", color: "#2563eb" },
-  { title: "Add a customer review", bn: "কাস্টমার রিভিউ যোগ করুন", href: "/admin/collections/testimonials/create", collection: "testimonials", list: "/admin/collections/testimonials", color: "#7c3aed" },
-  { title: "Upload a photo or PDF", bn: "ছবি বা PDF আপলোড করুন", href: "/admin/collections/media/create", collection: "media", list: "/admin/collections/media", color: "#db2777" },
+const sections: Section[] = [
+  { label: "Products", icon: "products", open: "/admin/collections/products", count: "products", noun: "product" },
+  { label: "Solutions", icon: "solutions", open: "/admin/globals/solutions-page", note: "Page text and lists" },
+  { label: "Projects", icon: "projects", open: "/admin/collections/projects", add: { href: "/admin/collections/projects/create", label: "Add project" }, count: "projects", noun: "project" },
+  { label: "About", icon: "about", open: "/admin/collections/team-members", add: { href: "/admin/collections/team-members/create", label: "Add person" }, count: "team-members", noun: "team member" },
+  { label: "Contact", icon: "contact", open: "/admin/globals/contact", note: "Phone, email, address, map, social links" },
+  { label: "Customer reviews", icon: "reviews", open: "/admin/collections/testimonials", add: { href: "/admin/collections/testimonials/create", label: "Add review" }, count: "testimonials", noun: "review" },
 ];
 
-/** One colour per website category, in menu order. */
-const categoryColors = ["#d97706", "#0891b2", "#16a34a", "#9333ea", "#2563eb", "#dc2626", "#0d9488", "#c026d3", "#ea580c", "#4f46e5"];
+type Cat = { id: number | string; name: string; image?: string; count: number };
 
-type CategoryCard = { id: number | string; name: string; count: number };
+const plural = (n: number, noun: string) => `${n} ${noun}${n === 1 ? "" : "s"}`;
 
 export async function Dashboard({ payload }: ServerProps) {
-  const counts: Partial<Record<Collection, number>> = {};
-  let cats: CategoryCard[] = [];
+  const counts: Partial<Record<NonNullable<Section["count"]>, number>> = {};
+  let cats: Cat[] = [];
+  let newForms = 0;
   try {
+    newForms = (await payload.count({ collection: "measurement-forms", where: { status: { equals: "new" } } })).totalDocs;
     await Promise.all(
-      actions.map(async (a) => {
-        counts[a.collection] = (await payload.count({ collection: a.collection })).totalDocs;
+      sections.map(async (s) => {
+        if (s.count) counts[s.count] = (await payload.count({ collection: s.count })).totalDocs;
       }),
     );
-    const found = await payload.find({ collection: "categories", sort: "order", limit: 50, depth: 0, pagination: false });
+    const found = await payload.find({ collection: "categories", sort: "order", limit: 50, depth: 1, pagination: false });
     cats = await Promise.all(
       found.docs.map(async (c) => ({
         id: c.id,
         name: c.name || c.slug,
+        image: thumbOf(c.image),
         count: (await payload.count({ collection: "products", where: { category: { equals: c.id } } })).totalDocs,
       })),
     );
   } catch {
-    /* counts are a nicety; the buttons still work without them */
+    /* counts are a nicety; the links still work without them */
   }
 
   return (
     <div className="osl-dash">
-      <h2 className="osl-dash__title">What would you like to do?</h2>
-      <p className="osl-dash__bn">আপনি কী করতে চান?</p>
+      <header className="osl-dash__head">
+        <h1>What would you like to change?</h1>
+        <p>
+          The menu on the left has the same names as the website menu. Open a section to add, change, hide or delete.
+        </p>
+      </header>
+
+      {newForms > 0 && (
+        <Link href="/admin/collections/measurement-forms?where[status][equals]=new" className="osl-dash__alert">
+          <span className="osl-dash__alertnum">{newForms}</span>
+          <span>
+            <strong>
+              New Measurement Form{newForms === 1 ? "" : "s"} from the website
+            </strong>
+            <small>Open to see the answers, photos and bills, then call the customer.</small>
+          </span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      )}
 
       <div className="osl-dash__grid">
-        {actions.map((a) => (
-          <div key={a.href} className="osl-dash__card">
-            <Link href={a.href} className="osl-dash__action" style={{ "--c": a.color } as CSSProperties}>
-              <span className="osl-dash__plus" aria-hidden="true">+</span>
-              <span>
-                <strong>{a.title}</strong>
-                <small>{a.bn}</small>
+        {sections.map((s) => (
+          <section key={s.label} className="osl-dash__card">
+            <Link href={s.open} className="osl-dash__main">
+              <span className="osl-dash__icon">
+                <AdminIcon name={s.icon} size={22} />
               </span>
+              <span className="osl-dash__name">{s.label}</span>
+              <span className="osl-dash__meta">{s.count && counts[s.count] !== undefined ? plural(counts[s.count]!, s.noun!) : s.note}</span>
             </Link>
-            <Link href={a.list} className="osl-dash__list" style={{ "--c": a.color } as CSSProperties}>
-              See all{counts[a.collection] !== undefined ? ` (${counts[a.collection]})` : ""} · সব দেখুন
-            </Link>
-          </div>
+            <div className="osl-dash__actions">
+              <Link href={s.open} className="osl-btn osl-btn--ghost">
+                {s.count ? "See all" : "Edit"}
+              </Link>
+              {s.add && (
+                <Link href={s.add.href} className="osl-btn">
+                  <AdminIcon name="plus" size={16} />
+                  {s.add.label}
+                </Link>
+              )}
+            </div>
+          </section>
         ))}
-        <div className="osl-dash__card">
-          <a href="/en" target="_blank" rel="noreferrer" className="osl-dash__action osl-dash__action--site">
-            <span className="osl-dash__plus" aria-hidden="true">↗</span>
-            <span>
-              <strong>View the website</strong>
-              <small>ওয়েবসাইট দেখুন</small>
-            </span>
-          </a>
-        </div>
       </div>
 
       {cats.length > 0 && (
-        <>
-          <h3 className="osl-dash__sub">Products by category · ক্যাটাগরি অনুযায়ী প্রোডাক্ট</h3>
-          <p className="osl-dash__hint">
-            Every product belongs to one category. Press Add product on a category card and that category is already chosen for you.
-            <small>ক্যাটাগরির কার্ড থেকে Add product চাপলে ক্যাটাগরি আগে থেকেই বাছা থাকবে।</small>
-          </p>
-          <div className="osl-dash__cats">
-            {cats.map((c, i) => (
-              <div key={c.id} className="osl-dash__cat" style={{ "--c": categoryColors[i % categoryColors.length] } as CSSProperties}>
-                <strong>{c.name}</strong>
-                <span className="osl-dash__badge">
-                  {c.count} product{c.count === 1 ? "" : "s"}
-                </span>
-                <div className="osl-dash__catlinks">
-                  <Link href={`/admin/collections/products?where[or][0][and][0][category][equals]=${c.id}`}>View</Link>
-                  <Link href={`/admin/collections/products/create?category=${c.id}`} className="osl-dash__catadd">
-                    + Add product
-                  </Link>
-                </div>
+        <section className="osl-dash__cats">
+          <div className="osl-dash__cathead">
+            <h2>Products by category</h2>
+            <p>Like the Products menu on the website. Click a category to see its products.</p>
+          </div>
+          <div className="osl-mega">
+            {cats.map((c) => (
+              <div key={c.id} className="osl-mega__item">
+                <Link href={productsOf(c.id)} className="osl-mega__link">
+                  {c.image ? <img src={c.image} alt="" /> : <span className="osl-mega__noimg" />}
+                  <span>
+                    <strong>{c.name}</strong>
+                    <small>{plural(c.count, "product")}</small>
+                  </span>
+                </Link>
+                <Link href={addProductTo(c.id)} className="osl-mega__add" title={`Add a product to ${c.name}`}>
+                  <AdminIcon name="plus" size={16} />
+                  Add
+                </Link>
               </div>
             ))}
           </div>
-        </>
+        </section>
       )}
 
-      <div className="osl-dash__guide">
-        <h3>How to change the website in 3 steps · ৩ ধাপে ওয়েবসাইট বদলান</h3>
+      <section className="osl-dash__help">
+        <h2>How to change something</h2>
         <ol>
           <li>
-            <strong>Fill in the English text.</strong> Pick the item (or press <em>Create New</em>) and write in English.
-            <small>প্রথমে ইংরেজি লেখাটি লিখুন।</small>
+            <strong>Open the item</strong> and change the text, or press <em>Add</em> for a new one.
           </li>
           <li>
-            <strong>Switch the language to বাংলা</strong> (<em>Locale</em>, top right) and write the Bangla text in the same boxes.
-            <small>উপরে ডানে Locale থেকে বাংলা বেছে একই ঘরে বাংলা লিখুন। বাংলা না লিখলে ইংরেজি দেখাবে।</small>
+            <strong>Write in English.</strong> Everything in the admin is in English.
           </li>
           <li>
-            <strong>Press Publish.</strong> The website updates within a minute.
-            <small>Publish চাপুন। ১ মিনিটের মধ্যে ওয়েবসাইটে দেখা যাবে।</small>
+            <strong>Press Save.</strong> The website shows the change within a minute. <em>Hide from website</em> keeps it safe without deleting.
           </li>
         </ol>
-        <p className="osl-dash__tip">
-          <strong>Hiding something?</strong> Open it and press <em>Unpublish</em> instead of deleting. You can bring it back any time.
-          <small>মুছে না ফেলে Unpublish করলে লুকানো থাকে, পরে আবার দেখানো যায়।</small>
-        </p>
-      </div>
+      </section>
     </div>
   );
 }

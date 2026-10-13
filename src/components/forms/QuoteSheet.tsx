@@ -1,11 +1,11 @@
 "use client";
 
-import { Suspense, useId, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useId, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useSearchParams } from "next/navigation";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { localeTags, localizeDigits, type Locale } from "@/i18n/config";
-import { site } from "@/content/site";
+import { useSite } from "@/components/layout/SiteProvider";
 import { sendToWhatsApp } from "@/lib/whatsapp";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { Logo } from "@/components/ui/Logo";
@@ -23,7 +23,7 @@ import { Logo } from "@/components/ui/Logo";
 type T = Dictionary["quote"];
 
 const MAX_FILES = 10;
-const MAX_BYTES = 10 * 1024 * 1024;
+const MAX_BYTES = 5 * 1024 * 1024;
 const ACCEPT = ".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png";
 const OK_TYPE = /\.(pdf|jpe?g|png)$/i;
 
@@ -409,6 +409,7 @@ function ShareFiles({ files, t }: { files: File[]; t: T["upload"] }) {
  * clean one-document PDF in any language, Bangla included.
  */
 function PrintSheet({ t, lang, sent }: { t: T; lang: Locale; sent: Sent }) {
+  const site = useSite();
   const address = lang === "bn" ? site.address.bn : site.address.en;
   return createPortal(
     <div className="qs-print" lang={localeTags[lang]}>
@@ -486,6 +487,38 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
   const [photos, setPhotos] = useState<Picked[]>([]);
   const [bills, setBills] = useState<Picked[]>([]);
   const [sent, setSent] = useState<Sent | null>(null);
+  const pending = useRef<FormData | null>(null);
+
+  // After sending: draw the printable copy as a picture (Bangla included, exactly as on screen)
+  // and upload it with the photos and bills; the server turns them into one PDF for the admin.
+  useEffect(() => {
+    const body = pending.current;
+    if (!sent || !body) return;
+    pending.current = null;
+    void (async () => {
+      const sheet = document.querySelector<HTMLElement>(".qs-print");
+      if (sheet) {
+        sheet.classList.add("qs-print--capture");
+        try {
+          await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+          await document.fonts?.ready;
+          const top = sheet.getBoundingClientRect().top;
+          // Good places for a page break: the top of each section and row.
+          const breaks = Array.from(sheet.querySelectorAll("section, tr, footer, .qs-print-sign"), (n) => Math.round(n.getBoundingClientRect().top - top));
+          const { toJpeg } = await import("html-to-image");
+          const url = await toJpeg(sheet, { quality: 0.92, pixelRatio: 2, backgroundColor: "#ffffff", style: { position: "static", left: "0", top: "0" } });
+          body.append("sheet", await (await fetch(url)).blob(), "form.jpg");
+          body.append("sheetWidth", String(sheet.offsetWidth));
+          body.append("breaks", JSON.stringify(breaks));
+        } catch {
+          /* the form still goes out; the admin then lists the answers instead */
+        } finally {
+          sheet.classList.remove("qs-print--capture");
+        }
+      }
+      await fetch("/api/measurement-form", { method: "POST", body }).catch(() => {});
+    })();
+  }, [sent]);
   // "1." and, for the PDF's sub-items, "39(i)." with locale digits (Bangla).
   const N = (n: number, sub?: string) => localizeDigits(`${n}`, lang) + (sub ?? "") + ".";
   const capacityUnits = [u.kw, u.mw] as const;
@@ -623,11 +656,34 @@ export function QuoteSheet({ lang, t, productNames }: { lang: Locale; t: T; prod
           ];
           const rows = groups.flatMap((g) => g.rows).filter((r): r is [string, string] => r[1] !== null);
           const url = sendToWhatsApp(`${t.title} — OSLEOS website`, rows);
+          // Also send a copy, with the files, to the admin panel (Measurement forms): it goes
+          // out once the printable copy below is on the page (see the effect after `sent`).
+          // WhatsApp has already opened, so a failed upload loses nothing.
+          const body = new FormData();
+          body.append("website", v("website"));
+          body.append(
+            "data",
+            JSON.stringify({
+              lang,
+              contactPerson: v("contactPerson"),
+              phone: v("phone"),
+              email: v("email"),
+              company: v("company"),
+              location: v("location"),
+              projectType: withOther("projectType", f.projectTypes),
+              groups,
+            }),
+          );
+          photos.forEach((p) => body.append("photos", p.file));
+          bills.forEach((p) => body.append("bills", p.file));
+          pending.current = body;
           const date = new Date().toLocaleDateString(localeTags[lang], { day: "numeric", month: "long", year: "numeric" });
           setSent({ url, groups, date });
           window.scrollTo({ top: (form.parentElement?.getBoundingClientRect().top ?? 0) + window.scrollY - 120 });
         }}
       >
+        {/* Left empty by people (hidden); bots fill it and the server ignores the form. */}
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
         <div className="grid gap-2">
           <p className="text-[14px] font-medium text-ink-900">
             <span aria-hidden="true" className="font-semibold text-red-600">

@@ -4,7 +4,12 @@ import { hasRole, isOwner, isOwnerField } from "./access";
 export const Users: CollectionConfig = {
   slug: "users",
   labels: { singular: "Staff user", plural: "Staff users" },
-  admin: { useAsTitle: "email", defaultColumns: ["email", "name", "roles"], group: "Team and access" },
+  admin: {
+    useAsTitle: "email",
+    defaultColumns: ["email", "name", "roles"],
+    group: "Team and access",
+    components: { beforeListTable: [{ path: "/components/admin/AddCard#AddCard", clientProps: { label: "Add a staff user" } }] },
+  },
   auth: {
     tokenExpiration: 60 * 60 * 12,
     maxLoginAttempts: 8,

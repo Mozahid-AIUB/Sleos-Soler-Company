@@ -3,7 +3,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { site, whatsappLink } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 import { QuoteForm } from "@/components/forms/QuoteForm";
 import { SocialLinks } from "@/components/layout/SocialLinks";
 import { SplitText } from "@/components/motion/SplitText";
@@ -12,7 +12,7 @@ import { Icon } from "@/components/ui/Icon";
 const idx = (i: number) => ({ "--i": i }) as CSSProperties;
 const linkClass = "underline decoration-cream-200 underline-offset-4 transition-colors hover:text-forest-900 hover:decoration-forest-900";
 
-export function ContactSection({
+export async function ContactSection({
   lang,
   t,
   heading = true,
@@ -21,6 +21,8 @@ export function ContactSection({
   t: Dictionary["contact"];
   heading?: boolean;
 }) {
+  const site = await getSite();
+  const whatsappLink = site.whatsappLink;
   const rows: { label: string; value: ReactNode }[] = [
     {
       label: t.call,

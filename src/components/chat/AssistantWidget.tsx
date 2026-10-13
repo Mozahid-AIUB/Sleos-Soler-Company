@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useRef, useState, type ReactNode } from "react";
-import { whatsappLink } from "@/content/site";
+import { useSite } from "@/components/layout/SiteProvider";
 import { WhatsappIcon } from "@/components/ui/Icon";
 import type { Locale } from "@/i18n/config";
 import { WHATSAPP_GREETING, type AssistantStrings } from "./types";
@@ -16,6 +16,7 @@ const ChatPanel = dynamic(loadPanel, { ssr: false });
  * the AI assistant (charcoal + gold) and WhatsApp (brand green).
  */
 export function AssistantWidget({ lang, t }: { lang: Locale; t: AssistantStrings }) {
+  const { whatsappLink } = useSite();
   const [chatOpen, setChatOpen] = useState(false);
   const [chatLoaded, setChatLoaded] = useState(false);
   const aiRef = useRef<HTMLButtonElement>(null);

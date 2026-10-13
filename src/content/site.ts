@@ -51,5 +51,49 @@ export const site = {
   ],
 } as const;
 
-export const whatsappLink = (text?: string) =>
-  `https://wa.me/${site.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+/** wa.me link for a WhatsApp number (digits only, with country code). */
+export const waLink = (digits: string, text?: string) => `https://wa.me/${digits}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
+
+export const whatsappLink = (text?: string) => waLink(site.whatsapp, text);
+
+/**
+ * The contact part of `site`, which the client can change in the admin
+ * (Contact page). Server code reads the live values with getSite() from
+ * src/lib/site-content.ts; client components with useSite().
+ */
+export type SiteContact = {
+  phones: readonly { display: string; href: string }[];
+  phone: string;
+  phoneHref: string;
+  email: string;
+  whatsapp: string;
+  whatsappDisplay: string;
+  address: { en: string; bn: string };
+  mapsUrl: string;
+  mapsEmbedUrl: string;
+  social: { facebook: string; instagram: string; linkedin: string; youtube: string };
+};
+
+export type SiteInfo = Omit<typeof site, keyof SiteContact> & SiteContact & { whatsappLink: (text?: string) => string };
+
+export const telHref = (display: string) => `tel:${display.replace(/[^\d+]/g, "")}`;
+
+/** `site` with the given contact details (the static ones when none are given). */
+export function withContact(contact?: Partial<SiteContact>): SiteInfo {
+  const merged = { ...site, ...contact };
+  return { ...merged, whatsappLink: (text?: string) => waLink(merged.whatsapp, text) };
+}
+
+/** Just the contact fields (plain data, safe to pass to client components). */
+export const contactOf = (s: SiteInfo): SiteContact => ({
+  phones: s.phones,
+  phone: s.phone,
+  phoneHref: s.phoneHref,
+  email: s.email,
+  whatsapp: s.whatsapp,
+  whatsappDisplay: s.whatsappDisplay,
+  address: s.address,
+  mapsUrl: s.mapsUrl,
+  mapsEmbedUrl: s.mapsEmbedUrl,
+  social: s.social,
+});

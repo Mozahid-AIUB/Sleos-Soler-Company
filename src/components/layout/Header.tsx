@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, type CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { locales, type Locale } from "@/i18n/config";
-import { site, whatsappLink } from "@/content/site";
+import { useSite } from "@/components/layout/SiteProvider";
 import { Logo } from "@/components/ui/Logo";
 import { CategoryLink } from "@/components/product/CategoryLink";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
@@ -35,6 +35,8 @@ const menuRow = (open: boolean, i: number) => ({
 const PLAIN_PAGE = new RegExp(`^/(${locales.join("|")})/(products/[^/]+|cart|checkout)/?$`);
 
 export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["nav"]; categories: NavCategory[] }) {
+  const site = useSite();
+  const whatsappLink = site.whatsappLink;
   const pathname = usePathname();
   const overHero = !PLAIN_PAGE.test(pathname);
   const [scrolled, setScrolled] = useState(false);

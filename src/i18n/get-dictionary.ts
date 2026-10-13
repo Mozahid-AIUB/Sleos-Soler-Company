@@ -1,5 +1,6 @@
 import "server-only";
 import type { Locale } from "./config";
+import { applySiteContent } from "@/lib/site-content";
 
 const dictionaries = {
   en: () => import("./dictionaries/en").then((m) => m.default),
@@ -9,4 +10,5 @@ const dictionaries = {
   bn: () => import("./dictionaries/bn").then((m) => m.default),
 };
 
-export const getDictionary = (lang: Locale) => dictionaries[lang]();
+/** Built-in texts of a language, with the client's admin edits (Contact, Solutions) applied for English and Bangla. */
+export const getDictionary = async (lang: Locale) => applySiteContent(await dictionaries[lang](), lang);

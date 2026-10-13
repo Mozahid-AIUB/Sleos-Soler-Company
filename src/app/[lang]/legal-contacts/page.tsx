@@ -6,7 +6,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { site } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 import { PageHero } from "@/components/ui/PageHero";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/legal-contacts">): Promise<Metadata> {
@@ -20,6 +20,7 @@ const at = (i: number) => ({ "--i": i }) as CSSProperties;
 const linkClass = "underline decoration-cream-200 underline-offset-4 transition-colors hover:text-forest-900 hover:decoration-forest-900";
 
 export default async function LegalContactsPage({ params }: PageProps<"/[lang]/legal-contacts">) {
+  const site = await getSite();
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);

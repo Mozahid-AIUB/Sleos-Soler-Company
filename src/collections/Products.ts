@@ -1,8 +1,10 @@
+import { deviceUpload, openCell, tickCell } from "./adminParts";
 import type { CollectionConfig, Field } from "payload";
 import { isStaff, publishedOrStaff } from "./access";
 import { requiredText, requiredTextarea } from "./validate";
 import { autoSlug } from "./slug";
 import { revalidateOnChange, revalidateOnDelete } from "./revalidate";
+import { clearStaleBangla } from "./staleBangla";
 
 /** A list of short lines, each in English and Bangla (highlights, applications, bundle contents…). */
 const lines = (name: string, label: string, description?: string): Field => ({
@@ -19,15 +21,16 @@ export const Products: CollectionConfig = {
   admin: {
     useAsTitle: "name",
     defaultColumns: ["image", "name", "category", "brand", "featured", "_status"],
-    description: "Add, edit or remove products. Status Draft = hidden from the website; Published = visible. Edit English first, then switch the Locale (top right) to add the Bangla text.",
+    description: "Hidden products are kept here but not shown on the website.",
     listSearchableFields: ["name", "brand"],
     pagination: { defaultLimit: 30, limits: [30, 60, 100] },
     group: "Website content",
+    components: { beforeListTable: ["/components/admin/ProductTabs#ProductTabs"] },
   },
   // Draft → Publish: only published products show on the website.
   versions: { drafts: { autosave: false }, maxPerDoc: 20 },
   access: { read: publishedOrStaff, create: isStaff, update: isStaff, delete: isStaff },
-  hooks: { beforeValidate: [autoSlug("name", "products")], afterChange: [revalidateOnChange], afterDelete: [revalidateOnDelete] },
+  hooks: { beforeValidate: [autoSlug("name", "products")], afterChange: [revalidateOnChange, clearStaleBangla], afterDelete: [revalidateOnDelete] },
   fields: [
     {
       type: "tabs",
@@ -55,9 +58,9 @@ export const Products: CollectionConfig = {
               relationTo: "media",
               required: true,
               label: "Photo",
-              admin: { description: "Step 2 · Drag a picture into the box, or press Create New and choose one. It is made smaller automatically, so any size is fine." },
+              admin: { description: "Step 2 · Any size is fine, it is made smaller automatically.", components: deviceUpload() },
             },
-            { name: "name", type: "text", required: true, label: "Name", admin: { description: "Step 3 · e.g. Tiger Neo N-type 54HL4R-B" } },
+            { name: "name", type: "text", required: true, label: "Name", admin: { description: "Step 3 · e.g. Tiger Neo N-type 54HL4R-B", components: openCell } },
             { name: "brand", type: "text", label: "Brand", admin: { description: "Optional · e.g. Jinko Solar. Leave empty for OSLEOS products." } },
             { name: "tagline", type: "text", localized: true, validate: requiredText, label: "Short line under the name", admin: { description: "e.g. Dual-glass N-type module for rooftops" } },
             { name: "description", type: "textarea", localized: true, validate: requiredTextarea, label: "Description", admin: { description: "A few sentences about the product." } },
@@ -84,7 +87,7 @@ export const Products: CollectionConfig = {
         {
           label: "Extras (optional)",
           fields: [
-            { name: "datasheet", type: "upload", relationTo: "media", label: "Datasheet PDF", admin: { description: "Customers can download it from the product page." } },
+            { name: "datasheet", type: "upload", relationTo: "media", label: "Datasheet PDF", admin: { description: "Customers can download it from the product page.", components: deviceUpload("application/pdf") } },
             { name: "warranty", type: "text", localized: true, label: "Warranty", admin: { description: "e.g. 12 years product, 30 years performance." } },
             { name: "imageCredit", type: "text", localized: true, label: "Photo credit", admin: { description: "Only for photos that need an attribution line." } },
           ],
@@ -133,6 +136,6 @@ export const Products: CollectionConfig = {
         },
       ],
     },
-    { name: "featured", type: "checkbox", defaultValue: false, label: "Featured on the home page", admin: { position: "sidebar" } },
+    { name: "featured", type: "checkbox", defaultValue: false, label: "Featured on the home page", admin: { position: "sidebar", components: tickCell } },
   ],
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { site, whatsappLink } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 import { getCategories } from "@/lib/catalog";
 import { Logo } from "@/components/ui/Logo";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
@@ -15,6 +15,8 @@ import sredaLogo from "../../../public/brand/sreda-logo.webp";
 import bstiLogo from "../../../public/brand/bsti-logo.webp";
 
 export async function Footer({ lang, t }: { lang: Locale; t: Dictionary }) {
+  const site = await getSite();
+  const whatsappLink = site.whatsappLink;
   const f = t.footer;
   const categories = await getCategories();
   // Colour shift plus a hairline underline drawn from the left on hover/focus.

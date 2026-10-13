@@ -6,7 +6,7 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { PageHero } from "@/components/ui/PageHero";
 import { LegalDoc } from "@/components/legal/LegalDoc";
 import { Icon } from "@/components/ui/Icon";
-import { site } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/security">): Promise<Metadata> {
   const { lang } = await params;
@@ -16,6 +16,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/security">
 }
 
 export default async function SecurityPage({ params }: PageProps<"/[lang]/security">) {
+  const site = await getSite();
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);

@@ -7,7 +7,9 @@ import { pageAlternates } from "@/lib/seo";
 import { pick } from "@/i18n/content";
 import { getCategories } from "@/lib/catalog";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { site } from "@/content/site";
+import { site, contactOf, type SiteInfo } from "@/content/site";
+import { getSite } from "@/lib/site-content";
+import { SiteProvider } from "@/components/layout/SiteProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { AssistantWidget } from "@/components/chat/AssistantWidget";
@@ -85,7 +87,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 }
 
 /** Organisation + website data for Google (knowledge panel, local results). */
-const orgSchema = {
+const orgSchema = (site: SiteInfo) => ({
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -111,12 +113,12 @@ const orgSchema = {
     },
     { "@type": "WebSite", "@id": `${site.url}/#website`, url: site.url, name: site.name, publisher: { "@id": `${site.url}/#organization` }, inLanguage: locales.map((l) => localeTags[l]) },
   ],
-};
+});
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const [t, categories] = await Promise.all([getDictionary(lang), getCategories()]);
+  const [t, categories, live] = await Promise.all([getDictionary(lang), getCategories(), getSite()]);
 
   return (
     <html lang={localeTags[lang]} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable} ${taka.variable}`}>
@@ -124,6 +126,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-gold-500 focus:px-5 focus:py-3 focus:font-semibold focus:text-forest-950">
           Skip to content
         </a>
+        <SiteProvider contact={contactOf(live)}>
         <Header
           lang={lang}
           t={t.nav}
@@ -132,8 +135,9 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <main id="main">{children}</main>
         <Footer lang={lang} t={t} />
         <AssistantWidget lang={lang} t={t.assistant} />
+        </SiteProvider>
         <MotionProvider />
-        <JsonLd data={orgSchema} />
+        <JsonLd data={orgSchema(live)} />
         <Analytics />
       </body>
     </html>

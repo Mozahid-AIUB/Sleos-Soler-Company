@@ -432,9 +432,9 @@ const zh: Dictionary = {
     upload: {
       choose: "选择文件",
       drop: "或将文件拖放到此处",
-      types: "PDF、JPG 或 PNG · 每个文件不超过 10 MB · 最多 10 个文件",
+      types: "PDF、JPG 或 PNG · 每个文件不超过 5 MB · 最多 10 个文件",
       remove: "移除",
-      tooLarge: "超过 10 MB",
+      tooLarge: "超过 5 MB",
       badType: "不是 PDF、JPG 或 PNG 文件",
       tooMany: "最多可附加 10 个文件。",
       attached: "已附加的文件",

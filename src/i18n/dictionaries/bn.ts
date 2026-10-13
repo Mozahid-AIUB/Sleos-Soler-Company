@@ -432,9 +432,9 @@ const bn: Dictionary = {
     upload: {
       choose: "ফাইল বেছে নিন",
       drop: "অথবা এখানে টেনে এনে ছাড়ুন",
-      types: "PDF, JPG বা PNG · প্রতিটি সর্বোচ্চ ১০ MB · সর্বোচ্চ ১০টি ফাইল",
+      types: "PDF, JPG বা PNG · প্রতিটি সর্বোচ্চ ৫ MB · সর্বোচ্চ ১০টি ফাইল",
       remove: "সরান",
-      tooLarge: "১০ MB-এর চেয়ে বড়",
+      tooLarge: "৫ MB-এর চেয়ে বড়",
       badType: "PDF, JPG বা PNG ফাইল নয়",
       tooMany: "সর্বোচ্চ ১০টি ফাইল যুক্ত করা যাবে।",
       attached: "যুক্ত ফাইল",

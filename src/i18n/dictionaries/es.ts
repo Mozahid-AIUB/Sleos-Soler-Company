@@ -432,9 +432,9 @@ const es: Dictionary = {
     upload: {
       choose: "Elegir archivos",
       drop: "o arrástrelos y suéltelos aquí",
-      types: "PDF, JPG o PNG · hasta 10 MB cada uno · máximo 10 archivos",
+      types: "PDF, JPG o PNG · hasta 5 MB cada uno · máximo 10 archivos",
       remove: "Quitar",
-      tooLarge: "supera los 10 MB",
+      tooLarge: "supera los 5 MB",
       badType: "no es un archivo PDF, JPG o PNG",
       tooMany: "Puede adjuntar hasta 10 archivos.",
       attached: "Archivos adjuntos",

@@ -8,7 +8,9 @@ export const Media: CollectionConfig = {
   labels: { singular: "File", plural: "Media library" },
   admin: { useAsTitle: "filename", group: "Website content" },
   access: {
-    read: () => true,
+    // Public, but never a file in a sub-folder: media/form-files holds the private
+    // Measurement Form uploads (LeadFiles) and must not be reachable through /api/media/file/….
+    read: ({ data, isReadingStaticFile }) => !(isReadingStaticFile && /[\\/]|%2f|%5c/i.test(String(data?.filename ?? ""))),
     create: isStaff,
     update: isStaff,
     delete: isStaff,

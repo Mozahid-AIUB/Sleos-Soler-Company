@@ -1,7 +1,9 @@
+import { deviceUpload } from "./adminParts";
 import type { CollectionConfig } from "payload";
 import { isOwner, isOwnerField, isStaff } from "./access";
 import { requiredText } from "./validate";
 import { revalidateOnChange, revalidateOnDelete } from "./revalidate";
+import { clearStaleBangla } from "./staleBangla";
 
 export const Categories: CollectionConfig = {
   slug: "categories",
@@ -10,12 +12,12 @@ export const Categories: CollectionConfig = {
   defaultSort: "order",
   // The category list is fixed (it drives the website menu): staff can rename and change pictures, only the owner can add or remove categories.
   access: { read: () => true, create: isOwner, update: isStaff, delete: isOwner },
-  hooks: { afterChange: [revalidateOnChange], afterDelete: [revalidateOnDelete] },
+  hooks: { afterChange: [revalidateOnChange, clearStaleBangla], afterDelete: [revalidateOnDelete] },
   fields: [
     { name: "slug", type: "text", required: true, unique: true, index: true, access: { update: isOwnerField }, admin: { description: "Short id used in links, e.g. panels. Do not change after launch." } },
     { name: "name", type: "text", localized: true, validate: requiredText },
     { name: "blurb", type: "text", localized: true },
-    { name: "image", type: "upload", relationTo: "media" },
+    { name: "image", type: "upload", relationTo: "media", label: "Picture", admin: { components: deviceUpload() } },
     { name: "order", type: "number", defaultValue: 0, admin: { position: "sidebar" } },
   ],
 };

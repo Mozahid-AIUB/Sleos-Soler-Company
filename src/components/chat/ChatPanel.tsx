@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
-import { whatsappLink } from "@/content/site";
+import { useSite } from "@/components/layout/SiteProvider";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 import { WHATSAPP_GREETING, type ChatPanelProps } from "./types";
 
@@ -64,6 +64,7 @@ function renderText(text: string, lang: string): ReactNode[] {
 }
 
 export default function ChatPanel({ lang, t, open, onClose }: ChatPanelProps) {
+  const { whatsappLink } = useSite();
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);

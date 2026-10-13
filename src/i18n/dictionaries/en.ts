@@ -430,9 +430,9 @@ const en = {
     upload: {
       choose: "Choose files",
       drop: "or drag and drop them here",
-      types: "PDF, JPG or PNG · up to 10 MB each · max 10 files",
+      types: "PDF, JPG or PNG · up to 5 MB each · max 10 files",
       remove: "Remove",
-      tooLarge: "is larger than 10 MB",
+      tooLarge: "is larger than 5 MB",
       badType: "is not a PDF, JPG or PNG file",
       tooMany: "You can attach up to 10 files.",
       attached: "Attached files",

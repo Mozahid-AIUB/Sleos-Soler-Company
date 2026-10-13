@@ -540,6 +540,20 @@ html.lenis body {
   display: none;
 }
 
+/* Briefly laid out off-screen while QuoteSheet draws it as a picture for the admin PDF. */
+.qs-print.qs-print--capture {
+  display: block;
+  position: fixed;
+  left: -10000px;
+  top: 0;
+  width: 794px;
+  padding: 40px;
+  color: var(--color-ink-900);
+  background: #fff;
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 @page qs {
   margin: 14mm;
 }

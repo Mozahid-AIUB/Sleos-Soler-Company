@@ -7,7 +7,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { site, whatsappLink } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 import { Logo } from "@/components/ui/Logo";
 import { FacebookIcon, Icon, InstagramIcon, LinkedinIcon, YoutubeIcon, WhatsappIcon } from "@/components/ui/Icon";
 
@@ -21,6 +21,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/links">): 
 type Item = { href: string; label: string; sub?: string; icon: ReactNode; external?: boolean; internal?: boolean; primary?: boolean };
 
 export default async function LinksPage({ params }: PageProps<"/[lang]/links">) {
+  const site = await getSite();
+  const whatsappLink = site.whatsappLink;
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);

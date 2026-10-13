@@ -1,5 +1,5 @@
 import { revalidatePath } from "next/cache";
-import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from "payload";
+import type { CollectionAfterChangeHook, CollectionAfterDeleteHook, GlobalAfterChangeHook } from "payload";
 
 /**
  * Pages are generated ahead of time. After the client saves, publishes or deletes
@@ -21,6 +21,11 @@ export const revalidateOnChange: CollectionAfterChangeHook = ({ doc }) => {
 };
 
 export const revalidateOnDelete: CollectionAfterDeleteHook = ({ doc }) => {
+  refreshSite();
+  return doc;
+};
+
+export const revalidateGlobal: GlobalAfterChangeHook = ({ doc }) => {
   refreshSite();
   return doc;
 };

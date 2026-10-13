@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { getAllProducts, getCategories, getProductBySlug } from "@/lib/catalog";
-import { site, whatsappLink } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 import { pageAlternates } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ProductImage } from "@/components/product/ProductImage";
@@ -26,6 +26,7 @@ export const generateStaticParams = async () => {
 };
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/products/[slug]">): Promise<Metadata> {
+  const site = await getSite();
   const { lang, slug } = await params;
   const product = await getProductBySlug(slug);
   if (!hasLocale(lang) || !product) return {};
@@ -41,6 +42,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/products/[
 }
 
 export default async function ProductPage({ params }: PageProps<"/[lang]/products/[slug]">) {
+  const site = await getSite();
+  const whatsappLink = site.whatsappLink;
   const { lang, slug } = await params;
   const product = await getProductBySlug(slug);
   if (!hasLocale(lang) || !product) notFound();

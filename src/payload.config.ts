@@ -4,7 +4,6 @@ import { buildConfig } from "payload";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { en } from "@payloadcms/translations/languages/en";
-import { bnBd } from "@payloadcms/translations/languages/bnBd";
 import sharp from "sharp";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
@@ -13,6 +12,11 @@ import { Products } from "./collections/Products";
 import { TeamMembers } from "./collections/TeamMembers";
 import { Projects } from "./collections/Projects";
 import { Testimonials } from "./collections/Testimonials";
+import { MeasurementForms } from "./collections/MeasurementForms";
+import { LeadFiles } from "./collections/LeadFiles";
+import { Contact } from "./globals/Contact";
+import { SolutionsPage } from "./globals/SolutionsPage";
+import { seedGlobals } from "./globals/seed";
 import { migrations } from "./migrations";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -29,7 +33,10 @@ export default buildConfig({
     components: { beforeNavLinks: ["/components/admin/SiteMenu#SiteMenu"], beforeDashboard: ["/components/admin/Dashboard#Dashboard"], graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
     importMap: { baseDir: path.resolve(dirname) },
   },
-  collections: [Users, Media, Categories, Products, TeamMembers, Projects, Testimonials],
+  collections: [Users, Media, Categories, Products, TeamMembers, Projects, Testimonials, MeasurementForms, LeadFiles],
+  globals: [SolutionsPage, Contact],
+  // First start after an update: fill Contact and Solutions with the texts the website shows today.
+  onInit: seedGlobals,
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI || "postgres://127.0.0.1:5432/osleos" },
@@ -46,6 +53,23 @@ export default buildConfig({
     defaultLocale: "en",
     fallback: true,
   },
-  i18n: { supportedLanguages: { en, "bn-BD": bnBd }, fallbackLanguage: "en" },
+  i18n: {
+    supportedLanguages: { en },
+    fallbackLanguage: "en",
+    // English only, in plain words for a non-technical editor: Draft/Published become Hidden/On the website.
+    translations: {
+      en: {
+        general: { createNew: "Add new", locale: "Language" },
+        version: {
+          draft: "Hidden",
+          published: "On the website",
+          publish: "Save & show on website",
+          publishChanges: "Save & show on website",
+          saveDraft: "Save as hidden",
+          unpublish: "Hide from website",
+        },
+      },
+    },
+  },
   typescript: { outputFile: path.resolve(dirname, "payload-types.ts") },
 });

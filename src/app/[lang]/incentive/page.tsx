@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { site, whatsappLink } from "@/content/site";
+import { getSite } from "@/lib/site-content";
 import { PageHero } from "@/components/ui/PageHero";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { IncentiveHighlight } from "@/components/home/IncentiveHighlight";
@@ -22,6 +22,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/incentive"
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export default async function IncentivePage({ params }: PageProps<"/[lang]/incentive">) {
+  const site = await getSite();
+  const whatsappLink = site.whatsappLink;
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);

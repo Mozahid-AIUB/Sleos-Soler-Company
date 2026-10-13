@@ -74,6 +74,8 @@ export interface Config {
     'team-members': TeamMember;
     projects: Project;
     testimonials: Testimonial;
+    'measurement-forms': MeasurementForm;
+    'lead-files': LeadFile;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +90,8 @@ export interface Config {
     'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    'measurement-forms': MeasurementFormsSelect<false> | MeasurementFormsSelect<true>;
+    'lead-files': LeadFilesSelect<false> | LeadFilesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -97,8 +101,14 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('en' | 'bn') | ('en' | 'bn')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    'solutions-page': SolutionsPage;
+    contact: Contact;
+  };
+  globalsSelect: {
+    'solutions-page': SolutionsPageSelect<false> | SolutionsPageSelect<true>;
+    contact: ContactSelect<false> | ContactSelect<true>;
+  };
   locale: 'en' | 'bn';
   widgets: {
     collections: CollectionsWidget;
@@ -207,7 +217,7 @@ export interface Category {
   createdAt: string;
 }
 /**
- * Add, edit or remove products. Status Draft = hidden from the website; Published = visible. Edit English first, then switch the Locale (top right) to add the Bangla text.
+ * Hidden products are kept here but not shown on the website.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
@@ -219,7 +229,7 @@ export interface Product {
    */
   category: number | Category;
   /**
-   * Step 2 · Drag a picture into the box, or press Create New and choose one. It is made smaller automatically, so any size is fine.
+   * Step 2 · Any size is fine, it is made smaller automatically.
    */
   image: number | Media;
   /**
@@ -352,7 +362,7 @@ export interface Product {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * People shown in the About page leadership section. Click Create New to add a member. Draft = hidden, Published = visible. A smaller Order number shows first.
+ * People shown on the About page. Click a name to change it. A smaller Order number shows first.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team-members".
@@ -388,7 +398,7 @@ export interface TeamMember {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Completed solar projects shown on the Projects page and the home page. Draft = hidden, Published = visible.
+ * Completed solar projects shown on the Projects page and the home page. Click a title to change it.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "projects".
@@ -431,7 +441,7 @@ export interface Project {
   _status?: ('draft' | 'published') | null;
 }
 /**
- * Reviews shown on the home page. Only add reviews you have permission to publish. Draft = hidden, Published = visible.
+ * Reviews shown on the home page. Only add reviews you have permission to publish. Click a name to change it.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "testimonials".
@@ -463,6 +473,62 @@ export interface Testimonial {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * Measurement Forms sent from the website, newest first. Click a name to download the PDF.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "measurement-forms".
+ */
+export interface MeasurementForm {
+  id: number;
+  /**
+   * Change it after you call the customer.
+   */
+  status: 'new' | 'contacted' | 'done';
+  /**
+   * Only staff see this.
+   */
+  note?: string | null;
+  title?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  company?: string | null;
+  location?: string | null;
+  projectType?: string | null;
+  lang?: string | null;
+  answers?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
+  filesRefused?: number | null;
+  pdf?: (number | null) | LeadFile;
+  hasFormPage?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lead-files".
+ */
+export interface LeadFile {
+  id: number;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -515,6 +581,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonials';
         value: number | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'measurement-forms';
+        value: number | MeasurementForm;
+      } | null)
+    | ({
+        relationTo: 'lead-files';
+        value: number | LeadFile;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -764,6 +838,44 @@ export interface TestimonialsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "measurement-forms_select".
+ */
+export interface MeasurementFormsSelect<T extends boolean = true> {
+  status?: T;
+  note?: T;
+  title?: T;
+  phone?: T;
+  email?: T;
+  company?: T;
+  location?: T;
+  projectType?: T;
+  lang?: T;
+  answers?: T;
+  filesRefused?: T;
+  pdf?: T;
+  hasFormPage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "lead-files_select".
+ */
+export interface LeadFilesSelect<T extends boolean = true> {
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -801,6 +913,239 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Everything written on the Solutions page, in the same order as the page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions-page".
+ */
+export interface SolutionsPage {
+  id: number;
+  title?: string | null;
+  intro?: string | null;
+  residential?: {
+    title?: string | null;
+    text?: string | null;
+    points?:
+      | {
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  commercial?: {
+    title?: string | null;
+    text?: string | null;
+    points?:
+      | {
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  utility?: {
+    title?: string | null;
+    text?: string | null;
+    points?:
+      | {
+          text?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  applicationsTitle?: string | null;
+  applicationsBody?: string | null;
+  /**
+   * Numbered list on the page. Drag to change the order.
+   */
+  applications?:
+    | {
+        title?: string | null;
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  systemsTitle?: string | null;
+  systems?:
+    | {
+        name?: string | null;
+        text?: string | null;
+        ideal?: string | null;
+        backup?: boolean | null;
+        flow?:
+          | {
+              text?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  packageTitle?: string | null;
+  packageBody?: string | null;
+  package?:
+    | {
+        text?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * Phone numbers, email, address and social links. They change everywhere on the website (top bar, footer, Contact page, WhatsApp buttons).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact".
+ */
+export interface Contact {
+  id: number;
+  /**
+   * The first number is the main one. Write it the way it should look, e.g. +880 1711-752202.
+   */
+  phones?:
+    | {
+        number: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * All WhatsApp buttons and forms send messages to this number, e.g. +880 1711-752202.
+   */
+  whatsapp?: string | null;
+  email?: string | null;
+  /**
+   * e.g. Sat – Thu, 10:00 – 21:00
+   */
+  hours?: string | null;
+  address?: string | null;
+  /**
+   * Opens when people press Get directions. In Google Maps press Share → Copy link and paste it here.
+   */
+  mapLink?: string | null;
+  /**
+   * For the map on the Contact page. In Google Maps right-click the office pin and click the numbers at the top (e.g. 23.7586, 90.4184) to copy them, then paste here.
+   */
+  mapPin?: string | null;
+  facebook?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  youtube?: string | null;
+  /**
+   * Big heading at the top of the Contact page.
+   */
+  pageTitle?: string | null;
+  pageIntro?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "solutions-page_select".
+ */
+export interface SolutionsPageSelect<T extends boolean = true> {
+  title?: T;
+  intro?: T;
+  residential?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  commercial?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  utility?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        points?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+      };
+  applicationsTitle?: T;
+  applicationsBody?: T;
+  applications?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  systemsTitle?: T;
+  systems?:
+    | T
+    | {
+        name?: T;
+        text?: T;
+        ideal?: T;
+        backup?: T;
+        flow?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  packageTitle?: T;
+  packageBody?: T;
+  package?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact_select".
+ */
+export interface ContactSelect<T extends boolean = true> {
+  phones?:
+    | T
+    | {
+        number?: T;
+        id?: T;
+      };
+  whatsapp?: T;
+  email?: T;
+  hours?: T;
+  address?: T;
+  mapLink?: T;
+  mapPin?: T;
+  facebook?: T;
+  instagram?: T;
+  linkedin?: T;
+  youtube?: T;
+  pageTitle?: T;
+  pageIntro?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
