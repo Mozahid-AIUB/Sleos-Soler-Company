@@ -6,7 +6,7 @@ import { revalidateOnChange, revalidateOnDelete } from "./revalidate";
 export const Categories: CollectionConfig = {
   slug: "categories",
   labels: { singular: "Category", plural: "Categories" },
-  admin: { useAsTitle: "slug", defaultColumns: ["slug", "name", "order"], group: "Content" },
+  admin: { useAsTitle: "slug", defaultColumns: ["slug", "name", "order"], group: "Website content" },
   defaultSort: "order",
   access: { read: () => true, create: isStaff, update: isStaff, delete: isStaff },
   hooks: { afterChange: [revalidateOnChange], afterDelete: [revalidateOnDelete] },

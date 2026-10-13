@@ -1,1 +1,37 @@
-/* Admin-only style overrides go here. */
+/*
+ * Admin look: light and readable, in the OSLEOS palette (cream background,
+ * forest-black buttons, gold hover). Unlayered, so it wins over Payload's
+ * own `payload-default` layer.
+ */
+:root {
+  /* Payload sizes everything from this number; larger = bigger text and spacing (default 13). */
+  --base-body-size: 15;
+}
+
+html[data-theme="light"] {
+  --theme-bg: #f5f6f4;
+  --theme-elevation-50: #eef0ec;
+  --theme-elevation-100: #e2e5e0;
+  --theme-elevation-150: #d4d8d2;
+  --theme-elevation-800: #16191b;
+}
+
+.btn--style-primary {
+  --bg-color: #16191b;
+  --hover-bg: #8c6214;
+  --color: #ffffff;
+  --hover-color: #ffffff;
+}
+
+.btn--style-secondary {
+  --btn-border: 1px solid #16191b;
+  --hover-bg: #eceeeb;
+}
+
+/* Calmer, clearer form labels and field descriptions. */
+.field-label {
+  font-weight: 600;
+}
+.field-description {
+  color: #4a524d;
+}

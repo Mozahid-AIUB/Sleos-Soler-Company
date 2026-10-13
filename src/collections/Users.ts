@@ -4,7 +4,7 @@ import { hasRole, isOwner, isOwnerField } from "./access";
 export const Users: CollectionConfig = {
   slug: "users",
   labels: { singular: "Staff user", plural: "Staff users" },
-  admin: { useAsTitle: "email", defaultColumns: ["email", "name", "roles"], group: "Settings" },
+  admin: { useAsTitle: "email", defaultColumns: ["email", "name", "roles"], group: "Team and access" },
   auth: {
     tokenExpiration: 60 * 60 * 12,
     maxLoginAttempts: 8,

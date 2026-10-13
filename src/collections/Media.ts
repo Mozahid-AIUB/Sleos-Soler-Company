@@ -6,7 +6,7 @@ import { revalidateOnChange, revalidateOnDelete } from "./revalidate";
 export const Media: CollectionConfig = {
   slug: "media",
   labels: { singular: "File", plural: "Media library" },
-  admin: { useAsTitle: "filename", group: "Content" },
+  admin: { useAsTitle: "filename", group: "Website content" },
   access: {
     read: () => true,
     create: isStaff,

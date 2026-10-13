@@ -20,7 +20,10 @@ export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || undefined,
   admin: {
     user: Users.slug,
-    meta: { titleSuffix: " · OSLEOS Admin" },
+    meta: { titleSuffix: " · OSLEOS Admin", icons: [{ rel: "icon", url: "/icon.png" }] },
+    // One light theme: the dark default was low-contrast and hard to read.
+    theme: "light",
+    components: { graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
     importMap: { baseDir: path.resolve(dirname) },
   },
   collections: [Users, Media, Categories, Products],

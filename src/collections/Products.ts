@@ -17,9 +17,10 @@ export const Products: CollectionConfig = {
   labels: { singular: "Product", plural: "Products" },
   admin: {
     useAsTitle: "name",
-    defaultColumns: ["name", "category", "brand", "featured", "_status"],
+    defaultColumns: ["image", "name", "category", "brand", "featured", "_status"],
+    description: "Add, edit or remove products. Status Draft = hidden from the website; Published = visible. Edit English first, then switch the Locale (top right) to add the Bangla text.",
     listSearchableFields: ["name", "brand", "slug"],
-    group: "Content",
+    group: "Website content",
   },
   // Draft → Publish: only published products show on the website.
   versions: { drafts: { autosave: false }, maxPerDoc: 20 },
