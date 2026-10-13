@@ -2,6 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { hasLocale, localeNames, type Locale } from "@/i18n/config";
 import { search } from "@/lib/rag/search";
 import { getLeanSystemPrompt, getSystemPrompt } from "./system-prompt";
+import { fallbackAnswer } from "./fallback";
 import { allowGlobal, allowIp, clientIp } from "./rate-limit";
 import { compatConfig, configuredProviders, streamCompat, type ChatMessage, type ProviderResult } from "@/lib/ai-providers";
 
@@ -52,7 +53,6 @@ function parseMessages(body: unknown): { messages: Anthropic.MessageParam[]; lan
 
 export async function POST(req: Request) {
   const providers = configuredProviders();
-  if (!providers.length) return json(503, "ai_unavailable");
 
   const length = Number(req.headers.get("content-length") ?? 0);
   if (length > MAX_BODY_BYTES) return json(413, "too_long");
@@ -110,10 +110,12 @@ export async function POST(req: Request) {
     if (req.signal.aborted) break;
   }
 
-  // Every provider failed: report the most useful reason.
-  if (failures.some((f) => !f.ok && f.reason === "rate")) return json(429, "rate_limited", { "Retry-After": "20" });
-  if (failures.length && failures.every((f) => !f.ok && f.reason === "auth")) return json(503, "ai_unavailable");
-  return json(502, "ai_error");
+  // No provider could answer (none configured, rate-limited or down): answer from the site data
+  // instead of showing an error, so the visitor always gets something useful.
+  const lastUser = [...parsed.messages].reverse().find((m) => m.role === "user");
+  return new Response(fallbackAnswer(typeof lastUser?.content === "string" ? lastUser.content : "", parsed.lang), {
+    headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store", "X-Chat-Fallback": "1" },
+  });
 }
 
 /** Claude path: streams the reply as plain text, or reports why it could not start. */

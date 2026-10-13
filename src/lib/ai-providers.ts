@@ -6,20 +6,21 @@
  *
  * Environment (all optional; a provider is used only when its key is set):
  *   GROQ_API_KEY    + GROQ_MODEL    (default qwen/qwen3.8-27b)
+ *   OPENROUTER_API_KEY + OPENROUTER_MODEL (default openrouter/free: picks any free model that is up)
  *   GEMINI_API_KEY  + GEMINI_MODEL  (default gemini-2.5-flash)
  *   ANTHROPIC_API_KEY + ANTHROPIC_MODEL
- *   AI_PROVIDER_ORDER  e.g. "groq,gemini,anthropic" (default)
+ *   AI_PROVIDER_ORDER  e.g. "groq,openrouter,gemini,anthropic" (default)
  */
 
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 
-export type ProviderId = "groq" | "gemini" | "anthropic";
+export type ProviderId = "groq" | "openrouter" | "gemini" | "anthropic";
 
 export type ProviderResult =
   | { ok: true; body: ReadableStream<Uint8Array> }
   | { ok: false; reason: "auth" | "rate" | "error" };
 
-type CompatConfig = { id: ProviderId; url: string; key: string; model: string; extra?: Record<string, unknown> };
+type CompatConfig = { id: ProviderId; url: string; key: string; model: string; extra?: Record<string, unknown>; headers?: Record<string, string> };
 
 const TIMEOUT_MS = 30_000;
 
@@ -27,24 +28,34 @@ const TIMEOUT_MS = 30_000;
 export function configuredProviders(env: NodeJS.ProcessEnv = process.env): ProviderId[] {
   const has: Record<ProviderId, boolean> = {
     groq: Boolean(env.GROQ_API_KEY),
+    openrouter: Boolean(env.OPENROUTER_API_KEY),
     gemini: Boolean(env.GEMINI_API_KEY),
     anthropic: Boolean(env.ANTHROPIC_API_KEY),
   };
-  const order = (env.AI_PROVIDER_ORDER ?? "groq,gemini,anthropic")
+  const order = (env.AI_PROVIDER_ORDER ?? "groq,openrouter,gemini,anthropic")
     .split(",")
     .map((s) => s.trim().toLowerCase())
-    .filter((s): s is ProviderId => s === "groq" || s === "gemini" || s === "anthropic");
+    .filter((s): s is ProviderId => s === "groq" || s === "openrouter" || s === "gemini" || s === "anthropic");
   return [...new Set(order)].filter((id) => has[id]);
 }
 
 /** Connection details for the two OpenAI-compatible providers. */
-export function compatConfig(id: "groq" | "gemini", env: NodeJS.ProcessEnv = process.env): CompatConfig {
+export function compatConfig(id: "groq" | "openrouter" | "gemini", env: NodeJS.ProcessEnv = process.env): CompatConfig {
   if (id === "groq") {
     return {
       id,
       url: "https://api.groq.com/openai/v1/chat/completions",
       key: env.GROQ_API_KEY ?? "",
       model: env.GROQ_MODEL || "qwen/qwen3.8-27b",
+    };
+  }
+  if (id === "openrouter") {
+    return {
+      id,
+      url: "https://openrouter.ai/api/v1/chat/completions",
+      key: env.OPENROUTER_API_KEY ?? "",
+      model: env.OPENROUTER_MODEL || "openrouter/free",
+      headers: { "HTTP-Referer": "https://osleos.com", "X-Title": "OSLEOS" },
     };
   }
   return {
@@ -94,7 +105,7 @@ async function request(cfg: CompatConfig, system: string, messages: ChatMessage[
   return fetch(cfg.url, {
     method: "POST",
     signal: AbortSignal.any([signal, AbortSignal.timeout(TIMEOUT_MS)]),
-    headers: { Authorization: `Bearer ${cfg.key}`, "Content-Type": "application/json" },
+    headers: { Authorization: `Bearer ${cfg.key}`, "Content-Type": "application/json", ...cfg.headers },
     body: JSON.stringify({
       model: cfg.model,
       stream: true,
