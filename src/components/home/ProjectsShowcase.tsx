@@ -1,13 +1,15 @@
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { projects } from "@/content/projects";
+import { getProjects } from "@/lib/projects";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { Icon } from "@/components/ui/Icon";
 
-export function ProjectsShowcase({ lang, t }: { lang: Locale; t: Dictionary["projects"] }) {
-  const [first, second, third] = projects;
+export async function ProjectsShowcase({ lang, t }: { lang: Locale; t: Dictionary["projects"] }) {
+  const [first, second, third] = await getProjects();
+  // The grid needs three cards; with fewer published projects the section is left out.
+  if (!first || !second || !third) return null;
   return (
     <section className="section-y bg-forest-950 text-white">
       <div className="container-x">

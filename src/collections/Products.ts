@@ -33,9 +33,21 @@ export const Products: CollectionConfig = {
         {
           label: "Basics",
           fields: [
+            {
+              name: "category",
+              type: "relationship",
+              relationTo: "categories",
+              required: true,
+              label: "Category (where it shows on the website)",
+              admin: {
+                description: "Choose from the list. The product will appear under this category in the website menu and Products page.",
+                allowCreate: false,
+                allowEdit: false,
+                sortOptions: "order",
+              },
+            },
             { name: "name", type: "text", required: true, admin: { description: "Model name as the manufacturer markets it." } },
             { name: "slug", type: "text", required: true, unique: true, index: true, admin: { description: "Used in the page link, e.g. jinko-tiger-neo. Letters, numbers and dashes." } },
-            { name: "category", type: "relationship", relationTo: "categories", required: true },
             { name: "brand", type: "text", admin: { description: "Leave empty for items OSLEOS specifies per project." } },
             { name: "tagline", type: "text", localized: true, validate: requiredText },
             { name: "description", type: "textarea", localized: true, validate: requiredTextarea },
@@ -91,16 +103,21 @@ export const Products: CollectionConfig = {
             },
           ],
         },
+        {
+          label: "Advanced (usually leave empty)",
+          fields: [
+            { name: "imagePosition", type: "text", admin: { description: "Crop focus for the card picture, e.g. 50% 25%. Usually empty." } },
+            {
+              name: "imageFit",
+              type: "select",
+              options: [{ label: "Show whole picture (no crop)", value: "contain" }],
+              admin: { description: "Leave empty to crop the picture to the frame." },
+            },
+            { name: "source", type: "text", admin: { description: "Where the specs came from (internal note, not shown on the website)." } },
+          ],
+        },
       ],
     },
     { name: "featured", type: "checkbox", defaultValue: false, label: "Featured on the home page", admin: { position: "sidebar" } },
-    { name: "imagePosition", type: "text", admin: { position: "sidebar", description: "Crop focus, e.g. 50% 25%. Usually empty." } },
-    {
-      name: "imageFit",
-      type: "select",
-      options: [{ label: "Show whole picture (no crop)", value: "contain" }],
-      admin: { position: "sidebar", description: "Leave empty to crop to the frame." },
-    },
-    { name: "source", type: "text", admin: { position: "sidebar", description: "Where the specs came from (internal, not shown)." } },
   ],
 };

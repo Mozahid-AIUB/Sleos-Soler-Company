@@ -3,7 +3,7 @@ import en from "@/i18n/dictionaries/en";
 import bn from "@/i18n/dictionaries/bn";
 import * as siteModule from "@/content/site";
 import { getCatalog } from "@/lib/catalog";
-import * as projectsModule from "@/content/projects";
+import { getProjects } from "@/lib/projects";
 import * as testimonialsModule from "@/content/testimonials";
 import { assistantKnowledge } from "@/content/assistant-knowledge";
 
@@ -388,9 +388,8 @@ function productChunks(b: Builder, lang: Lang, d: unknown, data: Catalog) {
 /* projects.ts & testimonials.ts (sample content)                      */
 /* ------------------------------------------------------------------ */
 
-function projectChunks(b: Builder, lang: Lang, d: unknown) {
-  const list = (projectsModule as Loose).projects;
-  if (!Array.isArray(list)) return;
+function projectChunks(b: Builder, lang: Lang, d: unknown, list: unknown[]) {
+  if (!list.length) return;
   const bnL = lang === "bn";
   const note = bnL
     ? "(নমুনা প্রকল্প — উদাহরণমাত্র, প্রকৃত ক্লায়েন্ট প্রকল্প নয়)"
@@ -455,7 +454,7 @@ export async function getCorpus(): Promise<Chunk[]> {
 }
 
 async function buildCorpus(): Promise<Chunk[]> {
-  const catalog = await getCatalog();
+  const [catalog, projects] = await Promise.all([getCatalog(), getProjects()]);
   const b = new Builder();
   const dicts: Record<Lang, unknown> = { en, bn };
   for (const lang of LANGS) {
@@ -470,7 +469,7 @@ async function buildCorpus(): Promise<Chunk[]> {
     guard("dictionary", () => dictionaryChunks(b, lang, d, catalog.brands));
     guard("contact", () => contactChunk(b, lang, d));
     guard("products", () => productChunks(b, lang, d, catalog));
-    guard("projects", () => projectChunks(b, lang, d));
+    guard("projects", () => projectChunks(b, lang, d, projects));
     guard("testimonials", () => testimonialChunks(b, lang, d));
   }
   try {

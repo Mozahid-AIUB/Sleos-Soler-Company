@@ -10,6 +10,9 @@ import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Categories } from "./collections/Categories";
 import { Products } from "./collections/Products";
+import { TeamMembers } from "./collections/TeamMembers";
+import { Projects } from "./collections/Projects";
+import { Testimonials } from "./collections/Testimonials";
 import { migrations } from "./migrations";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -23,10 +26,10 @@ export default buildConfig({
     meta: { titleSuffix: " · OSLEOS Admin", icons: [{ rel: "icon", url: "/icon.png" }] },
     // One light theme: the dark default was low-contrast and hard to read.
     theme: "light",
-    components: { graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
+    components: { beforeDashboard: ["/components/admin/Dashboard#Dashboard"], graphics: { Logo: "/components/admin/Logo#Logo", Icon: "/components/admin/Icon#Icon" } },
     importMap: { baseDir: path.resolve(dirname) },
   },
-  collections: [Users, Media, Categories, Products],
+  collections: [Users, Media, Categories, Products, TeamMembers, Projects, Testimonials],
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI || "postgres://127.0.0.1:5432/osleos" },

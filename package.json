@@ -11,7 +11,11 @@
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/seed-products.ts",
     "payload:types": "npm run payload -- generate:types",
-    "payload:importmap": "npm run payload -- generate:importmap"
+    "payload:importmap": "npm run payload -- generate:importmap",
+    "seed:team": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/seed-team.ts",
+    "seed:projects": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/seed-projects.ts",
+    "seed:testimonials": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/seed-testimonials.ts",
+    "push:live": "cross-env NODE_OPTIONS=--no-deprecation payload run scripts/push-to-live.ts --"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",

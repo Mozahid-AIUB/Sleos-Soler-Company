@@ -2,11 +2,10 @@ import { pick } from "@/i18n/content";
 import type { CSSProperties } from "react";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import type { Locale } from "@/i18n/config";
-import { testimonials, type Testimonial } from "@/content/testimonials";
-import { site } from "@/content/site";
+import { getTestimonials, type CatalogTestimonial } from "@/lib/testimonials";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
-function Group({ label, items, lang, cols }: { label?: string; items: Testimonial[]; lang: Locale; cols: string }) {
+function Group({ label, items, lang, cols }: { label?: string; items: CatalogTestimonial[]; lang: Locale; cols: string }) {
   return (
     <div>
       {label && <h3 className="reveal-fade border-b border-cream-200 pb-3 text-[13px] font-semibold uppercase tracking-[0.16em] text-ink-900">{label}</h3>}
@@ -32,14 +31,15 @@ function Group({ label, items, lang, cols }: { label?: string; items: Testimonia
   );
 }
 
-export function Testimonials({ lang, t }: { lang: Locale; t: Dictionary["testimonials"] }) {
+export async function Testimonials({ lang, t }: { lang: Locale; t: Dictionary["testimonials"] }) {
+  const testimonials = await getTestimonials();
   const clients = testimonials.filter((r) => r.group === "clients");
   const manufacturers = testimonials.filter((r) => r.group === "manufacturers");
   return (
     <section className="section-y bg-cream-50">
       <div className="container-x">
         <SectionHeading eyebrow={t.eyebrow} title={t.title} />
-        {site.draft && <p className="mt-4 text-[13px] text-ink-400">{t.sample}</p>}
+        {testimonials.some((r) => r.sample) && <p className="mt-4 text-[13px] text-ink-400">{t.sample}</p>}
         <div className="mt-12 grid gap-14">
           <Group items={clients} lang={lang} cols="sm:grid-cols-2 xl:grid-cols-4" />
           <Group label={t.manufacturers} items={manufacturers} lang={lang} cols="md:grid-cols-3" />

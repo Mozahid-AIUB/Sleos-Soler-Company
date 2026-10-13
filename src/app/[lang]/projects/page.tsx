@@ -4,7 +4,7 @@ import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { projects } from "@/content/projects";
+import { getProjects } from "@/lib/projects";
 import { PageHero } from "@/components/ui/PageHero";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { StatBand } from "@/components/home/StatBand";
@@ -23,6 +23,7 @@ export default async function ProjectsPage({ params }: PageProps<"/[lang]/projec
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
   const p = t.pages.projects;
+  const projects = await getProjects();
   return (
     <>
       <PageHero

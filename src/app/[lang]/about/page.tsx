@@ -14,6 +14,7 @@ import { Partners } from "@/components/home/Partners";
 import { SystemPackage } from "@/components/home/SystemPackage";
 import { Newsletter } from "@/components/home/Newsletter";
 import { Team } from "@/components/about/Team";
+import { getTeam } from "@/lib/team";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
   const { lang } = await params;
@@ -29,6 +30,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
   const a = t.pages.about;
+  const team = await getTeam();
   return (
     <>
       <PageHero
@@ -89,7 +91,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       </section>
 
       {/* Why OSLEOS */}
-      <Team t={a} />
+      <Team t={a} lang={lang} members={team} />
 
       <section className="section-y bg-white">
         <div className="container-x">

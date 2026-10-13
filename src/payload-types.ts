@@ -71,6 +71,9 @@ export interface Config {
     media: Media;
     categories: Category;
     products: Product;
+    'team-members': TeamMember;
+    projects: Project;
+    testimonials: Testimonial;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +85,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    'team-members': TeamMembersSelect<false> | TeamMembersSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -182,6 +188,8 @@ export interface Media {
   };
 }
 /**
+ * The fixed list of website categories. You can rename a category or change its picture. Adding or removing categories is done by the owner only.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categories".
  */
@@ -199,11 +207,17 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * Add, edit or remove products. Status Draft = hidden from the website; Published = visible. Edit English first, then switch the Locale (top right) to add the Bangla text.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
 export interface Product {
   id: number;
+  /**
+   * Choose from the list. The product will appear under this category in the website menu and Products page.
+   */
+  category: number | Category;
   /**
    * Model name as the manufacturer markets it.
    */
@@ -212,7 +226,6 @@ export interface Product {
    * Used in the page link, e.g. jinko-tiger-neo. Letters, numbers and dashes.
    */
   slug: string;
-  category: number | Category;
   /**
    * Leave empty for items OSLEOS specifies per project.
    */
@@ -309,19 +322,132 @@ export interface Product {
      */
     customise?: string | null;
   };
-  featured?: boolean | null;
   /**
-   * Crop focus, e.g. 50% 25%. Usually empty.
+   * Crop focus for the card picture, e.g. 50% 25%. Usually empty.
    */
   imagePosition?: string | null;
   /**
-   * Leave empty to crop to the frame.
+   * Leave empty to crop the picture to the frame.
    */
   imageFit?: 'contain' | null;
   /**
-   * Where the specs came from (internal, not shown).
+   * Where the specs came from (internal note, not shown on the website).
    */
   source?: string | null;
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * People shown in the About page leadership section. Click Create New to add a member. Draft = hidden, Published = visible. A smaller Order number shows first.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members".
+ */
+export interface TeamMember {
+  id: number;
+  /**
+   * Full name, e.g. Engr. Lutfar Rahman.
+   */
+  name?: string | null;
+  /**
+   * Job title, e.g. Chief Engineer.
+   */
+  role?: string | null;
+  /**
+   * Degrees or qualifications (optional).
+   */
+  credentials?: string | null;
+  /**
+   * A short biography. Leave a blank line between paragraphs. A block of lines that each start with a dash and a space (- ) is shown as a bullet list.
+   */
+  bio?: string | null;
+  /**
+   * Portrait photo (optional). Without it the card shows the person's initials.
+   */
+  photo?: (number | null) | Media;
+  /**
+   * Smaller number shows first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Completed solar projects shown on the Projects page and the home page. Draft = hidden, Published = visible.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  /**
+   * e.g. Expo Accessories, Gazipur.
+   */
+  title?: string | null;
+  /**
+   * Short id for the link: letters, numbers and dashes, e.g. expo-accessories-gazipur.
+   */
+  slug: string;
+  /**
+   * e.g. Industrial · On-grid.
+   */
+  type?: string | null;
+  location?: string | null;
+  /**
+   * e.g. 501 kWp.
+   */
+  capacity: string;
+  /**
+   * Commissioning year (optional).
+   */
+  year?: string | null;
+  summary?: string | null;
+  image: number | Media;
+  /**
+   * Tick only for illustrative entries. Real projects must stay unticked.
+   */
+  sample?: boolean | null;
+  /**
+   * Smaller number shows first.
+   */
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * Reviews shown on the home page. Only add reviews you have permission to publish. Draft = hidden, Published = visible.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: number;
+  /**
+   * What the customer said.
+   */
+  quote?: string | null;
+  /**
+   * Customer or company name.
+   */
+  name?: string | null;
+  /**
+   * e.g. Factory rooftop · Gazipur.
+   */
+  role?: string | null;
+  group: 'clients' | 'manufacturers';
+  rating: number;
+  /**
+   * Tick only for placeholder reviews. They show a Sample note on the site.
+   */
+  sample?: boolean | null;
+  /**
+   * Smaller number shows first.
+   */
+  order?: number | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -365,6 +491,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'team-members';
+        value: number | TeamMember;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: number | Testimonial;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -483,9 +621,9 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
+  category?: T;
   name?: T;
   slug?: T;
-  category?: T;
   brand?: T;
   tagline?: T;
   description?: T;
@@ -554,10 +692,60 @@ export interface ProductsSelect<T extends boolean = true> {
         transport?: T;
         customise?: T;
       };
-  featured?: T;
   imagePosition?: T;
   imageFit?: T;
   source?: T;
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team-members_select".
+ */
+export interface TeamMembersSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  credentials?: T;
+  bio?: T;
+  photo?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  type?: T;
+  location?: T;
+  capacity?: T;
+  year?: T;
+  summary?: T;
+  image?: T;
+  sample?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  quote?: T;
+  name?: T;
+  role?: T;
+  group?: T;
+  rating?: T;
+  sample?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
