@@ -43,6 +43,25 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
   // Desktop mega menu stays open while a link inside it keeps focus (focus-within) and the pointer is over it.
   // After a click we force it shut until the pointer leaves, so it never lingers over the page it opened.
   const [megaClosed, setMegaClosed] = useState(false);
+  // The mega menu is desktop-only and invisible until hovered, but lazy images
+  // that sit inside the viewport load at once, so its thumbnails were fetched
+  // on every page view. Mount them after the page has loaded (or on first
+  // hover/focus, whichever comes first).
+  const [megaThumbs, setMegaThumbs] = useState(false);
+
+  useEffect(() => {
+    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+    let timer = 0;
+    const arm = () => {
+      timer = window.setTimeout(() => setMegaThumbs(true), 1200);
+    };
+    if (document.readyState === "complete") arm();
+    else window.addEventListener("load", arm, { once: true });
+    return () => {
+      window.clearTimeout(timer);
+      window.removeEventListener("load", arm);
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -111,7 +130,12 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
 
         <nav className="hidden h-full items-center gap-1 lg:flex" aria-label="Main">
           {/* Products mega menu (hover or keyboard focus) */}
-          <div className="group/mega flex h-full items-center xl:relative" onMouseLeave={() => setMegaClosed(false)}>
+          <div
+            className="group/mega flex h-full items-center xl:relative"
+            onMouseEnter={() => setMegaThumbs(true)}
+            onFocus={() => setMegaThumbs(true)}
+            onMouseLeave={() => setMegaClosed(false)}
+          >
             <Link
               href={`/${lang}/products`}
               onClick={(e) => {
@@ -140,7 +164,9 @@ export function Header({ lang, t, categories }: { lang: Locale; t: Dictionary["n
                     style={{ transitionDelay: `${60 + i * 35}ms` }}
                   >
                     <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded">
-                      <Image src={c.image} alt="" fill sizes="56px" className="object-cover transition-transform duration-700 ease-out-expo group-hover/item:scale-[1.04]" />
+                      {megaThumbs && (
+                        <Image src={c.image} alt="" width={56} height={56} className="h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover/item:scale-[1.04]" />
+                      )}
                     </span>
                     <span>
                       <span className="block text-[14.5px] font-semibold transition-colors group-hover/item:text-forest-900">{c.name}</span>

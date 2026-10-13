@@ -54,7 +54,7 @@ export default async function ProductsPage({ params }: PageProps<"/[lang]/produc
               key: prod.slug,
               category: prod.category,
               brand: prod.brand,
-              node: <ProductCard product={prod} lang={lang} t={t.product} />,
+              node: <ProductCard product={prod} lang={lang} t={t.product} deferBody />,
             }))}
           />
         </div>

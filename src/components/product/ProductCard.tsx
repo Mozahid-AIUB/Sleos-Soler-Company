@@ -10,7 +10,18 @@ import { ComboPrice } from "@/components/product/ComboDetails";
 
 export const quoteHref = (lang: Locale, slug: string) => `/${lang}/quote?product=${encodeURIComponent(slug)}`;
 
-export function ProductCard({ product, lang, t }: { product: Product; lang: Locale; t: Dictionary["product"] }) {
+export function ProductCard({
+  product,
+  lang,
+  t,
+  deferBody = false,
+}: {
+  product: Product;
+  lang: Locale;
+  t: Dictionary["product"];
+  /** Product list only: skip layout/paint of the text half until the card is near the viewport. */
+  deferBody?: boolean;
+}) {
   const href = `/${lang}/products/${product.slug}`;
   const category = categories.find((c) => c.id === product.category);
   return (
@@ -18,7 +29,7 @@ export function ProductCard({ product, lang, t }: { product: Product; lang: Loca
       <Link href={href} className="relative block aspect-[4/3] overflow-hidden bg-cream-100" aria-label={product.name}>
         <ProductImage src={product.image} alt={product.brand ? `${product.brand} ${product.name}` : product.name} position={product.imagePosition} fit={product.imageFit} />
       </Link>
-      <div className="flex flex-1 flex-col p-5">
+      <div className={`flex flex-1 flex-col p-5${deferBody ? " card-defer" : ""}`}>
         <p className="flex flex-wrap items-center gap-x-2 text-[12.5px] font-medium text-ink-400">
           {product.brand && (
             <span className="font-semibold uppercase tracking-[0.08em] text-teal-600"><BrandMark brand={product.brand} /></span>

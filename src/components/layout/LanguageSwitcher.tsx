@@ -25,6 +25,11 @@ export function LanguageSwitcher({
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // False until the menu is first opened. The closed menu lists every language
+  // name, including "বাংলা" and "中文": laid out while invisible, they made the
+  // browser download a 40 KB Bengali web font (and look up a CJK system font)
+  // on every page. `content-visibility: hidden` skips that until it is opened.
+  const [everOpened, setEverOpened] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const menuId = useId();
 
@@ -53,7 +58,10 @@ export function LanguageSwitcher({
     <div ref={ref} className={`relative ${className}`}>
       <button
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          setEverOpened(true);
+          setOpen((o) => !o);
+        }}
         aria-expanded={open}
         aria-controls={menuId}
         aria-label={`${label}: ${localeNames[lang]}`}
@@ -71,6 +79,7 @@ export function LanguageSwitcher({
         className={`absolute right-0 top-full z-[60] mt-2 min-w-[168px] origin-top-right rounded-lg border border-cream-200 bg-white p-1.5 text-ink-900 shadow-[0_24px_48px_-24px_rgb(0_0_0/0.3)] transition-[opacity,transform,visibility] duration-200 ${
           open ? "visible scale-100 opacity-100" : "invisible scale-95 opacity-0"
         }`}
+        style={everOpened ? undefined : { contentVisibility: "hidden" }}
       >
         {locales.map((l) => (
           <li key={l}>

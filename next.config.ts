@@ -7,6 +7,10 @@ const publicAssetCache = "public, max-age=2592000, stale-while-revalidate=86400"
 const nextConfig: NextConfig = {
   // Self-contained server bundle for Docker/Coolify (see Dockerfile, docs/DEPLOY.md).
   output: "standalone",
+  // gzip responses from the Node server (the default, stated so nobody turns it
+  // off) and drop the X-Powered-By header, which only costs bytes on every response.
+  compress: true,
+  poweredByHeader: false,
   images: {
     // WebP only: AVIF took 2-7 s per large photo to encode on the VPS, so a
     // freshly deployed page with many photos appeared not to load.

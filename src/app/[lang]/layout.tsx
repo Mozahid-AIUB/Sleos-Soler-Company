@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { Hind_Siliguri, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import { hasLocale, locales, localeTags, ogLocales } from "@/i18n/config";
 import { pageAlternates } from "@/lib/seo";
 import { pick } from "@/i18n/content";
@@ -29,6 +30,26 @@ const hind = Hind_Siliguri({
   display: "swap",
   // Only needed on Bangla text; don't make English pages download it up front.
   preload: false,
+});
+
+// Prices on every language page start with the taka sign (৳, U+09F3), which Plus
+// Jakarta Sans lacks, so the browser fetched Hind Siliguri's 40 KB Bengali file
+// once per weight (up to three on the product list) just to draw one glyph.
+// These files hold only that glyph, cut from the same Hind Siliguri fonts
+// (about 0.7 KB each, same outlines and metrics). Bangla pages still use the
+// full Hind Siliguri above.
+const taka = localFont({
+  src: [
+    { path: "../fonts/hind-taka-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/hind-taka-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/hind-taka-600.woff2", weight: "600", style: "normal" },
+    { path: "../fonts/hind-taka-700.woff2", weight: "700", style: "normal" },
+  ],
+  declarations: [{ prop: "unicode-range", value: "U+09F3" }],
+  variable: "--font-taka",
+  display: "swap",
+  preload: false,
+  adjustFontFallback: false,
 });
 
 export const generateStaticParams = () => locales.map((lang) => ({ lang }));
@@ -94,7 +115,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const t = await getDictionary(lang);
 
   return (
-    <html lang={localeTags[lang]} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable}`}>
+    <html lang={localeTags[lang]} data-scroll-behavior="smooth" className={`${jakarta.variable} ${hind.variable} ${taka.variable}`}>
       <body className="min-h-dvh">
         <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-gold-500 focus:px-5 focus:py-3 focus:font-semibold focus:text-forest-950">
           Skip to content

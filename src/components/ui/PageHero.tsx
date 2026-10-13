@@ -22,7 +22,7 @@ export function PageHero({
   return (
     <section className="relative isolate overflow-hidden bg-forest-950 pb-16 pt-36 text-white lg:pb-24 lg:pt-44">
       <div aria-hidden="true" className="hero-media absolute inset-0 -z-10">
-        <Image src={image} alt="" fill priority sizes="100vw" className="object-cover opacity-45" />
+        <Image src={image} alt="" fill priority fetchPriority="high" sizes="100vw" className="object-cover opacity-45" />
       </div>
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950 via-forest-950/80 to-forest-950/30" />
       <div aria-hidden="true" className="absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-t from-forest-950/80 to-transparent" />

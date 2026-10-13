@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import Lenis from "lenis";
+import type Lenis from "lenis";
 
 const SELECTOR = ".reveal, .reveal-fade, .reveal-img, .reveal-line, .reveal-scale, .split:not(.split-now)";
 
@@ -16,7 +16,11 @@ const SELECTOR = ".reveal, .reveal-fade, .reveal-img, .reveal-line, .reveal-scal
  *   nodes are added, at most once per frame, and elements already handed to
  *   the IntersectionObserver are skipped. Text-only changes (e.g. CountUp
  *   ticking every frame) no longer trigger a full-page layout read.
- * - Lenis uses its own requestAnimationFrame loop with lerp smoothing.
+ * - Lenis uses its own requestAnimationFrame loop with lerp smoothing, and is
+ *   only downloaded where it is used (desktop pointers, motion allowed).
+ * - The first scan reads every element's position before it writes any
+ *   [data-inview]; interleaving them forced a style recalculation per element
+ *   (about 100 on the product list) while the page was hydrating.
  */
 export function MotionProvider() {
   const pathname = usePathname();
@@ -27,11 +31,17 @@ export function MotionProvider() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-    const lenis = new Lenis({ autoRaf: true, lerp: 0.12, wheelMultiplier: 1, anchors: { offset: -90 } });
-    lenisRef.current = lenis;
+    let cancelled = false;
+    let lenis: Lenis | null = null;
+    void import("lenis").then(({ default: LenisClass }) => {
+      if (cancelled) return;
+      lenis = new LenisClass({ autoRaf: true, lerp: 0.12, wheelMultiplier: 1, anchors: { offset: -90 } });
+      lenisRef.current = lenis;
+    });
     return () => {
+      cancelled = true;
       lenisRef.current = null;
-      lenis.destroy();
+      lenis?.destroy();
     };
   }, []);
 
@@ -81,19 +91,24 @@ export function MotionProvider() {
 
     const scan = (first: boolean) => {
       const vh = window.innerHeight;
+      const fresh: HTMLElement[] = [];
       document.querySelectorAll<HTMLElement>(SELECTOR).forEach((el) => {
         if (seen.has(el) || "inview" in el.dataset) return;
         seen.add(el);
-        if (first) {
-          // Already on screen when motion switches on: show it immediately
-          // instead of hiding and re-animating (avoids a flash).
-          const r = el.getBoundingClientRect();
-          if (r.top < vh && r.bottom > 0) {
-            el.dataset.inview = "";
-            return;
-          }
-        }
-        io.observe(el);
+        fresh.push(el);
+      });
+      // Already on screen when motion switches on: show it immediately instead
+      // of hiding and re-animating (avoids a flash). All reads first, then all
+      // writes, so the browser lays the page out once.
+      const onScreen = first
+        ? fresh.map((el) => {
+            const r = el.getBoundingClientRect();
+            return r.top < vh && r.bottom > 0;
+          })
+        : [];
+      fresh.forEach((el, i) => {
+        if (onScreen[i]) el.dataset.inview = "";
+        else io.observe(el);
       });
     };
 

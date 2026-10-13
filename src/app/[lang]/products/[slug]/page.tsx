@@ -111,7 +111,7 @@ export default async function ProductPage({ params }: PageProps<"/[lang]/product
           <div className="mt-8 grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             {/* Visual */}
             <div className="reveal-img group relative aspect-square overflow-hidden rounded-lg bg-cream-100 md:aspect-[4/3] lg:aspect-square lg:sticky lg:top-28 lg:self-start">
-              <ProductImage src={product.image} alt={fullName} sizes="(min-width: 1024px) 55vw, 100vw" position={product.imagePosition} fit={product.imageFit} />
+              <ProductImage src={product.image} alt={fullName} sizes="(min-width: 1024px) 55vw, 100vw" position={product.imagePosition} fit={product.imageFit} eager />
               {product.imageCredit && (
                 <p className="absolute inset-x-0 bottom-0 bg-black/55 px-3 py-1.5 text-[11px] leading-snug text-white/90">{pick(product.imageCredit, lang)}</p>
               )}

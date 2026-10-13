@@ -35,7 +35,7 @@ export function Hero({ lang, t }: { lang: Locale; t: Dictionary }) {
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden bg-forest-950 text-white">
       <div className="hero-media absolute inset-0 -z-10 origin-center">
-        <Image src={heroPoster} alt="" fill priority sizes="100vw" quality={85} placeholder="blur" className="object-cover" />
+        <Image src={heroPoster} alt="" fill priority fetchPriority="high" sizes="100vw" quality={85} placeholder="blur" className="object-cover" />
         <HeroVideo src="/media/video/hero-solar-farm.mp4" className="absolute inset-0 h-full w-full object-cover" />
       </div>
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-forest-950/90 via-forest-950/60 to-forest-950/20" />

@@ -11,10 +11,23 @@ import { useEffect, useRef, useState } from "react";
 export function BrandFilmPlayer({ src, poster, label, soundLabel }: { src: string; poster: string; label: string; soundLabel: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [withSound, setWithSound] = useState(false);
+  // A `poster` attribute is fetched as soon as the page loads, even though this
+  // film sits far down the home page. Attach it shortly before it scrolls in.
+  const [posterOn, setPosterOn] = useState(false);
 
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
+    const posterIo = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setPosterOn(true);
+          posterIo.disconnect();
+        }
+      },
+      { rootMargin: "900px 0px" },
+    );
+    posterIo.observe(video);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const io = new IntersectionObserver(
       ([entry]) => {
@@ -28,7 +41,10 @@ export function BrandFilmPlayer({ src, poster, label, soundLabel }: { src: strin
       { rootMargin: "200px 0px", threshold: 0.35 },
     );
     io.observe(video);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      posterIo.disconnect();
+    };
   }, [src]);
 
   const soundOn = () => {
@@ -46,7 +62,7 @@ export function BrandFilmPlayer({ src, poster, label, soundLabel }: { src: strin
     <div className="relative aspect-[9/16] w-full overflow-hidden rounded-lg bg-forest-950 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)]">
       <video
         ref={ref}
-        poster={poster}
+        poster={posterOn ? poster : undefined}
         preload="none"
         muted
         loop
