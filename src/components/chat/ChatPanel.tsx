@@ -37,9 +37,12 @@ function saveHistory(messages: Message[]) {
   }
 }
 
+// A trailing "Sources:" block (older replies still in sessionStorage, or a model that adds one anyway) is not shown.
+const SOURCES = /\n\s*(?:sources?|(?:তথ্য)?সূত্র)\s*:[\s\S]*$/i;
+
 /** Plain-text reply -> text with clickable site paths and URLs. */
 function renderText(text: string, lang: string): ReactNode[] {
-  const clean = text.replace(/\*\*(.+?)\*\*/g, "$1").replace(/\{lang\}/g, lang);
+  const clean = text.replace(/\*\*(.+?)\*\*/g, "$1").replace(SOURCES, "").replace(/\{lang\}/g, lang);
   const parts = clean.split(/((?:https?:\/\/[^\s)]+)|(?:\/(?:en|bn)(?:\/[\w-]+)*\/?))/g);
   return parts.map((part, i) => {
     if (i % 2 === 0) return part;

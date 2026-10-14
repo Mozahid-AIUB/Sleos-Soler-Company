@@ -189,7 +189,7 @@ async function tryAnthropic(messages: ChatMessage[], langLine: string, signal: A
 /**
  * RAG: find the site content most relevant to the latest question (plus the
  * previous one for follow-ups) and prepend it to the final user turn, so the
- * model answers from the website itself and can cite page links.
+ * model answers from the website itself.
  */
 async function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Locale, k: number): Promise<Anthropic.MessageParam[]> {
   const userTexts = messages.filter((m) => m.role === "user").map((m) => (typeof m.content === "string" ? m.content : ""));
@@ -204,7 +204,7 @@ async function withRetrievedContext(messages: Anthropic.MessageParam[], lang: Lo
     "Answer the question below using ONLY the website content in <context> and the company overview. " +
     "If the answer is not there, say so briefly and suggest the Measurement Form (/" + lang + "/quote) or WhatsApp. " +
     "Never invent prices, stock or guarantees. Reply in the user's language. " +
-    "End with one line 'Sources:' listing 1-3 relevant pages as markdown links using only URLs from <context>.\n\n" +
+    "Do not end with a 'Sources' line or a list of references; if a page link really helps, write it as a plain path inside the answer.\n\n" +
     `Question: ${question}`;
   const out = [...messages];
   for (let i = out.length - 1; i >= 0; i--) {

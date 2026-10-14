@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element -- admin-only, plain <img> keeps the panel independent of next/image */
-/** OSLEOS logo (the website's blue colour version) on the admin login page. */
+/** OSLEOS logo (the updated blue version with ®, transparent background) on the admin login page. */
 export function Logo() {
-  return <img src="/brand/osleos-logo-color.png" alt="OSLEOS" width={220} style={{ height: "auto", maxWidth: "100%" }} />;
+  return <img src="/brand/osleos-logo-blue.png" alt="OSLEOS" width={220} height={47} style={{ height: "auto", maxWidth: "100%" }} />;
 }
