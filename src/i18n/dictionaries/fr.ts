@@ -25,10 +25,10 @@ const fr: Dictionary = {
     utility: "Produits homologués SREDA et BSTI · Livraison et installation dans tout le Bangladesh",
   },
   hero: {
-    eyebrow: "Solutions solaires intelligentes complètes pour le Bangladesh",
+    eyebrow: "Solutions énergétiques intelligentes complètes pour le Bangladesh",
     titleA: "L'énergie d'aujourd'hui.",
     titleB: "Le monde de demain.",
-    sub: "Nous concevons, fournissons et installons des systèmes solaires complets pour les habitations, usines, exploitations agricoles et bâtiments commerciaux. Des panneaux Tier-1 et onduleurs jusqu'aux batteries, protections et stabilisateurs de tension.",
+    sub: "Nous concevons, fournissons et installons des solutions énergétiques complètes pour les maisons, usines, exploitations agricoles et bâtiments commerciaux : du solaire photovoltaïque et du stockage d'énergie par batteries aux infrastructures de recharge pour véhicules électriques, en passant par les systèmes de protection et la stabilisation de tension.",
     shop: "Découvrir les produits",
     quote: "Demander un devis",
     scroll: "Défiler",
