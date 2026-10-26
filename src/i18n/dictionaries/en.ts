@@ -329,6 +329,9 @@ const en = {
   },
   quote: {
     eyebrow: "Measurement Form",
+    formLink: "To fill in the Measurement Form, click one of the Google Form links below.",
+    formLinkEn: "Measurement Form (English)",
+    formLinkBn: "Measurement Form (Bangla)",
     title: "Solar Project Measurement Form",
     body: "Initial information required for a preliminary quotation. Please share the details below so we can prepare your solar project quotation.",
     note: "If you are unsure about any value, leave it blank or attach your electricity bill and site photos, and our engineers will help.",

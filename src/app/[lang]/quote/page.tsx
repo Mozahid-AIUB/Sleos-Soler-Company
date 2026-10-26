@@ -5,9 +5,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, localizeDigits } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { getSite } from "@/lib/site-content";
-import { getAllProducts } from "@/lib/catalog";
 import { PageHero } from "@/components/ui/PageHero";
-import { QuoteSheet } from "@/components/forms/QuoteSheet";
 import { Icon, WhatsappIcon } from "@/components/ui/Icon";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/quote">): Promise<Metadata> {
@@ -19,6 +17,12 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/quote">): 
 
 const at = (i: number) => ({ "--i": i }) as CSSProperties;
 
+/** The client's Measurement Form now lives on Google Forms, one in each language. */
+const FORMS = {
+  en: "https://docs.google.com/forms/d/e/1FAIpQLSdtjyzFXc0hpOfj77mS1ruc1AQNG0ocNGNTTgE93torJFAL4Q/viewform",
+  bn: "https://docs.google.com/forms/d/e/1FAIpQLSeXRQPVM2O1HQas6atz8kIz2KfeZYTZv3lj6lcXrmZMwkW6iQ/viewform",
+};
+
 export default async function QuotePage({ params }: PageProps<"/[lang]/quote">) {
   const site = await getSite();
   const whatsappLink = site.whatsappLink;
@@ -26,8 +30,12 @@ export default async function QuotePage({ params }: PageProps<"/[lang]/quote">) 
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
   const q = t.quote;
-  // slug → name, so a "Request a Quote" link can pre-fill the product without shipping the catalogue.
-  const productNames = Object.fromEntries((await getAllProducts()).map((p) => [p.slug, p.name]));
+  // The page's own language first.
+  const forms = [
+    { href: FORMS.en, label: q.formLinkEn },
+    { href: FORMS.bn, label: q.formLinkBn },
+  ];
+  if (lang === "bn") forms.reverse();
 
   return (
     <>
@@ -42,7 +50,22 @@ export default async function QuotePage({ params }: PageProps<"/[lang]/quote">) 
       <section className="bg-cream-50 py-14 lg:py-24">
         <div className="container-x grid items-start gap-10 lg:grid-cols-[1.65fr_1fr] lg:gap-14">
           <div className="reveal rounded-lg border border-cream-200 bg-white p-5 sm:p-10">
-            <QuoteSheet lang={lang} t={q} productNames={productNames} />
+            <h2 className="text-[clamp(22px,2vw,28px)] font-bold leading-snug text-ink-900">{q.title}</h2>
+            <p className="mt-3 leading-relaxed text-ink-600">{q.formLink}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              {forms.map((f, i) => (
+                <a
+                  key={f.href}
+                  href={f.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`btn ${i === 0 ? "btn-gold" : "btn-outline"} !min-h-[52px]`}
+                >
+                  {f.label}
+                  <Icon name="arrowUpRight" size={16} />
+                </a>
+              ))}
+            </div>
           </div>
 
           <aside className="lg:sticky lg:top-28">

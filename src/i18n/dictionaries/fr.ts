@@ -331,6 +331,9 @@ const fr: Dictionary = {
   },
   quote: {
     eyebrow: "Formulaire de relevé",
+    formLink: "Pour remplir le formulaire de relevé, cliquez sur l'un des liens Google Forms ci-dessous.",
+    formLinkEn: "Formulaire de relevé (anglais)",
+    formLinkBn: "Formulaire de relevé (bengali)",
     title: "Formulaire de relevé pour projet solaire",
     body: "Informations initiales nécessaires à l'établissement d'un devis préliminaire. Merci de nous communiquer les éléments ci-dessous afin que nous puissions préparer le devis de votre projet solaire.",
     note: "Si vous n'êtes pas sûr d'une valeur, laissez le champ vide ou joignez votre facture d'électricité et des photos du site : nos ingénieurs vous aideront.",

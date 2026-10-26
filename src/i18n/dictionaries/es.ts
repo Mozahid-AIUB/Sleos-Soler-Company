@@ -331,6 +331,9 @@ const es: Dictionary = {
   },
   quote: {
     eyebrow: "Formulario de medición",
+    formLink: "Para completar el formulario de medición, haga clic en uno de los enlaces de Google Forms a continuación.",
+    formLinkEn: "Formulario de medición (inglés)",
+    formLinkBn: "Formulario de medición (bengalí)",
     title: "Formulario de medición para proyecto solar",
     body: "Información inicial necesaria para una cotización preliminar. Comparta los datos que se indican a continuación para que podamos preparar la cotización de su proyecto solar.",
     note: "Si no está seguro de algún valor, déjelo en blanco o adjunte su factura eléctrica y fotos del lugar, y nuestros ingenieros le ayudarán.",

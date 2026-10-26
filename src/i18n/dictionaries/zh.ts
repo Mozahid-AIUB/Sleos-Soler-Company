@@ -331,6 +331,9 @@ const zh: Dictionary = {
   },
   quote: {
     eyebrow: "测量表",
+    formLink: "请点击下方任一 Google 表单链接填写测量表。",
+    formLinkEn: "测量表（英文）",
+    formLinkBn: "测量表（孟加拉语）",
     title: "太阳能项目测量表",
     body: "初步报价所需的基础信息。请填写以下详细信息，以便我们为您准备太阳能项目报价。",
     note: "如对任何数值不确定，可留空，或附上电费账单和现场照片，我们的工程师将协助您完成。",
