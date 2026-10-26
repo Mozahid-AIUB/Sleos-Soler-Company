@@ -12,8 +12,8 @@ import arcsBlack from "../../../public/brand/osleos-logo-black-arcs.webp";
  * box, centred on the disc (the arcs are split out of the supplied artwork).
  */
 const ARCS = {
-  white: { left: -0.839, top: -1.068, width: 21.377, height: 102.866 },
-  black: { left: -0.776, top: -0.961, width: 21.466, height: 102.848 },
+  white: { left: -0.567, top: 0, width: 21.388, height: 101.342 },
+  black: { left: -0.567, top: 0, width: 21.388, height: 101.342 },
 } as const;
 
 export function Logo({
